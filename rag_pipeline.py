@@ -25,6 +25,30 @@ def unzip_db_files():
         extracted_files = zip_ref.namelist()
 
 
+def clean_text_for_rag(text):
+    """
+    Comprehensive text cleaning for optimal RAG embeddings.
+    Preserves logical structure and section divisions while cleaning formatting.
+    """
+    # Remove URLs and file references (enhanced pattern)
+    url_pattern = r'https?://[^\s<>"{}|\\^`\[\]]+|ftp://[^\s<>"{}|\\^`\[\]]+|www\.[^\s<>"{}|\\^`\[\]]+|file:///.[^\s<>"{}|\\^`\[\]]+'
+    text = re.sub(url_pattern, '', text)
+    
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # Remove markdown links
+    
+    text = re.sub(r'\*', '', text)  # Remove markdown bold
+    
+    # Remove excessive punctuation
+    text = re.sub(r'\.{2,}', '.', text)  # Replace multiple dots with single
+    text = re.sub(r'!{2,}', '!', text)  # Replace multiple exclamation marks
+    text = re.sub(r'\?{2,}', '?', text)  # Replace multiple question marks
+    
+    text = re.sub(r'\n+', '\n\n', text)  # Replace multiple newlines with two newlines
+    text = text.strip()  # Remove leading/trailing whitespace
+
+    return text
+
+
 def clean_up_db_files():
     # Create extraction directory if it doesn't exist
     db_cleaned_up_dir.mkdir(exist_ok=True)
@@ -45,10 +69,8 @@ def clean_up_db_files():
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            # Remove URLs using regex pattern
-            # This pattern matches http/https URLs, ftp URLs, and other common URL formats
-            url_pattern = r'https?://[^\s<>"{}|\\^`\[\]]+|ftp://[^\s<>"{}|\\^`\[\]]+|www\.[^\s<>"{}|\\^`\[\]]+|file:///.[^\s<>"{}|\\^`\[\]]+'
-            cleaned_content = re.sub(url_pattern, '', content)
+            # Apply comprehensive cleaning
+            cleaned_content = clean_text_for_rag(content)
             
             # Save the cleaned content to db_cleaned_up_dir
             output_path = db_cleaned_up_dir / file
@@ -56,6 +78,7 @@ def clean_up_db_files():
                 f.write(cleaned_content)
                 
             print(f"  ✓ Saved cleaned file to: {output_path}")
+            print(f"  ✓ Original size: {len(content)} chars, Cleaned size: {len(cleaned_content)} chars")
             
         except Exception as e:
             print(f"  ✗ Error processing {file}: {e}")
