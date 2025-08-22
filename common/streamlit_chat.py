@@ -1,8 +1,10 @@
 # from openai import OpenAI
 import streamlit as st
 import time
-import pandas as pd
-import numpy as np
+from bielik_api import run_bielik
+
+
+run_bielik()
 
 
 st.title("RAG Project")
@@ -35,6 +37,5 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        stream = stream_data
-        response = st.write_stream(stream)
+        response = st.write_stream(stream_data)
     st.session_state.messages.append({"role": "assistant", "content": response})
