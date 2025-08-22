@@ -5,6 +5,7 @@ import re
 
 from common.file_utils import unzip_docs, preprocess_files, clean_and_unify_text, split_into_chunks, create_embedding_chunk_files
 from common.embeddings import generate_embeddings_and_metadata
+from common.qdrant import upload_to_qdrant
 
 
 # Define paths
@@ -32,7 +33,8 @@ def main():
     # create_embedding_chunk_files(input_dir=docs_divided_into_chunks_dir, output_dir=embedding_chunks_dir)
     # 5 Create embeddings using SentenceTransformer
     embeddings_and_metadata = generate_embeddings_and_metadata(input_dir=embedding_chunks_dir)
-    # 6 
+    # 6 Upload content to Qdrant
+    upload_to_qdrant(collection_name="rag_project", embeddings_and_metadata=embeddings_and_metadata, vector_size=1024)
 
 if __name__ == "__main__":
     main()
