@@ -12,8 +12,10 @@ docs_preprocessed_dir = Path("docs_preprocessed/")
 docs_preprocessed_dir.mkdir(exist_ok=True)
 docs_cleaned_up_dir = docs_preprocessed_dir / Path("docs_cleaned_up/")
 docs_cleaned_up_dir.mkdir(exist_ok=True)
-docs_ready_for_embedding_dir = docs_preprocessed_dir / Path("docs_ready_for_embedding/")
-docs_ready_for_embedding_dir.mkdir(exist_ok=True)
+docs_divided_into_chunks_dir = docs_preprocessed_dir / Path("docs_divided_into_chunks/")
+docs_divided_into_chunks_dir.mkdir(exist_ok=True)
+embedding_chunks_dir = Path("embedding_chunks/")
+embedding_chunks_dir.mkdir(exist_ok=True)
 
 
 def unzip_docs():
@@ -40,6 +42,7 @@ def clean_and_unify_text(text):
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # Remove markdown links
     
     text = re.sub(r'\*', '', text)  # Remove markdown bold
+    text = re.sub(r'\|', '', text)  # Remove markdown tables
     
     # Remove excessive punctuation
     text = re.sub(r'\.{2,}', '.', text)  # Replace multiple dots with single
@@ -114,13 +117,41 @@ def preprocess_files(input_dir, output_dir, preprocess_func):
             print(f"  ✗ Error processing {file}: {e}")
 
 
+def create_embedding_chunk_files(input_dir, output_dir):
+    # List docs files
+    docs_files = os.listdir(input_dir)
+
+    index = 0
+    for file in docs_files:
+        file_path = input_dir / file
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        lines = content.split('\n')
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            index += 1
+            # Create chunk file
+            chunk_file_path = output_dir / f"{index}.txt"
+            with open(chunk_file_path, 'w', encoding='utf-8') as f:
+                f.write(line)
+                
+            print(f"  ✓ Saved chunk file to: {chunk_file_path}")
+            print(f"  ✓ Original size: {len(line)} chars, Cleaned size: {len(line)} chars")
+
+
 def main():
     # 1 Unzip docs files
     unzip_docs()
     # 2 Clean up and unify structure of docs files
     preprocess_files(input_dir=docs_dir, output_dir=docs_cleaned_up_dir, preprocess_func=clean_and_unify_text)
-    # 3 Split docs files into chunks
-    preprocess_files(input_dir=docs_cleaned_up_dir, output_dir=docs_ready_for_embedding_dir, preprocess_func=split_into_chunks)
+    # 3 Divide docs files into chunks
+    preprocess_files(input_dir=docs_cleaned_up_dir, output_dir=docs_divided_into_chunks_dir, preprocess_func=split_into_chunks)
+    # 4 Create chunk files for embedding
+    create_embedding_chunk_files(input_dir=docs_divided_into_chunks_dir, output_dir=embedding_chunks_dir)
 
 
 if __name__ == "__main__":
