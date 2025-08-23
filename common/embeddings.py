@@ -36,6 +36,8 @@ def generate_query_embedding(query):
     embeddings = model.encode(query, convert_to_tensor=True, show_progress_bar=False)
 
     embedding = embeddings[0]
-    print(type(embedding))
+    # Convert PyTorch tensor to Python list for Qdrant compatibility
+    embedding_list = embedding.tolist()
+    print(f"Embedding type: {type(embedding_list)}")
 
-    return embedding
+    return embedding_list

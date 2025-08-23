@@ -1,5 +1,5 @@
-from common.embeddings import generate_query_embedding
-from common.qdrant import search_answer_in_qdrant
+from embeddings import generate_query_embedding
+from qdrant import search_answer_in_qdrant
 
 
 def create_prompt(user_prompt):
