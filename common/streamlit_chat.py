@@ -20,5 +20,28 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        response = st.write_stream(call_model(prompt))
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        # Create a placeholder for streaming
+        message_placeholder = st.empty()
+        full_response = ""
+        
+        # Show that we're waiting for the model
+        message_placeholder.markdown("🤔 Thinking...")
+        
+        try:
+            # Stream the response
+            for chunk in call_model(prompt):
+                if chunk:
+                    full_response += chunk
+                    message_placeholder.markdown(full_response + "▌")
+            
+            # Show the final response
+            message_placeholder.markdown(full_response)
+                
+        except Exception as e:
+            error_msg = f"Error: {str(e)}"
+            message_placeholder.markdown(error_msg)
+            st.error(f"Exception occurred: {e}")
+            full_response = error_msg
+        
+    # Store the complete response in session state
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
