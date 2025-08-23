@@ -1,6 +1,7 @@
 # from openai import OpenAI
 import streamlit as st
 from bielik_api import call_model
+from prompt_generation import create_prompt
 
 
 st.title("RAG Project")
@@ -25,11 +26,12 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         full_response = ""
         
         # Show that we're waiting for the model
-        message_placeholder.markdown("🤔 Thinking...")
+        message_placeholder.markdown("🤔 Myślę...")
         
         try:
             # Stream the response
-            for chunk in call_model(prompt):
+            system_prompt, user_prompt = create_prompt(prompt)
+            for chunk in call_model(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
                     message_placeholder.markdown(full_response + "▌")

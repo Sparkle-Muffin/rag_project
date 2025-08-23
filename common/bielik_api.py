@@ -2,12 +2,13 @@ import requests
 import json
 
 
-def call_model(prompt):
+def call_model(system_prompt, user_prompt):
     url = "http://localhost:11434/api/generate"
     
     data = {
         "model": "Bielik-11B-v2_6-Instruct_Q4_K_M",
-        "prompt": prompt,
+        "system": system_prompt,
+        "prompt": user_prompt,
         "stream": True
     }
     

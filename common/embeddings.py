@@ -26,3 +26,16 @@ def generate_embeddings_and_metadata(input_dir):
                                 "vector": vector} for text, id, vector in zip(texts, ids, vectors)]
 
     return embeddings_and_metadata
+
+
+def generate_query_embedding(query):
+    query_prefix = "zapytanie: "
+    query = [query_prefix + query]
+
+    model = SentenceTransformer("sdadas/mmlw-roberta-large")
+    embeddings = model.encode(query, convert_to_tensor=True, show_progress_bar=False)
+
+    embedding = embeddings[0]
+    print(type(embedding))
+
+    return embedding

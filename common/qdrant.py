@@ -68,3 +68,20 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
             for file in embeddings_and_metadata
         ]
     )
+
+
+def search_answer_in_qdrant(collection_name, query_embedding):
+
+    ensure_qdrant_running()
+
+    # Create client
+    qdrant_client = QdrantClient(url="http://localhost:6333")
+
+    search_result = qdrant_client.query_points(
+        collection_name=collection_name,
+        query=query_embedding,
+        with_payload=True,
+        limit=1
+    ).points[0].payload["text"]
+
+    return search_result
