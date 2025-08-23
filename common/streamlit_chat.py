@@ -30,7 +30,7 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         
         try:
             # Stream the response
-            system_prompt, user_prompt = create_prompt(prompt)
+            system_prompt, user_prompt = create_prompt(user_prompt=prompt, context_files=5)
             for chunk in call_model(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk

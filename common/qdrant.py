@@ -70,7 +70,7 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
     )
 
 
-def search_answer_in_qdrant(collection_name, query_embedding):
+def search_answer_in_qdrant(collection_name, query_embedding, context_files):
 
     ensure_qdrant_running()
 
@@ -81,7 +81,11 @@ def search_answer_in_qdrant(collection_name, query_embedding):
         collection_name=collection_name,
         query=query_embedding,
         with_payload=True,
-        limit=1
-    ).points[0].payload["text"]
+        limit=context_files
+    )
 
-    return search_result
+    context = ""
+    for point in search_result.points:
+        context += point.payload["text"] + "\n"
+
+    return context
