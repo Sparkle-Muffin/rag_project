@@ -23,18 +23,19 @@ embedding_chunks_dir.mkdir(exist_ok=True)
 
 
 def main():
-    # # 1 Unzip docs files
-    # unzip_docs(docs_zip_path, docs_dir)
-    # # 2 Clean up and unify structure of docs files
-    # preprocess_files(input_dir=docs_dir, output_dir=docs_cleaned_up_dir, preprocess_func=clean_and_unify_text)
-    # # 3 Divide docs files into chunks
-    # preprocess_files(input_dir=docs_cleaned_up_dir, output_dir=docs_divided_into_chunks_dir, preprocess_func=split_into_chunks)
-    # # 4 Create chunk files for embedding
-    # create_embedding_chunk_files(input_dir=docs_divided_into_chunks_dir, output_dir=embedding_chunks_dir)
+    # 1 Unzip docs files
+    unzip_docs(docs_zip_path, docs_dir)
+    # 2 Clean up and unify structure of docs files
+    preprocess_files(input_dir=docs_dir, output_dir=docs_cleaned_up_dir, preprocess_func=clean_and_unify_text)
+    # 3 Divide docs files into chunks
+    preprocess_files(input_dir=docs_cleaned_up_dir, output_dir=docs_divided_into_chunks_dir, preprocess_func=split_into_chunks)
+    # 4 Create chunk files for embedding
+    create_embedding_chunk_files(input_dir=docs_divided_into_chunks_dir, output_dir=embedding_chunks_dir)
     # 5 Create embeddings using SentenceTransformer
     embeddings_and_metadata = generate_embeddings_and_metadata(input_dir=embedding_chunks_dir)
     # 6 Upload content to Qdrant
     upload_to_qdrant(collection_name="rag_project", embeddings_and_metadata=embeddings_and_metadata, vector_size=1024)
+
 
 if __name__ == "__main__":
     main()
