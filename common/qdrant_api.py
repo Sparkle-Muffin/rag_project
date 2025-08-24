@@ -3,6 +3,7 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 
 import subprocess
 from pathlib import Path
+from common.constants import QDRANT_URL, QDRANT_PORT
 
 
 def ensure_qdrant_running():
@@ -32,7 +33,7 @@ def ensure_qdrant_running():
             # Container doesn't exist - create and run it
             qdrant_storage_dir = Path(__file__).parent.parent / "qdrant_storage"
             command = (
-                f"docker run -d -p 6333:6333 "
+                f"docker run -d -p {QDRANT_PORT}:6333 "
                 f"--name {container_name} "
                 f"-v {qdrant_storage_dir}:/qdrant/storage "
                 f"qdrant/qdrant"
@@ -49,7 +50,7 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
     ensure_qdrant_running()
 
     # Create client
-    qdrant_client = QdrantClient(url="http://localhost:6333")
+    qdrant_client = QdrantClient(url=QDRANT_URL)
 
     # Create collection 
     qdrant_client.create_collection(
@@ -75,7 +76,7 @@ def search_answer_in_qdrant(collection_name, query_embedding, context_files):
     ensure_qdrant_running()
 
     # Create client
-    qdrant_client = QdrantClient(url="http://localhost:6333")
+    qdrant_client = QdrantClient(url=QDRANT_URL)
 
     search_result = qdrant_client.query_points(
         collection_name=collection_name,
