@@ -85,8 +85,12 @@ def search_answer_in_qdrant(collection_name, query_embedding, context_files):
         limit=context_files
     )
 
-    context = ""
+    answers = []
     for point in search_result.points:
-        context += point.payload["text"] + "\n"
+        answers.append({
+            "id": point.id,
+            "score": point.score,
+            "text": point.payload["text"]
+        })
 
-    return context
+    return answers
