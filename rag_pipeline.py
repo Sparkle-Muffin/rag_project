@@ -3,10 +3,11 @@ from pathlib import Path
 import os
 import re
 
+from common.constants import QDRANT_COLLECTION_NAME, VECTOR_SIZE, BM25_ENCODINGS_DB_PATH
 from common.file_utils import unzip_docs, preprocess_files, clean_and_unify_text, split_into_chunks, create_embedding_chunk_files
 from common.embeddings import generate_embeddings_and_metadata
 from common.qdrant_api import upload_to_qdrant
-from common.constants import QDRANT_COLLECTION_NAME, VECTOR_SIZE
+from common.bm25_encoding import generate_bm25_encodings
 
 
 def main():
@@ -40,6 +41,9 @@ def main():
 
     # 6 Upload content to Qdrant
     upload_to_qdrant(collection_name=QDRANT_COLLECTION_NAME, embeddings_and_metadata=embeddings_and_metadata, vector_size=VECTOR_SIZE)
+
+    # 7 Create BM25 encodings
+    generate_bm25_encodings(input_dir=embedding_chunks_dir, encodings_db_path=BM25_ENCODINGS_DB_PATH)
 
 
 if __name__ == "__main__":

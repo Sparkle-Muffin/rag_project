@@ -9,3 +9,6 @@ VECTOR_SIZE = 1024
 # Qdrant connection settings
 QDRANT_URL = "http://localhost:6333"
 QDRANT_PORT = 6333 
+
+# BM25 encoding settings
+BM25_ENCODINGS_DB_PATH = "bm25_encodings_db"

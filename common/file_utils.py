@@ -25,16 +25,17 @@ def clean_and_unify_text(text):
     text = re.sub(url_pattern, '', text)
     
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # Remove markdown links
-    
     text = re.sub(r'\*', '', text)  # Remove markdown bold
     text = re.sub(r'\|', '', text)  # Remove markdown tables
     
     # Remove excessive punctuation
     text = re.sub(r'\.{2,}', '.', text)  # Replace multiple dots with single
-    text = re.sub(r'!{2,}', '!', text)  # Replace multiple exclamation marks
-    text = re.sub(r'\?{2,}', '?', text)  # Replace multiple question marks
-    
+    text = re.sub(r'!{2,}', '!', text)  # Replace multiple exclamation marks with single
+    text = re.sub(r'\?{2,}', '?', text)  # Replace multiple question marks with single
     text = re.sub(r'\n+', '\n\n', text)  # Replace multiple newlines with two newlines
+
+    text = text.lower() # Lowercase all text
+
     text = text.strip()  # Remove leading/trailing whitespace
 
     return text

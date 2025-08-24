@@ -11,11 +11,13 @@ def generate_embeddings_and_metadata(input_dir):
     embeddings_and_metadata = []
     texts = []
     ids = []
+    i = 0
     for file in embedding_chunk_files:
         with open(input_dir / file, 'r', encoding='utf-8') as f:
             text = f.read()
             texts.append(text)
-            id = hashlib.md5(text.encode()).hexdigest()
+            id = i
+            i += 1
             ids.append(id)
                     
     model = SentenceTransformer("sdadas/mmlw-roberta-large")

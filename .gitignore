@@ -1,3 +1,4 @@
 env
 qdrant_storage
+bm25_encodings_db
 __pycache__
