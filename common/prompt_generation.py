@@ -1,6 +1,6 @@
 
 from common.embeddings import generate_query_embedding
-from common.qdrant import search_answer_in_qdrant
+from common.qdrant_api import search_answer_in_qdrant
 
 
 def create_prompt(user_prompt, context_files):

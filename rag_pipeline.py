@@ -5,24 +5,26 @@ import re
 
 from common.file_utils import unzip_docs, preprocess_files, clean_and_unify_text, split_into_chunks, create_embedding_chunk_files
 from common.embeddings import generate_embeddings_and_metadata
-from common.qdrant import upload_to_qdrant
+from common.qdrant_api import upload_to_qdrant
 
 
-# Define paths
-docs_zip_path = Path("docs_zip/Pliki_do_zadania_rekrutacyjnego.zip")
-docs_dir = Path("docs/")
-docs_dir.mkdir(exist_ok=True)
-docs_preprocessed_dir = Path("docs_preprocessed/")
-docs_preprocessed_dir.mkdir(exist_ok=True)
-docs_cleaned_up_dir = docs_preprocessed_dir / Path("docs_cleaned_up/")
-docs_cleaned_up_dir.mkdir(exist_ok=True)
-docs_divided_into_chunks_dir = docs_preprocessed_dir / Path("docs_divided_into_chunks/")
-docs_divided_into_chunks_dir.mkdir(exist_ok=True)
-embedding_chunks_dir = Path("embedding_chunks/")
-embedding_chunks_dir.mkdir(exist_ok=True)
+def create_directories():
+    docs_zip_path = Path("docs_zip/Pliki_do_zadania_rekrutacyjnego.zip")
+    docs_dir = Path("docs/")
+    docs_dir.mkdir(exist_ok=True)
+    docs_preprocessed_dir = Path("docs_preprocessed/")
+    docs_preprocessed_dir.mkdir(exist_ok=True)
+    docs_cleaned_up_dir = docs_preprocessed_dir / Path("docs_cleaned_up/")
+    docs_cleaned_up_dir.mkdir(exist_ok=True)
+    docs_divided_into_chunks_dir = docs_preprocessed_dir / Path("docs_divided_into_chunks/")
+    docs_divided_into_chunks_dir.mkdir(exist_ok=True)
+    embedding_chunks_dir = Path("embedding_chunks/")
+    embedding_chunks_dir.mkdir(exist_ok=True)
 
 
 def main():
+    # 0 Create directories
+    create_directories()
     # 1 Unzip docs files
     unzip_docs(docs_zip_path, docs_dir)
     # 2 Clean up and unify structure of docs files
