@@ -6,6 +6,16 @@ from common.prompt_generation import create_prompt
 
 st.title("RAG Project")
 
+# Add input for number of context files
+context_files = st.number_input(
+    "Wybierz liczbę batchy",
+    min_value=1,
+    max_value=10,
+    value=5,
+    step=1,
+    help="Wybierz liczbę plików kontekstowych (1-10)"
+)
+
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -30,7 +40,7 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         
         try:
             # Stream the response
-            system_prompt, user_prompt = create_prompt(user_prompt=prompt, context_files=5)
+            system_prompt, user_prompt = create_prompt(user_prompt=prompt, context_files=context_files)
             for chunk in call_model(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
