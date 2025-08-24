@@ -6,15 +6,17 @@ from common.prompt_generation import create_prompt
 
 st.title("RAG Project")
 
-# Add input for number of context files
-context_files = st.number_input(
-    "Wybierz liczbę batchy",
-    min_value=1,
-    max_value=10,
-    value=5,
-    step=1,
-    help="Wybierz liczbę plików kontekstowych (1-10)"
-)
+# Add input for number of context files in the sidebar
+with st.sidebar:
+    st.header("Ustawienia")
+    context_files = st.number_input(
+        "Wybierz liczbę batchy",
+        min_value=1,
+        max_value=10,
+        value=5,
+        step=1,
+        help="Wybierz liczbę plików kontekstowych (1-10)"
+    )
 
 
 if "messages" not in st.session_state:
