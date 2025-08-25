@@ -25,7 +25,7 @@ def generate_bm25_encodings(input_dir, encodings_db_path):
     retriever.save(encodings_db_path, corpus=corpus)
 
 
-def get_top_k_bm25_encoding_results(query, encodings_db_path, k=2):
+def get_top_k_bm25_encoding_results(query, encodings_db_path, db_chunks_number):
     import bm25s
 
     retriever = bm25s.BM25.load(encodings_db_path, load_corpus=True)
@@ -34,7 +34,7 @@ def get_top_k_bm25_encoding_results(query, encodings_db_path, k=2):
     query_tokens = bm25s.tokenize(query, return_ids=False)
 
     answers = []
-    results, scores = retriever.retrieve(query_tokens, k=k)
+    results, scores = retriever.retrieve(query_tokens, k=db_chunks_number)
 
     for i in range(results.shape[1]):
         doc, score = results[0, i], scores[0, i]

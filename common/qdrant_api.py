@@ -71,7 +71,7 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
     )
 
 
-def search_answer_in_qdrant(collection_name, query_embedding, context_files):
+def search_answer_in_qdrant(collection_name, query_embedding, db_chunks_number):
 
     ensure_qdrant_running()
 
@@ -82,7 +82,7 @@ def search_answer_in_qdrant(collection_name, query_embedding, context_files):
         collection_name=collection_name,
         query=query_embedding,
         with_payload=True,
-        limit=context_files
+        limit=db_chunks_number
     )
 
     answers = []

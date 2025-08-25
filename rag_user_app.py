@@ -9,13 +9,21 @@ st.title("RAG Project")
 # Add input for number of context files in the sidebar
 with st.sidebar:
     st.header("Ustawienia")
-    context_files = st.number_input(
-        "Wybierz liczbę batchy",
+    db_chunks_number = st.number_input(
+        "Liczba chunków pobieranych z bazy danych",
+        min_value=1,
+        max_value=100,
+        value=50,
+        step=1,
+        help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)"
+    )
+    model_context_chunks_number = st.number_input(
+        "Liczba chunków przekazywanych do modelu",
         min_value=1,
         max_value=10,
         value=5,
         step=1,
-        help="Wybierz liczbę plików kontekstowych (1-10)"
+        help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
     )
 
 
@@ -42,7 +50,13 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         
         try:
             # Stream the response
-            system_prompt, user_prompt = create_prompt(user_prompt=prompt, context_files=context_files)
+            system_prompt, user_prompt = create_prompt(user_prompt=prompt, 
+                                                       db_chunks_number=db_chunks_number, 
+                                                       model_context_chunks_number=model_context_chunks_number)
+            
+            print(system_prompt)
+            print(user_prompt)
+            
             for chunk in call_model(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
