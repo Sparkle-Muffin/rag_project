@@ -4,6 +4,10 @@ from common.bielik_api import call_model_stream
 from common.prompt_generation import create_prompt
 
 
+with open("common/prompts/rag_system_prompt.txt", "r") as f:
+    system_prompt = f.read()
+
+
 st.title("RAG Project")
 
 # Add input for number of context files in the sidebar
@@ -35,10 +39,10 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 
-if prompt := st.chat_input("Zadaj pytanie:"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+if input_prompt := st.chat_input("Zadaj pytanie:"):
+    st.session_state.messages.append({"role": "user", "content": input_prompt})
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(input_prompt)
 
     with st.chat_message("assistant"):
         # Create a placeholder for streaming
@@ -50,7 +54,8 @@ if prompt := st.chat_input("Zadaj pytanie:"):
         
         try:
             # Stream the response
-            system_prompt, user_prompt = create_prompt(user_prompt=prompt, 
+            system_prompt, user_prompt = create_prompt(system_prompt=system_prompt, 
+                                                       user_prompt=input_prompt, 
                                                        db_chunks_number=db_chunks_number, 
                                                        model_context_chunks_number=model_context_chunks_number)
             

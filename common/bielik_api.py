@@ -2,15 +2,16 @@ import requests
 import json
 
 
-def call_model_non_stream(system_prompt, user_prompt):
+def call_model_non_stream(system_prompt, user_prompt, format=None):
     url = "http://localhost:11434/api/generate"
     
     data = {
         "model": "Bielik-11B-v2_6-Instruct_Q4_K_M",
         "system": system_prompt,
         "prompt": user_prompt,
-        "stream": False
-    }
+        "stream": False,
+        "format": format
+    }   
     
     try:
         response = requests.post(url, json=data)

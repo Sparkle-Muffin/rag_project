@@ -6,8 +6,7 @@ from common.bm25_encoding import get_top_k_bm25_encoding_results
 from common.reciprocal_rank_fusion import hybrid_search
 
 
-def create_prompt(user_prompt, db_chunks_number, model_context_chunks_number):
-    system_prompt = "Jesteś pomocnym asystentem, który odpowiada na pytania na podstawie dostarczonego kontekstu. Oto konteskt:"
+def create_prompt(system_prompt, user_prompt, db_chunks_number, model_context_chunks_number):
 
     query_embedding = generate_query_embedding(user_prompt)
     qdrant_results = search_answer_in_qdrant(collection_name=QDRANT_COLLECTION_NAME, query_embedding=query_embedding, 
