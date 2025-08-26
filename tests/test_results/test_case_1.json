@@ -1,0 +1,12 @@
+{
+    "question": "Ile pasków ma zebra?",
+    "keywords": [
+        "llama 1",
+        "llama 2",
+        "llama 3"
+    ],
+    "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3.",
+    "model_answer": "Odpowiedź na to klasyczne pytanie brzmi: **Zebra ma 3 paski.**\n\nJeśli jednak chodzi o modele AI, takie jak Llama czy Mistral, nie mają one \"pasków\" w tradycyjnym sensie. Można je jednak porównać do zebry pod kątem ich unikalnych cech i parametrów (np. liczba parametrów, kontekst, wydajność). Na przykład:\n\n- **Llama 4 (Scout)**: Ma około 109 miliardów parametrów i obsługuje kontekst do 10 milionów tokenów.\n- **Mistral Mamba 7B**: Ma 7,285 miliarda parametrów i teoretycznie nieskończony kontekst dzięki liniowej złożoności obliczeniowej.\n\nAle jeśli pytanie dotyczy klasycznej zagadki, odpowiedź to po prostu **3 paski**. 😊",
+    "keyword_test_passed": false,
+    "answer_generation_time_s": 54
+}

@@ -1,0 +1,12 @@
+{
+    "question": "Jaki model najlepiej działa na GPU z 24 GB VRAM?",
+    "keywords": [
+        "13b",
+        "24 gb",
+        "gpu"
+    ],
+    "expected_answer": "Najlepiej działa LLaMa-13B, zoptymalizowany do takiej konfiguracji.",
+    "model_answer": "Na podstawie dostarczonego kontekstu, modele, które najlepiej działają na GPU z 24 GB VRAM to:\n\n1. **Mistral Small (3, 3.1, 3.2)**:\n   - Wersje 3/3.1/3.2 modelu Mistral Small mają około 24 miliardów parametrów i wymagają około 60 GB VRAM w pełnej precyzji (BF16/FP16). Jednak dzięki kwantyzacji, mogą być uruchamiane na kartach z mniejszą ilością pamięci. Na przykład, wersja 3.2 wymaga około 55 GB VRAM w BF16, ale po kwantyzacji może działać na kartach z 32 GB RAM (co sugeruje, że mogą być kompatybilne z 24 GB VRAM).\n   - Te modele są zaprojektowane tak, aby zmieścić się na pojedynczej karcie RTX 4090 lub MacBooku z 32 GB RAM, co sugeruje, że 24 GB VRAM powinno być wystarczające.\n\n2. **LLaMA 1 (7B)**:\n   - Wariant 7B modelu LLaMA 1 w precyzji FP16 wymaga około 12–13 GB VRAM. Wersje z kwantyzacją (np. 8-bit lub 4-bit) mogą być uruchamiane na kartach z 6 GB VRAM, co oznacza, że pełna wersja 7B powinna zmieścić się w 24 GB VRAM.\n\n3. **GPT-OSS (20B)**:\n   - Model GPT-OSS 20B może działać nawet na karcie konsumenckiej z 16 GB VRAM, więc 24 GB VRAM powinno być wystarczające.\n\n4. **Mistral 7B**:\n   - Model Mistral 7B (7.3 miliarda parametrów) wymaga co najmniej 12-rdzeniowego procesora oraz karty GPU z ≥12 GB VRAM. Dzięki kwantyzacji 4-bitowej, można go uruchomić nawet na karcie z 4 GB VRAM, co oznacza, że pełna wersja powinna zmieścić się w 24 GB VRAM.\n\n5. **PLLUM (mniejsze warianty)**:\n   - Mniejsze warianty PLLUM, takie jak 8B lub 12B, są bardziej przyjazne dla GPU klasy konsumenckiej i powinny działać na 24 GB VRAM.\n\n**Podsumowanie**:\nNajlepszym wyborem będzie prawdopodobnie **Mistral Small (3, 3.1, 3.2)** lub **LLaMA 1 (7B)**, ponieważ są one zaprojektowane tak, aby działać na sprzęcie konsumenckim i mają dobrze udokumentowane wymagania sprzętowe. Jeśli potrzebujesz modelu o większej liczbie parametrów, **Mistral 7B** również powinien działać, ale warto sprawdzić dokładne wymagania dla konkretnej wersji i precyzji obliczeń.",
+    "ok": true,
+    "answer_generation_time": 176.35744333267212
+}

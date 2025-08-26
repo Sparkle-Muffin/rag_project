@@ -3,6 +3,7 @@ import sys
 import os
 import json
 from pathlib import Path
+import time
 
 # Add the parent directory to Python path so we can import from common/
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -44,20 +45,26 @@ def run_tests():
         with open(test_cases_dir + "/" + test_case, "r") as f:
             test_case_content = json.load(f)
 
+        start_time = time.time()
         model_answer = get_answer_from_system(test_case_content["question"])
-        ok = run_keyword_test(test_case_content["question"], model_answer, test_case_content["keywords"])
+        end_time = time.time()
+        answer_generation_time_s = end_time - start_time
+        answer_generation_time_s = int(answer_generation_time_s)
+        keyword_test_passed = run_keyword_test(test_case_content["question"], model_answer, test_case_content["keywords"])
         print(f"Pytanie: {test_case_content['question']}")
         print(f"Odpowiedź: {model_answer}")
-        print(f"Wynik: {'✅ OK' if ok else '❌ BŁĄD'}")
+        print(f"Wynik: {'✅ OK' if keyword_test_passed else '❌ BŁĄD'}")
         print("-" * 40)
 
-        test_results_file = test_results_dir / f"{test_case}.json"
+
+        test_results_file = test_results_dir / test_case
         with open(test_results_file, "w") as f:
             json.dump({"question": test_case_content["question"], 
                        "keywords": test_case_content["keywords"],                      
                        "expected_answer": test_case_content["expected_answer"],
                        "model_answer": model_answer,
-                       "ok": ok}, f, indent=4, ensure_ascii=False)
+                       "keyword_test_passed": keyword_test_passed,
+                       "answer_generation_time_s": answer_generation_time_s}, f, indent=4, ensure_ascii=False)
 
 
 
