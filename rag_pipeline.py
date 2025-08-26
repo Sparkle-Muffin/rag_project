@@ -8,6 +8,7 @@ from common.file_utils import unzip_docs, preprocess_files, clean_and_unify_text
 from common.embeddings import generate_embeddings_and_metadata
 from common.qdrant_api import upload_to_qdrant
 from common.bm25_encoding import generate_bm25_encodings
+from tests.test_rag import run_tests
 
 
 def main():
@@ -44,6 +45,9 @@ def main():
 
     # 7 Create BM25 encodings
     generate_bm25_encodings(input_dir=embedding_chunks_dir, encodings_db_path=BM25_ENCODINGS_DB_PATH)
+
+    # 8 Run tests
+    run_tests()
 
 
 if __name__ == "__main__":

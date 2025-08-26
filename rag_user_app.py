@@ -1,6 +1,6 @@
 # from openai import OpenAI
 import streamlit as st
-from common.bielik_api import call_model
+from common.bielik_api import call_model_stream
 from common.prompt_generation import create_prompt
 
 
@@ -57,7 +57,7 @@ if prompt := st.chat_input("Zadaj pytanie:"):
             print(system_prompt)
             print(user_prompt)
             
-            for chunk in call_model(system_prompt, user_prompt):
+            for chunk in call_model_stream(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
                     message_placeholder.markdown(full_response + "▌")

@@ -3,6 +3,15 @@ from sentence_transformers.util import cos_sim
 import os
 import hashlib
 
+# Global model instance to avoid loading it multiple times
+_model_instance = None
+
+def get_model():
+    """Get or create the SentenceTransformer model instance (singleton pattern)"""
+    global _model_instance
+    if _model_instance is None:
+        _model_instance = SentenceTransformer("sdadas/mmlw-roberta-large")
+    return _model_instance
 
 def generate_embeddings_and_metadata(input_dir):
     # List embedding chunk files
@@ -20,7 +29,7 @@ def generate_embeddings_and_metadata(input_dir):
             i += 1
             ids.append(id)
                     
-    model = SentenceTransformer("sdadas/mmlw-roberta-large")
+    model = get_model()
     vectors = model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
 
     embeddings_and_metadata = [{"text": text,
@@ -34,7 +43,7 @@ def generate_query_embedding(query):
     query_prefix = "zapytanie: "
     query = [query_prefix + query]
 
-    model = SentenceTransformer("sdadas/mmlw-roberta-large")
+    model = get_model()
     embeddings = model.encode(query, convert_to_tensor=True, show_progress_bar=False)
 
     embedding = embeddings[0]
