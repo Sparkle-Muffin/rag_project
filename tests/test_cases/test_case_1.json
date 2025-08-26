@@ -1,7 +1,7 @@
 {
-    "question": "Kto stworzył PLLuM?",
+    "question": "Jakie modele LLaMa są dostępne?",
     "keywords": [
-        "uniwersytet", "warszawski", "uw", "pllum"
+        "llama 1", "llama 2", "llama 3"
     ],
-    "expected_answer": "Projekt został stworzony przez Uniwersytet Warszawski i partnerów akademickich."
+    "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3."
 }

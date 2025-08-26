@@ -31,7 +31,7 @@ def get_answer_from_model(question: str) -> str:
 
 
 def run_keyword_test(question: str, answer: str, expected_keywords: list[str]) -> bool:
-    if not expected_keywords:  # pytania typu "powinno powiedzieć 'nie wiem'"
+    if not expected_keywords:
         return "nie wiem" in answer.lower()
     return all(any(kw.lower() in answer.lower() for kw in expected_keywords) for kw in expected_keywords)
 
@@ -41,34 +41,20 @@ def run_LLM_as_a_judge_test(question: str, expected_answer: str, model_answer: s
     with open("tests/prompts/test_system_prompt.txt", "r") as f:
         system_prompt = f.read()
 
-    # with open("tests/prompts/structured_output.json", "r") as f:
-    #     structured_output = json.load(f)
+    with open("tests/prompts/structured_output.json", "r") as f:
+        structured_output = json.load(f)
 
-    structured_output = {
-    "type": "object",
-    "properties": {
-      "descriptive_evaluation": {
-        "type": "string"
-      },
-      "evaluation_score": {
-        "type": "integer"
-      }
-    },
-    "required": [
-      "descriptive_evaluation",
-      "evaluation_score"
-    ]
-  }
+    user_prompt = "Pytanie: " + question + "\n" + \
+                  "Prawidłowa odpowiedź: " + expected_answer + "\n" + \
+                  "Odpowiedź modelu: " + model_answer
+    
+    model_evaluation_answer = call_model_non_stream(system_prompt, user_prompt, structured_output)
+    # Parse the JSON string response into a dictionary
+    model_evaluation_dict = json.loads(model_evaluation_answer)
+    descriptive_evaluation = model_evaluation_dict["descriptive_evaluation"]
+    evaluation_score = model_evaluation_dict["evaluation_score"]
 
-    user_prompt = {
-        "Pytanie": question,
-        "Prawidłowa odpowiedź": expected_answer,
-        "Odpowiedź ucznia": model_answer
-    }
-
-    model_response = call_model_non_stream(system_prompt, user_prompt, structured_output)
-    print(model_response)
-    return model_response
+    return descriptive_evaluation, evaluation_score
 
 
 def run_tests():
@@ -95,13 +81,9 @@ def run_tests():
                                                test_case_content["keywords"])
 
         # Run LLM-as-a-judge test
-        # descriptive_evaluation, evaluation_score = run_LLM_as_a_judge_test(test_case_content["question"], 
-        #                                                                    model_answer, 
-        #                                                                    test_case_content["expected_answer"])
-
-        run_LLM_as_a_judge_test(test_case_content["question"], 
-                                test_case_content["expected_answer"],
-                                model_answer)
+        descriptive_evaluation, evaluation_score = run_LLM_as_a_judge_test(test_case_content["question"], 
+                                                                           model_answer, 
+                                                                           test_case_content["expected_answer"])
 
         test_results_file = test_results_dir / test_case
         with open(test_results_file, "w") as f:
@@ -110,6 +92,8 @@ def run_tests():
                        "expected_answer": test_case_content["expected_answer"],
                        "model_answer": model_answer,
                        "keyword_test_passed": keyword_test_passed,
+                       "descriptive_evaluation": descriptive_evaluation,
+                       "evaluation_score": evaluation_score,
                        "answer_generation_time_s": answer_generation_time_s}, f, indent=4, ensure_ascii=False)
 
 

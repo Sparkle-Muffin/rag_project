@@ -1,12 +1,14 @@
 {
-    "question": "Ile pasków ma zebra?",
+    "question": "Jakie modele LLaMa są dostępne?",
     "keywords": [
         "llama 1",
         "llama 2",
         "llama 3"
     ],
     "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3.",
-    "model_answer": "Odpowiedź na to klasyczne pytanie brzmi: **Zebra ma 3 paski.**\n\nJeśli jednak chodzi o modele AI, takie jak Llama czy Mistral, nie mają one \"pasków\" w tradycyjnym sensie. Można je jednak porównać do zebry pod kątem ich unikalnych cech i parametrów (np. liczba parametrów, kontekst, wydajność). Na przykład:\n\n- **Llama 4 (Scout)**: Ma około 109 miliardów parametrów i obsługuje kontekst do 10 milionów tokenów.\n- **Mistral Mamba 7B**: Ma 7,285 miliarda parametrów i teoretycznie nieskończony kontekst dzięki liniowej złożoności obliczeniowej.\n\nAle jeśli pytanie dotyczy klasycznej zagadki, odpowiedź to po prostu **3 paski**. 😊",
-    "keyword_test_passed": false,
-    "answer_generation_time_s": 54
+    "model_answer": "Na podstawie podanego kontekstu, dostępne modele LLaMa obejmują różne generacje i warianty. Oto przegląd głównych modeli:\n\n### Generacje LLaMA:\n1. **LLaMA 1** (2023):\n   - Warianty: 7B, 13B, 65B parametrów.\n   - Obsługują kontekst około 2K tokenów.\n   - Dostępne wyłącznie na zasadach badawczych.\n\n2. **LLaMA 2** (lipiec 2023):\n   - Warianty: 7B, 13B, 70B.\n   - Trenowane na większym zbiorze danych.\n   - Licencjonowane na zasadach LLaMA Community License.\n\n3. **LLaMA 3** (kwiecień 2024):\n   - Warianty: 8B, 70B.\n   - Znaczące ulepszenia: większe konteksty, lepsza dokładność, odświeżony tokenizer, zbiór danych 7B tokenów.\n\n4. **LLaMA 3.2** (wrzesień 2024):\n   - Warianty: 1B, 3B (dla urządzeń mobilnych i wbudowanych).\n   - Modele Vision obsługują tekst i obraz, rozpoznając diagramy, tabele itp.\n\n5. **LLaMA 4** (kwiecień 2025):\n   - Warianty: Scout, Maverick.\n   - Przeznaczone do zaawansowanych zastosowań multimodalnych i RAG.\n\n### Specjalistyczne warianty:\n- **CodeLLama** (sierpień 2023):\n  - Warianty: 7B, 13B, 30B/33B/34B.\n  - Specjalizują się w generacji kodu i obsłudze zadań programistycznych.\n\n- **Mistral** (stan na sierpień 2025):\n  - Modele otwarte dostępne na Hugging Face (np. Mistral 7B, MixTral, CodeStral Mamba).\n  - Wymagają znacznej pamięci VRAM podczas inferencji.\n\n### Podsumowanie:\nDostępne modele LLaMA obejmują różne generacje (1–4) oraz specjalistyczne warianty (CodeLLama, Mistral). Wybór modelu zależy od wymagań dotyczących zastosowania, dostępnych zasobów sprzętowych i ograniczeń licencyjnych.",
+    "keyword_test_passed": true,
+    "descriptive_evaluation": "Odpowiedź modelu jest częściowo poprawna, ale niepełna. Wymienia tylko trzy generacje (1, 2, 3) i pomija LLaMA 3.2 oraz LLaMA 4. Ponadto nie wspomina o specjalistycznych wariantach takich jak CodeLLama czy Mistral.",
+    "evaluation_score": 5,
+    "answer_generation_time_s": 108
 }
