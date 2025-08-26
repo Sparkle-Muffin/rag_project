@@ -1,0 +1,12 @@
+{
+    "question": "Kto stworzył PLLuM?",
+    "keywords": [
+        "uniwersytet",
+        "warszawski",
+        "uw",
+        "pllum"
+    ],
+    "expected_answer": "Projekt został stworzony przez Uniwersytet Warszawski i partnerów akademickich.",
+    "model_answer": "PLLuM został stworzony przez konsorcjum polskich uczelni i instytutów, koordynowane przez Politechnikę Wrocławską. Projekt jest wspierany m.in. przez NASK PIB, Instytut Podstaw Informatyki PAN, Ośrodek Przetwarzania Informacji PIB, Uniwersytet Łódzki oraz Instytut Slawistyki PAN. Model został zaprezentowany 24 lutego 2025 roku przez Ministerstwo Cyfryzacji.",
+    "ok": true
+}

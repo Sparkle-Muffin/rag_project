@@ -1,0 +1,7 @@
+{
+    "question": "Jakie modele LLaMa są dostępne?",
+    "keywords": [
+        "llama 1", "llama 2", "llama 3"
+    ],
+    "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3."
+}

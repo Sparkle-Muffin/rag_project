@@ -1,6 +1,8 @@
 import re
 import sys
 import os
+import json
+from pathlib import Path
 
 # Add the parent directory to Python path so we can import from common/
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -9,34 +11,8 @@ from common.prompt_generation import create_prompt
 from common.bielik_api import call_model_non_stream
 
 
-# === GOLDEN ANSWERS (do uzupełnienia na podstawie dokumentów w docs/) ===
-golden_answers = {
-    "Jakie modele LLaMa są dostępne?": [
-        "llama 1", "llama 2", "llama 3"  # <-- wpisz dokładne modele z dokumentów
-    ],
-    "Kto stworzył PLLuM?": [
-        "uniwersytet", "warszawski", "uw", "pllum"  # <-- dopasuj do treści w docs
-    ],
-    "Jaki model najlepiej działa na GPU z 24 GB VRAM?": [
-        "13b", "24 gb", "gpu"  # <-- dopasuj do treści w docs
-    ]
-}
-
-# === TWOJE WŁASNE PYTANIA (z uzupełnieniem expected_keywords) ===
-extra_questions = {
-    "Jaki model Bielik został zoptymalizowany do pracy na GPU z 8 GB VRAM?": [
-        "7b", "q4", "8 gb"
-    ],
-    "Kto jest partnerem projektu PLLuM?": [
-        "nask", "plgrid"  # przykłady, dostosuj do docs
-    ],
-    "Kiedy system powinien odpowiedzieć 'nie wiem'?": []  # tu test na brak info
-}
-
-
-# === MOCK / ADAPTER DO TWOJEGO SYSTEMU ===
 def get_answer_from_system(question: str) -> str:
-    db_chunks_number = 10
+    db_chunks_number = 50
     model_context_chunks_number = 10
     
     system_prompt, user_prompt = create_prompt(user_prompt=question, 
@@ -49,32 +25,40 @@ def get_answer_from_system(question: str) -> str:
     return model_response
 
 
-# === SPRAWDZANIE POPRAWNOŚCI ===
-def check_answer(question: str, answer: str, expected_keywords: list[str]) -> bool:
+
+def run_keyword_test(question: str, answer: str, expected_keywords: list[str]) -> bool:
     if not expected_keywords:  # pytania typu "powinno powiedzieć 'nie wiem'"
         return "nie wiem" in answer.lower()
     return all(any(kw.lower() in answer.lower() for kw in expected_keywords) for kw in expected_keywords)
 
 
-# === GŁÓWNA FUNKCJA TESTOWA ===
+
 def run_tests():
-    print("=== TESTY OBOWIĄZKOWE ===")
-    for q, keywords in golden_answers.items():
-        answer = get_answer_from_system(q)
-        ok = check_answer(q, answer, keywords)
-        print(f"Pytanie: {q}")
-        print(f"Odpowiedź: {answer}")
+    test_cases_dir = "tests/test_cases"
+    test_cases = sorted(os.listdir(test_cases_dir))
+
+    test_results_dir = Path("tests/test_results/")
+    test_results_dir.mkdir(exist_ok=True)
+
+    for test_case in test_cases:
+        with open(test_cases_dir + "/" + test_case, "r") as f:
+            test_case_content = json.load(f)
+
+        model_answer = get_answer_from_system(test_case_content["question"])
+        ok = run_keyword_test(test_case_content["question"], model_answer, test_case_content["keywords"])
+        print(f"Pytanie: {test_case_content['question']}")
+        print(f"Odpowiedź: {model_answer}")
         print(f"Wynik: {'✅ OK' if ok else '❌ BŁĄD'}")
         print("-" * 40)
 
-    print("\n=== TESTY DODATKOWE ===")
-    for q, keywords in extra_questions.items():
-        answer = get_answer_from_system(q)
-        ok = check_answer(q, answer, keywords)
-        print(f"Pytanie: {q}")
-        print(f"Odpowiedź: {answer}")
-        print(f"Wynik: {'✅ OK' if ok else '❌ BŁĄD'}")
-        print("-" * 40)
+        test_results_file = test_results_dir / f"{test_case}.json"
+        with open(test_results_file, "w") as f:
+            json.dump({"question": test_case_content["question"], 
+                       "keywords": test_case_content["keywords"],                      
+                       "expected_answer": test_case_content["expected_answer"],
+                       "model_answer": model_answer,
+                       "ok": ok}, f, indent=4, ensure_ascii=False)
+
 
 
 if __name__ == "__main__":

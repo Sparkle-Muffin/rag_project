@@ -1,0 +1,7 @@
+{
+    "question": "Jaki model najlepiej działa na GPU z 24 GB VRAM?",
+    "keywords": [
+        "13b", "24 gb", "gpu"
+    ],
+    "expected_answer": "Najlepiej działa LLaMa-13B, zoptymalizowany do takiej konfiguracji."
+}

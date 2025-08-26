@@ -1,0 +1,11 @@
+{
+    "question": "Jaki model najlepiej działa na GPU z 24 GB VRAM?",
+    "keywords": [
+        "13b",
+        "24 gb",
+        "gpu"
+    ],
+    "expected_answer": "Najlepiej działa LLaMa-13B, zoptymalizowany do takiej konfiguracji.",
+    "model_answer": "Na podstawie dostarczonego kontekstu, modele, które najlepiej działają na GPU z 24 GB VRAM to:\n\n1. **Mistral Small (3, 3.1, 3.2)**:\n   - Wersje 3/3.1/3.2 modelu Mistral Small mają około 24 miliardów parametrów i wymagają około 60 GB VRAM w pełnej precyzji (BF16/FP16). Jednak dzięki kwantyzacji, mogą być uruchamiane na kartach z mniejszą ilością pamięci. Na przykład, wersja 3.2 wymaga około 55 GB VRAM w BF16, ale po kwantyzacji może działać na kartach z 32 GB RAM (co sugeruje, że mogą być kompatybilne z 24 GB VRAM).\n   - Te modele są zaprojektowane tak, aby zmieścić się na pojedynczej karcie RTX 4090 lub nawet na MacBooku z 32 GB RAM.\n\n2. **Llama 1 (7B)**:\n   - Wariant 7B modelu Llama 1 w precyzji FP16 wymaga około 12–13 GB VRAM. Wersje z kwantyzacją (np. 8-bit lub 4-bit) mogą być uruchamiane na kartach z 6 GB VRAM, co oznacza, że w pełnej precyzji 7B Llama będzie działać dobrze na GPU z 24 GB VRAM.\n\n3. **GPT-OSS (np. GPT-120B)**:\n   - Model GPT-OSS-120B mieści się na pojedynczym H100 (80 GB), ale mniejsze modele, takie jak GPT-OSS-20B, mogą działać nawet na kartach konsumenckich z 16 GB VRAM. Jeśli masz 24 GB VRAM, to większe modele GPT-OSS powinny również działać dobrze.\n\n4. **Mistral 7B**:\n   - Model Mistral 7B (7.3 miliarda parametrów) wymaga co najmniej 12-rdzeniowego procesora oraz karty GPU z ≥12 GB VRAM. Dzięki kwantyzacji 4-bitowej, można go uruchomić nawet na karcie z 4 GB VRAM. W pełnej precyzji (16-bit) wymaga około 16 GB VRAM, co oznacza, że na 24 GB VRAM będzie działać bez problemu.\n\n5. **PLLUM**:\n   - Mniejsze warianty PLLUM (8B lub 12B) są bardziej przyjazne dla GPU klasy konsumenckiej i powinny dobrze działać na GPU z 24 GB VRAM.\n\n**Podsumowanie**:\nNajlepszym wyborem będzie prawdopodobnie **Mistral Small (3, 3.1, 3.2)** lub **Llama 1 (7B)**, ponieważ są one zaprojektowane tak, aby działać efektywnie na sprzęcie konsumenckim i mają dobrze zoptymalizowane wymagania VRAM. Jeśli potrzebujesz większej mocy obliczeniowej, **Mistral 7B** również będzie dobrym wyborem.",
+    "ok": true
+}
