@@ -1,7 +1,7 @@
 {
-    "question": "Ile pasków ma zebra?",
+    "question": "Kto stworzył PLLuM?",
     "keywords": [
-        "llama 1", "llama 2", "llama 3"
+        "uniwersytet", "warszawski", "uw", "pllum"
     ],
-    "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3."
+    "expected_answer": "Projekt został stworzony przez Uniwersytet Warszawski i partnerów akademickich."
 }

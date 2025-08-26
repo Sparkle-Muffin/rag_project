@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+      "descriptive_evaluation": {
+        "type": "string"
+      },
+      "evaluation_score": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "descriptive_evaluation",
+      "evaluation_score"
+    ]
+  }
