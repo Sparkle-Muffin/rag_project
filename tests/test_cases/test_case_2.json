@@ -1,7 +1,12 @@
 {
     "question": "Kto stworzył PLLuM?",
-    "keywords": [
+    "required_keywords": [
         "uniwersytet", "warszawski", "uw", "pllum"
+    ],
+    "optional_keywords": [
+        "politechnika wrocławska", "nask pib", "instytut podstaw informatyki pan", 
+        "ośrodek przetwarzania informacji pib", "uniwersytet łódzki", "instytut slawistyki pan", 
+        "ministerstwo cyfryzacji", "konsorcjum polskich uczelni", "instytutów"
     ],
     "expected_answer": "Projekt został stworzony przez Uniwersytet Warszawski i partnerów akademickich."
 }

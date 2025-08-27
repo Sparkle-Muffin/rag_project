@@ -1,7 +1,12 @@
 {
     "question": "Jaki model najlepiej działa na GPU z 24 GB VRAM?",
-    "keywords": [
+    "required_keywords": [
         "13b", "24 gb", "gpu"
+    ],
+    "optional_keywords": [
+        "llama 2 13b", "llama 3 8b", "llama 3.1 8b", "llama 3.2 3b", 
+        "mistral 7b", "mistral nemo 12b", "pixtral 12b", "pllum 12b", 
+        "gpt oss 20b", "llama 3.2 vision 11b"
     ],
     "expected_answer": "Najlepiej działa LLaMa-13B, zoptymalizowany do takiej konfiguracji."
 }

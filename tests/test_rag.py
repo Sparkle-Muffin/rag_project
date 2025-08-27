@@ -71,10 +71,10 @@ def run_LLM_as_a_judge_test(question: str, expected_answer: str, model_answer: s
     model_evaluation_answer = call_model_non_stream(system_prompt, user_prompt, structured_output)
     # Parse the JSON string response into a dictionary
     model_evaluation_dict = json.loads(model_evaluation_answer)
-    descriptive_evaluation = model_evaluation_dict["descriptive_evaluation"]
     evaluation_score = model_evaluation_dict["evaluation_score"]
+    descriptive_evaluation = model_evaluation_dict["descriptive_evaluation"]
 
-    return descriptive_evaluation, evaluation_score
+    return evaluation_score, descriptive_evaluation
 
 
 def run_tests():
@@ -101,7 +101,7 @@ def run_tests():
                                                    test_case_content["optional_keywords"])
 
         # Run LLM-as-a-judge test
-        descriptive_evaluation, evaluation_score = run_LLM_as_a_judge_test(test_case_content["question"], 
+        evaluation_score, descriptive_evaluation = run_LLM_as_a_judge_test(test_case_content["question"], 
                                                                            test_case_content["expected_answer"],
                                                                            model_answer)
 
@@ -115,8 +115,8 @@ def run_tests():
                        "required_keywords_score": keyword_scores["required_score"],
                        "optional_keywords_score": keyword_scores["optional_score"],
                        "total_keywords_score": keyword_scores["total_score"],
-                       "descriptive_evaluation": descriptive_evaluation,
                        "evaluation_score": evaluation_score,
+                       "descriptive_evaluation": descriptive_evaluation,                       
                        "answer_generation_time_s": answer_generation_time_s}, f, indent=4, ensure_ascii=False)
 
 
