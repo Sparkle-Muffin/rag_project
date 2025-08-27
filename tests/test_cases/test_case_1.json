@@ -1,7 +1,10 @@
 {
     "question": "Jakie modele LLaMa są dostępne?",
-    "keywords": [
-        "llama 1", "llama 2", "llama 3"
+    "required_keywords": [
+        "llama 1", "llama 2", "llama 3", "llama 4"
+    ],
+    "optional_keywords": [
+        "llama 3.1", "llama 3.2", "llama 4 scout", "llama 4 maverick"
     ],
     "expected_answer": "Modele LLaMa 1, LLaMa 2 i LLaMa 3."
 }

@@ -4,6 +4,7 @@ import os
 import json
 from pathlib import Path
 import time
+from typing import List, Dict
 
 # Add the parent directory to Python path so we can import from common/
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -30,10 +31,29 @@ def get_answer_from_model(question: str) -> str:
     return model_response
 
 
-def run_keyword_test(question: str, answer: str, expected_keywords: list[str]) -> bool:
-    if not expected_keywords:
-        return "nie wiem" in answer.lower()
-    return all(any(kw.lower() in answer.lower() for kw in expected_keywords) for kw in expected_keywords)
+def run_keyword_coverage_test(answer: str, required: List[str], optional: List[str] = None) -> Dict[str, float]:
+    """
+    Sprawdza pokrycie słów kluczowych w odpowiedzi.
+    Zwraca wyniki procentowe dla listy wymaganej i opcjonalnej.
+    """
+    ans = answer.casefold()
+    optional = optional or []
+
+    def contains_word(text, kw):
+        # dopasowanie całych słów
+        return re.search(rf"\b{re.escape(kw.casefold())}\b", text) is not None
+
+    required_hits = sum(1 for kw in required if contains_word(ans, kw))
+    optional_hits = sum(1 for kw in optional if contains_word(ans, kw))
+
+    return {
+        "required_score": required_hits / len(required) * 100 if required else None,
+        "optional_score": optional_hits / len(optional) * 100 if optional else None,
+        "total_score": (
+            (required_hits + optional_hits) / (len(required) + len(optional)) * 100
+            if required or optional else None
+        )
+    }
 
 
 def run_LLM_as_a_judge_test(question: str, expected_answer: str, model_answer: str):
@@ -76,22 +96,25 @@ def run_tests():
         answer_generation_time_s = int(answer_generation_time_s)
 
         # Run keyword test
-        keyword_test_passed = run_keyword_test(test_case_content["question"], 
-                                               model_answer, 
-                                               test_case_content["keywords"])
+        keyword_scores = run_keyword_coverage_test(model_answer, 
+                                                   test_case_content["required_keywords"],
+                                                   test_case_content["optional_keywords"])
 
         # Run LLM-as-a-judge test
         descriptive_evaluation, evaluation_score = run_LLM_as_a_judge_test(test_case_content["question"], 
-                                                                           model_answer, 
-                                                                           test_case_content["expected_answer"])
+                                                                           test_case_content["expected_answer"],
+                                                                           model_answer)
 
         test_results_file = test_results_dir / test_case
         with open(test_results_file, "w") as f:
             json.dump({"question": test_case_content["question"], 
-                       "keywords": test_case_content["keywords"],                      
+                       "required_keywords": test_case_content["required_keywords"],
+                       "optional_keywords": test_case_content["optional_keywords"],
                        "expected_answer": test_case_content["expected_answer"],
                        "model_answer": model_answer,
-                       "keyword_test_passed": keyword_test_passed,
+                       "required_keywords_score": keyword_scores["required_score"],
+                       "optional_keywords_score": keyword_scores["optional_score"],
+                       "total_keywords_score": keyword_scores["total_score"],
                        "descriptive_evaluation": descriptive_evaluation,
                        "evaluation_score": evaluation_score,
                        "answer_generation_time_s": answer_generation_time_s}, f, indent=4, ensure_ascii=False)
