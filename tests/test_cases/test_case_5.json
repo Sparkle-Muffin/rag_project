@@ -1,0 +1,15 @@
+{
+    "question": "Co to jest RAG?",
+    "required_keywords": [
+        "Retrieval-Augmented Generation",
+        "LLM",
+        "wyszukiwanie/wyszukiwania/wyszukiwaniu/wyszukiwanie/wyszukiwaniem/wyszukiwaniu/wyszukiwanie",
+        "generowanie/generowania/generowaniu/generowanie/generowaniem/generowaniu/generowanie"
+    ],
+    "optional_keywords": [
+        "zewnętrzna baza wiedzy/zewnętrznej bazy wiedzy/zewnętrznej bazie wiedzy/zewnętrzną bazę wiedzy/zewnętrzną bazą wiedzy/zewnętrznej bazie wiedzy/zewnętrzna bazo wiedzy",
+        "dokładność odpowiedzi/dokładności odpowiedzi/dokładności odpowiedzi/dokładność odpowiedzi/dokładnością odpowiedzi/dokładności odpowiedzi/dokładności odpowiedzi",
+        "łączenie informacji/łączenia informacji/łączeniu informacji/łączenie informacji/łączeniem informacji/łączeniu informacji/łączenie informacji"
+    ],
+    "expected_answer": "RAG (Retrieval-Augmented Generation) to technika łącząca duże modele językowe (LLM) z mechanizmem wyszukiwania w zewnętrznej bazie wiedzy, dzięki czemu model może generować odpowiedzi oparte na aktualnych i bardziej precyzyjnych informacjach."
+}

@@ -1,14 +1,19 @@
 {
     "question": "Kto stworzył PLLuM?",
     "required_keywords": [
-        "politechnika/politechniki/politechnikę/politechnice",
-        "wrocławska/wrocławskiej/wrocławską",
+        "politechnika/politechniki/politechnice/politechnikę/politechniką/politechnice/politechniko",
+        "wrocławska/wrocławskiej/wrocławską/wrocławską/wrocławską/wrocławskiej/wrocławska",
         "pllum"
     ],
     "optional_keywords": [
-        "nask pib", "instytut podstaw informatyki pan", 
-        "ośrodek przetwarzania informacji pib", "uniwersytet łódzki", "instytut slawistyki pan", 
-        "ministerstwo cyfryzacji", "konsorcjum polskich uczelni", "instytutów"
+        "nask pib/nasku pib/naskowi pib/nask pib/naskiem pib/nasku pib/nasku pib",
+        "instytut podstaw informatyki pan/instytutu podstaw informatyki pan/instytutowi podstaw informatyki pan/instytut podstaw informatyki pan/instytutem podstaw informatyki pan/instytucie podstaw informatyki pan/instytucie podstaw informatyki pan",
+        "ośrodek przetwarzania informacji pib/ośrodka przetwarzania informacji pib/ośrodkowi przetwarzania informacji pib/ośrodek przetwarzania informacji pib/ośrodkiem przetwarzania informacji pib/ośrodku przetwarzania informacji pib/ośrodku przetwarzania informacji pib",
+        "uniwersytet łódzki/uniwersytetu łódzkiego/uniwersytetowi łódzkiemu/uniwersytet łódzki/uniwersytetem łódzkim/uniwersytecie łódzkim/uniwersytecie łódzki",
+        "instytut slawistyki pan/instytutu slawistyki pan/instytutowi slawistyki pan/instytut slawistyki pan/instytutem slawistyki pan/instytucie slawistyki pan/instytucie slawistyki pan",
+        "ministerstwo cyfryzacji/ministerstwa cyfryzacji/ministerstwu cyfryzacji/ministerstwo cyfryzacji/ministerstwem cyfryzacji/ministerstwie cyfryzacji/ministerstwo cyfryzacji",
+        "konsorcjum polskich uczelni/konsorcjum polskich uczelni/konsorcjum polskich uczelni/konsorcjum polskich uczelni/konsorcjum polskich uczelni/konsorcjum polskich uczelni/konsorcjum polskich uczelni",
+        "instytutów"
     ],
     "expected_answer": "PLLuM został stworzony przez: Politechnikę Wrocławską (koordynator), NASK PIB, Instytut Podstaw Informatyki PAN, Ośrodek Przetwarzania Informacji PIB, Uniwersytet Łódzki, Instytut Slawistyki PAN."
 }

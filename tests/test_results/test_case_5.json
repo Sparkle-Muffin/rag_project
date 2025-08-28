@@ -1,0 +1,22 @@
+{
+    "question": "Co to jest RAG?",
+    "required_keywords": [
+        "Retrieval-Augmented Generation",
+        "LLM",
+        "wyszukiwanie/wyszukiwania/wyszukiwaniu/wyszukiwanie/wyszukiwaniem/wyszukiwaniu/wyszukiwanie",
+        "generowanie/generowania/generowaniu/generowanie/generowaniem/generowaniu/generowanie"
+    ],
+    "optional_keywords": [
+        "zewnętrzna baza wiedzy/zewnętrznej bazy wiedzy/zewnętrznej bazie wiedzy/zewnętrzną bazę wiedzy/zewnętrzną bazą wiedzy/zewnętrznej bazie wiedzy/zewnętrzna bazo wiedzy",
+        "dokładność odpowiedzi/dokładności odpowiedzi/dokładności odpowiedzi/dokładność odpowiedzi/dokładnością odpowiedzi/dokładności odpowiedzi/dokładności odpowiedzi",
+        "łączenie informacji/łączenia informacji/łączeniu informacji/łączenie informacji/łączeniem informacji/łączeniu informacji/łączenie informacji"
+    ],
+    "expected_answer": "RAG (Retrieval-Augmented Generation) to technika łącząca duże modele językowe (LLM) z mechanizmem wyszukiwania w zewnętrznej bazie wiedzy, dzięki czemu model może generować odpowiedzi oparte na aktualnych i bardziej precyzyjnych informacjach.",
+    "model_answer": "RAG (Retrieval-Augmented Generation) to podejście w przetwarzaniu języka naturalnego, które łączy zdolność modeli językowych do generowania tekstu z możliwością korzystania z zewnętrznych źródeł informacji. W praktyce oznacza to, że model najpierw wyszukuje istotne dane (np. w bazie wiedzy lub internecie) i wykorzystuje je jako kontekst do generowania odpowiedzi. Dzięki temu systemy RAG mogą lepiej radzić sobie z zadaniami wymagającymi dostępu do dużych ilości informacji, takimi jak odpowiadanie na pytania, rozwiązywanie problemów czy tworzenie dokumentów.\n\nW kontekście dużych modeli językowych (LLM), takich jak GPT-3/4, RAG pozwala na wykorzystanie ich zaawansowanych umiejętności generowania tekstu w połączeniu z dostępem do zewnętrznych danych, co znacząco zwiększa ich możliwości. Jednakże, wdrożenie RAG wymaga odpowiednich narzędzi do wyszukiwania informacji oraz zarządzania dużymi ilościami danych.\n\nWarto zauważyć, że w kontekście modeli takich jak GPT-OSS, Llama czy Mistral, RAG staje się jeszcze bardziej praktyczne ze względu na ich otwartość i możliwość dostosowania do konkretnych potrzeb.",
+    "required_keywords_score": 100.0,
+    "optional_keywords_score": 0.0,
+    "total_keywords_score": 57.14285714285714,
+    "evaluation_score": 10,
+    "descriptive_evaluation": "Odpowiedź modelu jest bardzo dokładna i wyczerpująca. Zawiera wszystkie kluczowe elementy definicji RAG, w tym aspekty techniczne, zastosowania oraz kontekst dużych modeli językowych. Model dodatkowo rozszerza odpowiedź o przykłady zastosowań (np. GPT-OSS, Llama) i wyjaśnia praktyczne znaczenie RAG w tych kontekstach.",
+    "answer_generation_time_s": 67
+}
