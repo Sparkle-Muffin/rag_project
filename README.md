@@ -1,13 +1,13 @@
 # 📚 RAG QA Chat z Bielikiem i Qdrant
 
 ## 🎯 Cel projektu
-Celem projektu jest stworzenie kompletnego systemu **RAG (Retrieval-Augmented Generation)**.
+Celem projektu było stworzenie kompletnego systemu **RAG (Retrieval-Augmented Generation)**.
 System pozwala użytkownikowi zadawać pytania dotyczące treści dokumentów, które wcześniej zostały:
 
 - oczyszczone i ujednolicone,
 - podzielone na **chunki**,
-- zamienione na **embeddingi** (model *mmlw-roberta-large*),
-- zapisane w bazie wektorowej **Qdrant**.
+- zamienione na **embeddingi** (model *mmlw-roberta-large*) i zapisane w bazie wektorowej **Qdrant**,
+- zamienione na encodingi MB25 i zapisane w bazie encodingów.
 
 Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i przekazuje je do dużego modelu językowego **Bielik-11B-v2.6-Instruct**, który generuje odpowiedź prezentowaną użytkownikowi w formie czatu.
 
@@ -67,6 +67,10 @@ docker run -d -p 6333:6333 qdrant/qdrant
   ```bash
   python rag_pipeline.py
   ```
+- **Testy systemu i generowanie raportu**:
+  ```bash
+  python rag_run_tests.py
+  ```
 - **Aplikacja użytkownika (czat w Streamlit)**:
   ```bash
   streamlit run rag_user_app.py
@@ -80,7 +84,29 @@ docker run -d -p 6333:6333 qdrant/qdrant
 - czyści dane wejściowe,  
 - dzieli je na chunki,  
 - generuje embeddingi modelem **mmlw-roberta-large**,  
-- zapisuje embeddingi i metadane w bazie **Qdrant**.
+- zapisuje embeddingi i metadane w bazie **Qdrant**,
+- generuje encodingi z wykorzystaniem funkcji BM25,
+- zapisuje encodingi w bazie danych BM25.
+
+### `rag_run_tests.py`
+- uruchamia testy systemu,
+- przypadki testowe mają formę plików json:
+```json
+{
+    "question": "pytanie testowe",
+    "required_keywords": [
+        "lista podstawowych słów kluczowych"
+    ],
+    "optional_keywords": [
+        "lista opcjonalnych słów kluczowych"
+    ],
+    "expected_answer": "odpowiedź wzorcowa"
+}
+```
+- testy wykorzystują dwie metody:
+  - dopasowanie podstawowych i opcjonalnych słów kluczowych,
+  - LLM-as-a-judge: model porównuje odpowiedź wzorcową z odpowiedzią testowanego systemu.
+- na podstawie wyników testów przygotowywany jest raport TEST_REPORT.md
 
 ### `rag_user_app.py` (Streamlit)
 - udostępnia prosty interfejs czatu na `localhost`,  
@@ -96,6 +122,7 @@ docker run -d -p 6333:6333 qdrant/qdrant
 
 ```
 rag_pipeline.py                     # logika przetwarzania i przygotowania danych
+rag_run_tests.py                    # testy systemu i generowanie raportu
 rag_user_app.py                     # interfejs użytkownika (czat w Streamlit)
 common/                             # biblioteki wspólne: obsługa plików, Qdrant, Bielik, embeddingi
 docs_zip/                           # folder z oryginalnymi spakowanymi plikami
@@ -103,7 +130,7 @@ docs/                               # folder z rozpakowanymi plikami
 docs_preprocessed/
     ├─ docs_cleaned_up/             # oczyszczone i ujednolicone pliki
     └─ docs_divided_into_chunks/    # pliki podzielone na chunki
-embedding_chunks/                   # każdy plik = chunk do embeddingu
+text_chunks/                        # każdy plik = chunk do embeddingu i encodingu
 ```
 
 ---
