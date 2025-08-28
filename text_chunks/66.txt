@@ -1,0 +1,1 @@
+pllum – polski model językowy zalety i wyróżniki 1. bogate zbiory danych – korpus liczący ~150 mld tokenów oraz unikatowe zbiory instrukcji i preferencji czynią pllum najbardziej zaawansowanym polskim modelem językowym

@@ -1,0 +1,149 @@
+# modele mistral – kompendium (stan na sierpień 2025)
+
+## wprowadzenie
+
+mistral ai to francuski startup założony w 2023 roku, który koncentruje się na budowie nowoczesnych modeli językowych. mistral udostępnia zarówno modele open‑source (z wagami udostępnionymi w licencji apache 2.0), jak i tzw. premier models dostępne wyłącznie poprzez api. firma wprowadziła do użycia szereg modeli tekstowych, wielomodalnych, matematycznych, kodowych i głosowych. poniżej znajduje się szczegółowe zestawienie najważniejszych modeli, ich parametrów, wymagań sprzętowych, licencji, twórców, zastosowań i wybranych benchmarków.
+
+## podział na rodziny
+
+- modele otwarte – wagi są dostępne na huggingface i można je uruchamiać lokalnie. podlegają licencji apache 2.0 (mistral 7b, mixtral 8×7b i 8×22b, codestral mamba, mathstral, mistral nemo, pixtral 12b, serie mistral small/devstral small/magistral small, voxtral small/mini itd.). wymagają znacznej pamięci vram podczas inferencji; tabela 1 podaje minimalne wartości.
+
+- modele badawcze (premier models) – mistral large, mixtral 8×22b, pixtral large, series magistral medium i mistral medium 3 mają wagi udostępnione tylko na zasadzie licencji badawczej (mistral research license) i są przeznaczone do testów niekomercyjnych. samodzielne użycie wymaga licencji komercyjnej.
+
+- modele komercyjne/api only – mistral medium 3, magistral medium, devstral medium, voxtral mini transcribe, mistral embed, codestral embed i mistral ocr to usługi dostępne w platformie la plateforme (api) oraz u partnerów chmurowych. użytkownik wchodzi z nimi w relację usługową.
+
+## tabela 1 – skrócone parametry i wymagania vram
+
+poniższa tabela przedstawia najważniejsze otwarte modele mistral wraz z liczbą parametrów, długością kontekstu, minimalnym wymogiem pamięci gpu (vram) do inferencji zgodnie z oficjalną tabelą rozmiarów typem licencji i przykładowymi zastosowaniami.  wymagania vram dotyczą pełnej precyzji (bf16/fp16); wersje skwantyzowane mogą wymagać mniej pamięci (np. 4‑bitowy mistral 7b zmieści się w ≈4 gb vram
+
+ model  parametry (b) / aktywne  kontekst  min. vram (gb)  licencja  przykładowe zastosowania 
+
+------------------
+
+ mistral 7b  7.3 b  8k tokens  16 gb  apache 2.0  lokalne asystenty, rag, podstawowe generowanie tekstu 
+
+ mixtral 8×7b  46.7 b (12.9 b aktywne)  32k tokens  100 gb  apache 2.0  wydajna mieszanka ekspertów (moe) do długich odpowiedzi, rag 
+
+ mixtral 8×22b  140.6 b (39.1 b aktywne)  64k tokens  300 gb  apache 2.0  mocniejsza moe do złożonych zadań, długich kontekstów 
+
+ codestral 22b  22.2 b  32k tokens  60 gb  mistral ai non‑production license (mnpl)  generacja kodu, fill‑in‑the‑middle, testy jednostkowe 
+
+ codestral mamba 7b  7.3 b  (potencjalnie nieskończony kontekst)  16 gb  apache 2.0  szybkie generowanie kodu dzięki architekturze mamba 
+
+ mathstral 7b  7.3 b  32k tokens  16 gb  apache 2.0  rozwiązywanie zadań matematycznych, math/mmlu 
+
+ mistral nemo 12b  12 b  do 128k tokens  28 gb (bf16) / 16 gb (fp8)  apache 2.0  wielojęzyczny model tekstowy z tekken tokenizerem; zamiennik mistral 7b 
+
+ pixtral 12b  12 b + 0.4 b vision encoder  128k tokens  28 gb (bf16) / 16 gb (fp8)  apache 2.0  multimodalny model (obrazy + tekst); obsługa rag i wizji 
+
+ mistral small 24b (wersje 3/3.1/3.2)  24 b  32k–128k tokens  60 gb  apache 2.0  szybkie modele do lokalnych asystentów, z obsługą funkcji i wizji 
+
+ magistral small 24b  24 b  40k tokens  60 gb  apache 2.0  model rozumowania, transparencja, łańcuchy myśli 
+
+ devstral small 24b  24 b  128k tokens  60 gb  apache 2.0  agent kodeksowy, automatyczne poprawki kodu 
+
+ voxtral small 24b  24 b  32k tokens  60 gb  apache 2.0  model audio (transkrypcja i zrozumienie mowy) 
+
+ voxtral mini 3b  3 b  32k tokens  8 gb  apache 2.0  kompaktowy model audio do edge‑device 
+
+ ministral 8b  8 b  128k tokens (32k w vllm)  24 gb  mistral commercial/research license  niskolatencyjne asystenty on‑device 
+
+ ministral 3b  3 b  128k tokens (32k vllm)  8 gb  mistral commercial/research license  edge computing, offline asystenty 
+
+ mistral large 2 (24.07/24.11)  123 b  128k tokens  250 gb  mistral research license  duże modele do złożonych zadań, rag, wysoka jakość 
+
+ pixtral large  124 b + 1 b vision encoder  128k tokens  250 gb  mistral research license  frontowy model multimodalny (wizja + tekst) 
+
+## opisy poszczególnych modeli
+
+### mistral 7b
+
+pierwszy model mistral ai z września 2023 r.; 7.3 mld parametrów, kontekst 8k. dostępny w wersji podstawowej i „instruct”. publikacja w licencji apache 2.0 umożliwia lokalne uruchomienie. artykuły sprzętowe zalecają co najmniej 12‑rdzeniowy procesor oraz kartę gpu z ≥12 gb vram; dzięki kwantyzacji 4‑bitowej model można uruchomić nawet na karcie z 4 gb vram  zmiana na 16‑bit (bf16) wymaga ok. 16 gb vram model obsługuje generację tekstu, podstawowe programowanie i rag; jest punktem wyjściowym dla wielu nowszych modeli.
+
+### mixtral 8×7b
+
+model typu mixture‑of‑experts (moe) składający się z 8 ekspertów po 7 mld parametrów; aktywnych jest ok. 12.9 mld parametrów dzięki czemu zapewnia wysoką jakość przy mniejszym koszcie obliczeniowym. model oferuje kontekst 32k tokenów, licencję apache 2.0 oraz możliwość uruchamiania lokalnego. dyskusje na huggingface podają, że wersja 4‑bitowa wymaga ~22.5 gb vram, 8‑bitowa ~45 gb, a pełna półprecyzja ~90 gb artykuł aime sugeruje minimalną konfigurację 4× rtx a6000 48 gb dla trybu bf16 model sprawdza się w długim rag, generowaniu kodu i zadań wymagających dłuższego kontekstu.
+
+### mixtral 8×22b
+
+kolejny model moe złożony z ośmiu ekspertów po 22 mld parametrów (aktywnych 39.1 mld) oferuje 64k tokenów kontekstu i licencję apache 2.0. wersja bf16 wymaga około 263 gb vram, natomiast kwantyzacja int4 redukuje wymóg do około 65 gb artykuł aime podaje, że w praktyce potrzebne są 4× gpu 80 gb (a100/h100) model przeznaczony jest do złożonych zadań (analiza dokumentów, generowanie długich sekwencji), ale od marca 2025 r. jest wycofywany na rzecz nowszych modeli.
+
+### codestral 22b (seria 25.01/25.08)
+
+codestral to open‑weight model przeznaczony do generowania kodu, wytrenowany na 80+ językach programowania z kontekstem 32k. oferuje tryb fill‑in‑the‑middle (fim) do uzupełniania brakujących fragmentów kodu i osiąga wysokie wyniki w humaneval i mbpp.  wersja 22 mld parametrów wymaga ok. 60 gb vram  licencja mnpl pozwala na badania i projekty niekomercyjne do zastosowań komercyjnych konieczne jest wykupienie licencji.  w lipcu 2025 r. wprowadzono wersję 25.08, która zwiększyła odsetek akceptowanych uzupełnień kodu o 30 % i zmniejszyła liczbę „runaway generations” o 50 %  codestral jest dostępny w stacku mistral code oraz w usłudze codestral embed (embedding do wyszukiwania kodu).  
+
+### codestral mamba 7b
+
+pierwszy model mistral w architekturze mamba2, specjalizowany w generowaniu kodu. ma 7.285 mld parametrów i korzysta z liniowej złożoności obliczeniowej, co teoretycznie pozwala na nieskończony kontekst. udostępniony w licencji apache 2.0 sprawdza się jako lokalny asystent programistyczny o niskiej latencji. minimalne wymagania vram są porównywalne z mistral 7b (około 16 gb).  
+
+### mathstral 7b
+
+model o 7 mld parametrach z kontekstem 32k przeznaczony do zadań matematycznych i stem. współpraca z projektem numina zaowocowała wysokimi wynikami: 56,6 % na zbiorze math i 63,47 % na mmlu model, dostępny na licencji apache 2.0, zachowuje zgodność z architekturą mistral 7b, dzięki czemu może pełnić rolę matematycznego eksperta w rag.
+
+### mistral nemo 12b
+
+model 12 mld parametrów wytrenowany we współpracy z nvidia. oferuje aż 128k kontekstu, jest wielojęzyczny i obsługuje wywoływanie funkcji. zastosowano nowy tokenizer tekken, który kompresuje kod źródłowy i wiele języków lepiej niż sentencepiece  wersja bf16 wymaga ok. 28 gb vram, natomiast dzięki uczeniu z kwantyzacją model można uruchamiać w fp8 na gpu z 16 gb vram nemo jest publikowany w licencji apache 2.0 i jest następcą mistral 7b.
+
+### mistral large 2 i mistral large 24.11
+
+mistral large 2, ogłoszony w lipcu 2024 r., to flagowy model mistrala z 123 mld parametrów i kontekstem 128k. blog „large enough” podkreśla, że model znacząco poprawia generowanie kodu, matematyczne rozumowanie i obsługę wielu języków model wydany jest w licencji badawczej; w pełnej precyzji wymaga ok. 233 gb vram, a kwantyzacja int4 redukuje wymagania do ~58 gb  wersja 24.11 (mistral large 2.1) z listopada 2024 r. wprowadziła nowe podpowiedzi systemowe, lepsze wywoływanie funkcji i ulepszone wnioskowanie długokontekstowe
+
+### pixtral 12b i pixtral large
+
+pixtral 12b to pierwszy multimodalny model mistrala. składa się z 12 mld parametrów w dekoderze (na bazie mistral nemo) i 400 mln parametrów w enkoderze obrazu; model przyjmuje kilka obrazów oraz tekst, obsługuje zmienne rozmiary obrazów i ma 128k kontekstu jest dostępny w licencji apache 2.0; w precyzji bf16 wymaga 28 gb vram, w fp8 około 16 gb artykuł ori podaje, że do uruchomienia na vllm wystarczy 24 gb vram pixtral large (124 mld parametrów + 1 mld w enkoderze obrazu) ma kontekst 128k i przewyższa konkurencję na benchmarkach mathvista, docvqa i vqa v2 udostępniony jest w licencji badawczej; wymaga ok. 250 gb vram
+
+### mistral small 3, 3.1 i 3.2 (24 b parametrów)
+
+seria mistral small to 24‑miliardowe modele zoptymalizowane pod kątem niskiej latencji. wersja 3 z stycznia 2025 r. oferuje 81 % accuracy na mmlu i przepływ 150 tokenów/s; model został zaprojektowany tak, aby zmieścić się na pojedynczej karcie rtx 4090 lub macbooku z 32 gb ram wersja 3.1 (marzec 2025) dodaje możliwość obsługi obrazów, funkcji i kontekstu 128k; nadal można ją uruchamiać na rtx 4090 lub macbooku z 32 gb ram  wersja 3.2 (czerwiec 2025) to aktualizacja skupiająca się na lepszym przestrzeganiu instrukcji, redukcji powtórzeń i solidniejszym wywoływaniu funkcji – wewnętrzne miary wzrosły z 82,75 % do 84,78 % na testach instruction‑following zewnętrzne testy wildbench i arena hard znacznie się poprawiły  3.2 wymaga ~55 gb vram w bf16, a dzięki kwantyzacji może działać na kartach z 32 gb ram  modele z serii small są dostępne w licencji apache 2.0 i stanowią fundament do fine‑tuningów, asystentów lokalnych, rag oraz zadań multimodalnych.
+
+### magistral small (24 b) i magistral medium
+
+magistral to rodzina modeli reasoning zapowiedziana w czerwcu 2025 r. blog mistral ai opisuje ją jako dwa warianty: magistral small (24 b) udostępniony na licencji apache 2.0 oraz magistral medium (wersja korporacyjna) modele zostały zaprojektowane z myślą o transparentnym łańcuchu rozumowania (chain‑of‑thought), wielojęzyczności i obsłudze domen specjalistycznych.  wersja medium uzyskała 73,6 % na konkursie aime2024 (90 % w trybie majority‑vote), natomiast small osiągnął 70,7 %  magistral small ma kontekst 40k i minimalny wymóg 60 gb vram może być pobrany z huggingface i samodzielnie wdrożony magistral medium jest dostępny poprzez api i dla klientów chmurowych; mistral podkreśla szybkość (flash answers w le chat) oraz zastosowania w prawie, finansach i regulacjach
+
+### devstral small 1.1 i devstral medium
+
+devstral to rodzina modeli agentowych do pisania kodu. w lipcu 2025 r. udostępniono devstral small 1.1 pod licencją apache 2.0 oraz devstral medium jako usługę api  devstral small 1.1 zachował architekturę 24 b, lecz osiągnął 53,6 % w benchmarku swe‑bench verified oferując lepszą generalizację i obsługę formatu xml  devstral medium uzyskał 61,6 % na swe‑bench i jest dostępny do wdrożeń on‑premises; model można dostroić pod konkretne repozytoria  w ekosystemie mistral code devstral współpracuje z embederami (codestral embed) i agentami (openhands).  devstral small zmieści się na pojedynczym rtx 4090 lub macu z 32 gb ram
+
+### voxtral small 24 b i voxtral mini 3 b
+
+voxtral to pierwsza rodzina otwartych modeli audio firmy mistral. ogłoszona w lipcu 2025 r., składa się z wersji small (24 b) i mini (3 b). oba modele są udostępnione na licencji apache 2.0, a voxtral mini transcribe (3 b) jest zoptymalizowany tylko do transkrypcji  modele oferują kontekst 32k tokenów, co pozwala przetwarzać 30‑minutowe nagrania do transkrypcji lub 40‑minutowe nagrania w trybie rozumienia  voxtral obsługuje wielojęzyczność, wbudowane q&a i podsumowania audio, wywoływanie funkcji bezpośrednio z głosu oraz zachowuje możliwości tekstowe swojego trzonu (mistral small 3.1) modele są gotowe do pobrania na huggingface; wymagają ok. 60 gb vram (small) lub 8 gb (mini)  bench­marki publikowane w artykule pokazują, że voxtral znacząco przewyższa whisper large‑v3 i gpt‑4o mini w dokładności transkrypcji i rozumienia
+
+### mistral saba
+
+mistral saba to 24‑miliardowy model językowy zaprojektowany na potrzeby bliskiego wschodu i azji południowej. artykuł z lutego 2025 r. opisuje go jako model szkolony na starannie dobranych danych arabskich i językach indyjskich  saba obsługuje języki takie jak arabski i tamil, zapewniając bardziej naturalne odpowiedzi niż modele kilkakrotnie większe  może działać lokalnie na pojedynczym gpu, oferując ponad 150 tokenów/s, i jest dostępny poprzez api oraz do samodzielnego wdrożenia w bezpiecznym środowisku  zastosowania obejmują wirtualną obsługę klienta po arabsku, eksperckie doradztwo w branżach (energia, finanse, zdrowie) i tworzenie treści kulturowych  wymagania sprzętowe są zbliżone do serii small (ok. 60 gb vram).  
+
+### mistral medium 3
+
+model mistral medium 3 (maj 2025) jest pierwszym „średnim” modelem w ofercie mistral ai. artykuł „medium is the new large” podkreśla, że model zapewnia wydajność zbliżoną do modeli premium, przy ośmiokrotnie niższym koszcie i upro­sz­czonym wdrożeniu medium 3 jest dostępny w formie api; można go także wdrożyć on‑premises na zestawie czterech gpu model jest przeznaczony do zastosowań korporacyjnych: programowania, multimodalnej analizy i zadaniowych agentów; benchmarki pokazują, że osiąga ponad 90 % wyników claude sonnet 3.7 przy niższej cenie  mistral medium nie posiada publicznej tabeli wymagań vram; w praktyce wymaga wielu gpu.
+
+### magistral medium 1.1
+
+w lipcu 2025 r. firma ogłosiła aktualizację magistral medium 1.1. według changelogu, nowa wersja z datą 25.07 ma kontekst 40k i jest dostępna poprzez api  ponieważ model jest premierowy, wagi nie są publiczne; licencja to mistral research/commercial.
+
+### devstral medium
+
+jak opisano w poście „upgrading agentic coding capabilities with the new devstral models”, devstral medium osiąga 61,6 % na swe‑bench verified i jest dostępny poprzez api. model umożliwia wdrożenia on‑premises oraz dostrojenie pod specyficzne repozytoria kodu  podobnie jak mistral medium, jest to model premierowy, a zatem wagi i wymagania vram nie są publiczne.
+
+### codestral embed
+
+codestral embed to model embeddingowy wyspecjalizowany do kodu. wersja 25.05 umożliwia generowanie wektorów o zmiennym wymiarze (np. 256 wymiarów w int8), przewyższając modele voyage code 3, cohere embed v4.0 i openai embeddings  embed jest dostępny w api; oferuje elastyczną kontrolę kosztów, szybkie wyszukiwanie w repozytoriach, semantyczne wyszukiwanie, wykrywanie duplikatów i klastrowanie kodu  zalecana długość kontekstu to 8 k tokenów, a do rag zaleca się dzielenie dokumentów na fragmenty ~3000 znaków z nawarstwieniem 1000 znaków
+
+### mistral embed
+
+mistral embed to model embeddingowy dla tekstu (8 k kontekstu) dostępny jako usługa api. został zaprojektowany do generowania gęstych reprezentacji semantycznych dla rag i wyszukiwania. chociaż mistral nie opublikował dedykowanego bloga, dokumentacja api opisuje model jako dostarczający wektory 1024‑elementowe; usługa jest wykorzystywana w platformach takich jak pinecone, zilliz czy langchain.
+
+### mistral ocr
+
+mistral ocr to usługa rozpoznawania tekstu z dokumentów (pdf, obrazy). model potrafi ekstraktować tekst wraz z obrazami z złożonych dokumentów, tabel, równań i wielu języków  benchmarki pokazują, że przewyższa google document ai, gemini, azure ocr i gpt‑4o w rozpoznawaniu matematyki, tabel i wielu języków  jest bardzo szybki – przetwarza do 2000 stron na minutę na pojedynczym węźle  mistral ocr jest dostępny jako api w wersji 2503/2505; brak jest otwartych wag.
+
+### ministral 3b i 8b
+
+seria ministral to kompaktowe modele do zastosowań on‑device/edge. zostały ogłoszone w październiku 2024 r. (3b i 8b) i udostępnione w licencji mistral commercial/research. modele obsługują do 128k kontekstu (32k w vllm) i wykorzystują technikę interleaved sliding‑window attention (dla wersji 8b) w celu zmniejszenia zapotrzebowania na pamięć i czas. używane są jako prywatne asystenty, do tłumaczenia offline, analityki na urządzeniach i robotyki  minimalne wymagania vram to 8 gb dla 3b i 24 gb dla 8b  wersje bazowe są dostępne na huggingface do użytku badawczego; licencja komercyjna wymagana jest do zastosowań produkcyjnych
+
+## modele wycofane
+
+zgodnie z dokumentacją, starsze modele mistral (mistral 7b, mixtral 8×7b, mixtral 8×22b oraz wersje large 2407) zostały oznaczone jako przestarzałe i zostaną wycofane z platformy 30 marca 2025 r. lub 16 czerwca 2025 r. dla innych wersji użytkownicy powinni migrować do nowszych modeli.
+
+## podsumowanie
+
+ekosystem mistral ai rozwija się bardzo dynamicznie: od kompaktowego mistral 7b, przez hybrydowe modele mixtral, wyspecjalizowane mathstral i codestral, po multimodalne pixtral i voxtral, modele reasoning (magistral), agentowe (devstral), embeddingowe oraz usługi ocr. wiele modeli jest open‑source (apache 2.0), co ułatwia ich wykorzystanie w projektach rag i lokalnych asystentach, a ich wymogi pamięci zaczynają się od 8 gb vram (voxtral mini, ministral 3b). modele premierowe (medium 3, magistral medium, devstral medium, mistral large, pixtral large) dostępne są poprzez api i adresują potrzeby korporacyjne związane z niską latencją, dużym kontekstem i wielomodalnością.  dzięki licencjom badawczym i komercyjnym mistral ai umożliwia zarówno eksperymentowanie, jak i produkcyjne zastosowania, oferując równocześnie narzędzia do własnego dostrajania (mistral‑inference, mistral‑finetune) oraz infrastruktury (mistral compute).

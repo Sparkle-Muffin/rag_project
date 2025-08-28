@@ -1,0 +1,67 @@
+# pllum – polski model językowy
+
+## tło i motywacja
+
+pllum (polish large language model) jest projektem konsorcjum polskich uczelni i instytutów, koordynowanym przez politechnikę wrocławską i wspieranym m.in. przez nask pib, instytut podstaw informatyki pan, ośrodek przetwarzania informacji pib, uniwersytet łódzki oraz instytut slawistyki pan model został zaprezentowany 24 lutego 2025 roku przez ministerstwo cyfryzacji i ma służyć administracji publicznej, biznesowi oraz nauce twórcy podkreślają, że pllum powstał w oparciu o etycznie pozyskane dane, a wersje przeznaczone do użytku komercyjnego korzystają z treści licencjonowanych przez właścicieli, natomiast modele naukowe („nc”) opierają się także na publicznie dostępnych zbiorach jak common crawl 
+
+## zbiory danych i fine‑tuning
+
+- korpus treningowy – do budowy pllum zebrano wysokiej jakości dane tekstowe w języku polskim (~150 miliardów tokenów) oraz teksty w językach słowiańskich, bałtyckich i angielskim. ze względów prawnych modele open‑source są trenowane na ok. 28 miliardach tokenów dostępnych komercyjnie  
+
+- instrukcje „organiczne” – stworzono największy polski zestaw manualnie przygotowanych instrukcji (~40 000 par zapytanie‑odpowiedź), obejmujący około 3,5 tys. dialogów wieloetapowych  
+
+- corpus preferencji – opracowano pierwszy polski korpus preferencji, w którym zespół annotatorów ocenił różne odpowiedzi modeli, co uczy model równowagi i bezpieczeństwa  
+
+- fine‑tuning i alignacja – modele były dalej dostrajane na danych instrukcyjnych (40 k oryginalnych instrukcji, ~50 k instrukcji przetłumaczonych z korpusów premium oraz ok. 10 k syntetycznych) oraz na korpusie preferencji dodatkowo opracowano wyspecjalizowane modele rag dla administracji publicznej
+
+## dostępne modele pllum
+
+tabela poniżej podsumowuje najważniejsze warianty pllum wraz z liczbą parametrów, kontekstem, bazą i licencją oraz przybliżonym zapotrzebowaniem na pamięć (vram/ram) przy wnioskowaniu. wymagania vram przyjęto na podstawie rozmiarów plików gguf (które z grubsza odpowiadają pamięci potrzebnej do załadowania modelu) oraz znanych wymagań modeli bazowych (llama 3.1, mistral nemo, mixtral 8×7b). w przypadku pełnej precyzji (bf16/fp16) wymagane jest znacznie więcej pamięci – te liczby podano w komentarzach.
+
+ model  parametry i baza  kontekst i zastosowania  licencja  szacowane wymagania pamięci podczas wnioskowania 
+
+---------------
+
+ llama‑pllum‑8b (base/instruct/chat)  8 mld parametrów, oparte na llama 3.1‑8b  kontekst do 128 tys. tokenów (wynik dziedziczony z llama 3.1). przeznaczone do ogólnych zadań językowych w języku polskim – generacja, streszczanie, q&a, chat – oraz jako fundament dla aplikacji domenowych  llama 3.1 community license (modele bez sufiksu „nc” mogą być używane komercyjnie). modele „nc” mają licencję cc‑by‑nc‑4.0  przybliżone rozmiary kwantyzacji: q4\_k\_s ok. 4,7 gb, q4\_k\_m ok. 4,9 gb, q5\_k\_m ok. 5,6 gb, pełne fp16 ~16,1 gb te wielkości odzwierciedlają minimalne vram wymagane do uruchomienia modelu; w pełnej precyzji 16 bitów potrzeba ok. 16 gb vram. 
+
+ pllum‑12b (base/instruct/chat)  12 mld parametrów; bazą jest mistral nemo 12b model z kontekstem 128 k tokenów oraz udoskonaloną tokenizacją tekken.  używane do zaawansowanych zadań językowych, z możliwością funkcji w rag; 12b wersje „nc” zawierają dane z szerszego korpusu (150 mld tokenów).  apache 2.0 dla modeli open; wersje z sufiksem „nc” – licencja cc‑by‑nc‑4.0  wersja mistral nemo 12b wymaga ok. 12 gb vram przy kontekście 16 k (wg dyskusji hf) kwantyzacje gguf: q2\_k 4,9 gb, q4\_k\_m 7,6 gb, q5\_k\_m 8,8 gb, q6\_k 10,2 gb, q8\_0 13,1 gb 
+
+ pllum‑70b (base/instruct/chat)  70 mld parametrów; oparte na llama 3.1‑70b  służą do złożonych zadań w języku polskim (długie konwersacje, zaawansowana analiza tekstu).  llama 3.1 community license (licencja nie‑komercyjna w wersjach „nc”).  modele 70b wymagają dużo pamięci: pełna precyzja fp16 ok. 140 gb vram, int4 ~ 35 gb (wg wytycznych llama 3.1). kwantyzacje gguf: q4\_k\_s 40,4 gb, q4\_k\_m 42,6 gb, q5\_k\_m 50,0 gb, q6\_k 58,0 gb, q8\_0 75,1 gb 
+
+ pllum‑8×7b (base/instruct/chat)  mixture‑of‑experts 8×7b (około 45 mld aktywnych parametrów); bazą jest mixtral 8×7b model moe działa tak, że w czasie wnioskowania używanych jest tylko 2–4 ekspertów, co zmniejsza zużycie pamięci.  długi kontekst (max. 128 k), wysoka jakość wnioskowania; dobre do złożonych zadań administracyjnych i rag.  apache 2.0 dla modeli open; wersje „nc” – licencja cc‑by‑nc‑4.0  orientacyjne wymagania vram na podstawie mixtral 8×7b: 4‑bitowa kwantyzacja (~22,5 gb vram), 8‑bit ~45 gb, pełna fp16 ~90 gb (z kontekstem ok. 32 k). modele „nc” mogą korzystać z rozszerzonego korpusu. 
+
+\ wymagania vram zależą od długości kontekstu i ustawień, ale w tabeli podano minimalne wielkości pamięci potrzebnej do załadowania wag w danej precyzji.
+
+## zastosowania
+
+pllum jest zaprojektowany jako podstawowa warstwa dla wielu zastosowań w języku polskim:
+
+- generacja i analiza tekstu – podstawowe zadania generacji, streszczania, tłumaczenia i analizy sentymentu; modele 8b i 12b zapewniają szybkie odpowiedzi, a 70b oferuje najwyższą jakość i kontekst do długich dokumentów.
+
+- asystenci dla administracji publicznej – specjalne modele rag potrafią odpowiadać na pytania dotyczące procedur administracyjnych czy ustaw, korzystając z dedykowanych baz dokumentów
+
+- systemy pytanie‑odpowiedź (qa) i chat – wersje „chat” i „instruct” są dostrojone do interakcji z użytkownikiem i generują bezpieczne, adekwatne odpowiedzi.
+
+- projekty badawcze i fine‑tuning – zbiory instrukcji i preferencji umożliwiają dalsze dostosowanie modeli do specyficznych domen (np. medycyny, prawa). programiści mogą korzystać z licencji open‑source (apache 2.0 lub llama 3.1) albo z licencji cc‑by‑nc‑4.0 w przypadku modeli naukowych.
+
+## zalety i wyróżniki
+
+1. bogate zbiory danych – korpus liczący ~150 mld tokenów oraz unikatowe zbiory instrukcji i preferencji czynią pllum najbardziej zaawansowanym polskim modelem językowym  
+
+2. skalowalna rodzina modeli – użytkownicy mogą wybrać wariant od 8 mld do 70 mld parametrów, a także model mixture‑of‑experts 8×7b, dobierając balans między wydajnością a zapotrzebowaniem sprzętowym  
+
+3. etyczne pozyskanie danych i bezpieczna alignacja – twórcy stosują licencjonowane treści i uwzględniają polskie przepisy o prawach autorskich, a także manualnie anotują preferencje, co ogranicza ryzyko halucynacji  
+
+4. dostępność – modele są dostępne na platformie hugging face i można je integrować z biblioteką transformers; wersje open są objęte licencjami pozwalającymi na komercyjne wykorzystanie, a wersje „nc” dedykowane są badaniom i zastosowaniom niekomercyjnym  
+
+## ograniczenia
+
+- wysokie wymagania sprzętowe – duże modele (70b lub 8×7b) wymagają znacznej pamięci vram (do kilkudziesięciu gb, a przy pełnej precyzji fp16 nawet powyżej 90 gb); mniejsze warianty 8b i 12b są bardziej przyjazne dla gpu klasy konsumenckiej  
+
+- ograniczenia licencyjne – modele oparte na llama 3.1 podlegają licencji społecznościowej meta, która wymaga uwzględnienia klauzul dotyczących użycia, m.in. konieczności podawania informacji „built with llama 3” w produktach i zakazu wykorzystywania do trenowania konkurencyjnych modeli. modele „nc” mają licencję cc‑by‑nc‑4.0 i nie mogą być używane komercyjnie  
+
+- potencjalne halucynacje i uprzedzenia – mimo że opracowano korpus preferencji i liczne testy, modele mogą generować niepoprawne treści lub wykazywać stronniczość w kwestiach wrażliwych
+
+## podsumowanie
+
+pllum to wszechstronna rodzina polskich modeli językowych, obejmująca warianty 8b, 12b, 70b oraz 8×7b, zbudowane na otwartych modelach llama 3.1, mistral nemo oraz mixtral. projekt wyróżnia się ogromnym korpusem treningowym, etycznym pozyskiwaniem danych i dużą liczbą instrukcji oraz danych preferencji, co przekłada się na wysoką jakość generowanych odpowiedzi i możliwość adaptacji do zadań publicznych i komercyjnych dzięki dostępności w różnych rozmiarach i licencjach pllum może być używany w badaniach, biznesie i administracji, wspierając rozwój ekosystemu #aimadeinpoland.

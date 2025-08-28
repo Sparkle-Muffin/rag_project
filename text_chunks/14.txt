@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram mistral nemo 12b  12 b  do 128k tokens  28 gb (bf16) / 16 gb (fp8)  apache 2.0  wielojęzyczny model tekstowy z tekken tokenizerem; zamiennik mistral 7b

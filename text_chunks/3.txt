@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) podział na rodziny - modele badawcze (premier models) – mistral large, mixtral 8×22b, pixtral large, series magistral medium i mistral medium 3 mają wagi udostępnione tylko na zasadzie licencji badawczej (mistral research license) i są przeznaczone do testów niekomercyjnych. samodzielne użycie wymaga licencji komercyjnej.

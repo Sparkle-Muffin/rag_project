@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram pixtral 12b  12 b + 0.4 b vision encoder  128k tokens  28 gb (bf16) / 16 gb (fp8)  apache 2.0  multimodalny model (obrazy + tekst); obsługa rag i wizji

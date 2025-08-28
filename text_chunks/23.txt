@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram mistral large 2 (24.07/24.11)  123 b  128k tokens  250 gb  mistral research license  duże modele do złożonych zadań, rag, wysoka jakość

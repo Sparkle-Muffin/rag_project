@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram model  parametry (b) / aktywne  kontekst  min. vram (gb)  licencja  przykładowe zastosowania

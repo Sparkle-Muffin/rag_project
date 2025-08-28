@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) wnioski i rekomendacje niniejszy plik zestawia stan wiedzy na sierpień 2025 r. i może służyć jako baza wiedzy do systemów rag.  zaleca się śledzenie aktualizacji licencji i nowych wersji, ponieważ meta często wprowadza nowe modele lub zmienia warunki użycia.

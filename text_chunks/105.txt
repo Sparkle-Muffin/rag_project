@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3 (kwiecień 2024) trzecia generacja przyniosła znaczące ulepszenia: zwiększone konteksty, wysoki poziom dokładności, odświeżony tokenizer i bardziej zróżnicowany zbiór danych (7 bln tokenów).  dostępne modele to 8 b i 70 b.

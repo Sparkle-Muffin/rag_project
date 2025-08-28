@@ -1,0 +1,1 @@
+pllum – polski model językowy zbiory danych i fine‑tuning - fine‑tuning i alignacja – modele były dalej dostrajane na danych instrukcyjnych (40 k oryginalnych instrukcji, ~50 k instrukcji przetłumaczonych z korpusów premium oraz ok. 10 k syntetycznych) oraz na korpusie preferencji dodatkowo opracowano wyspecjalizowane modele rag dla administracji publicznej

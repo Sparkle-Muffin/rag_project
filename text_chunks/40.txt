@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) opisy poszczególnych modeli magistral medium 1.1 w lipcu 2025 r. firma ogłosiła aktualizację magistral medium 1.1. według changelogu, nowa wersja z datą 25.07 ma kontekst 40k i jest dostępna poprzez api  ponieważ model jest premierowy, wagi nie są publiczne; licencja to mistral research/commercial.

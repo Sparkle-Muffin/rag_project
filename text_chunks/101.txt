@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 2 (lipiec 2023) zastosowania – llama 2 stała się bazą do generowania tekstu, tłumaczeń, asystentów głosowych i systemów rag.  dzięki licencji otwartych wag powstały liczne adaptacje, m.in. code llama (modele do generacji kodu) oraz narzędzia do fine‑tuningu na ograniczonych zasobach.

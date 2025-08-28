@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3 (kwiecień 2024) licencja – llama 3 dziedziczy llama community license z obowiązkiem oznaczania modeli i przestrzegania polityki akceptowalnego użycia.

@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 2 (7/13/70 b)  gęste  ok. 4 k tokenów  7 b: 6 gb vram (q4), 4 gb ram (cpu) 13 b: 10 gb vram; 70 b: 40 gb vram i 64 gb ram  llama community license (komercyjna z limitem 700 mln użytkowników)  generacja i podsumowanie tekstu, asystenci, rag, fine‑tuning

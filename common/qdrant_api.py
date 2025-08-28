@@ -1,9 +1,9 @@
+from common.constants import QDRANT_URL, QDRANT_PORT
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
-
 import subprocess
 from pathlib import Path
-from common.constants import QDRANT_URL, QDRANT_PORT
+from tqdm import tqdm
 
 
 def ensure_qdrant_running():
@@ -66,7 +66,7 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
             PointStruct(id=file["id"], 
                        vector=file["vector"], 
                        payload={"text": file["text"]})
-            for file in embeddings_and_metadata
+            for file in tqdm(embeddings_and_metadata, desc="Uploading to Qdrant")
         ]
     )
 

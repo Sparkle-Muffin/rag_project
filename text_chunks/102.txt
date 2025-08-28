@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 2 (lipiec 2023) code llama (sierpień 2023) code llama to wariant llama 2 specjalizujący się w generacji kodu i obsłudze zadań programistycznych.  modele są dostępne w rozmiarach 7 b, 13 b oraz 30/33/34 b i działają z długim kontekstem (do 100 k tokenów).

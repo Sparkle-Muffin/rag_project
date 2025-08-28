@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 2 (lipiec 2023) code llama (sierpień 2023) licencja – code llama dziedziczy licencję llama community license (podobne zasady jak llama 2).  modele są wykorzystywane w edytorach kodu, automatyzacji refaktoryzacji, weryfikacji poprawności programów i w agentach programistycznych.

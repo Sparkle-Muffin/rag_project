@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 
 def generate_bm25_encodings(input_dir, encodings_db_path):
@@ -6,7 +7,7 @@ def generate_bm25_encodings(input_dir, encodings_db_path):
 
     # Create your corpus here
     corpus = []
-    for file in os.listdir(input_dir):
+    for file in tqdm(os.listdir(input_dir), desc="Generating BM25 encodings"):
         with open(input_dir / file, 'r', encoding='utf-8') as f:
             text = f.read()
             corpus.append(text)

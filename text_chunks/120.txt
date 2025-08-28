@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 4 (kwiecień 2025) czwarta generacja wprowadza architekturę mixture of experts (moe) oraz natywne przetwarzanie multimodalne.  pierwsze modele to llama 4 scout i llama 4 maverick, a w zapowiedzi jest wersja llama 4 behemoth.

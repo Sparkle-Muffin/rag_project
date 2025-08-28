@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) wersja 3.1 wprowadziła modele 8 b, 70 b i 405 b, rozszerzając kontekst do 128 k tokenów i poprawiając stabilność.  model 405 b należy do największych otwartych modeli udostępnionych przez metę.

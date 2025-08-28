@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) 8 b – w precyzji fp16 wymaga ok. 16 gb vram, w fp8 8 gb, a w int4 4 gb

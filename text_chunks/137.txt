@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 4 maverick (17 b aktywnych, 128 ekspertów)  17 b aktywnych / 400 b całkowitych  1 mln tokenów  ~245 gb vram (4‑bit) i ≥320 gb ram wymaga rozproszonej inferencji  jak wyżej  zaawansowane zadania reasoningowe, multimodalne aplikacje klasy enterprise

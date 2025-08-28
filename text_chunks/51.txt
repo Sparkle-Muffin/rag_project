@@ -1,0 +1,1 @@
+pllum – polski model językowy zbiory danych i fine‑tuning - corpus preferencji – opracowano pierwszy polski korpus preferencji, w którym zespół annotatorów ocenił różne odpowiedzi modeli, co uczy model równowagi i bezpieczeństwa

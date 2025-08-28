@@ -1,0 +1,1 @@
+pllum – polski model językowy zastosowania pllum jest zaprojektowany jako podstawowa warstwa dla wielu zastosowań w języku polskim:

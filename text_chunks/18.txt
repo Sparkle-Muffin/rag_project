@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram devstral small 24b  24 b  128k tokens  60 gb  apache 2.0  agent kodeksowy, automatyczne poprawki kodu

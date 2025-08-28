@@ -1,0 +1,1 @@
+pllum – polski model językowy ograniczenia - wysokie wymagania sprzętowe – duże modele (70b lub 8×7b) wymagają znacznej pamięci vram (do kilkudziesięciu gb, a przy pełnej precyzji fp16 nawet powyżej 90 gb); mniejsze warianty 8b i 12b są bardziej przyjazne dla gpu klasy konsumenckiej

@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram mistral 7b  7.3 b  8k tokens  16 gb  apache 2.0  lokalne asystenty, rag, podstawowe generowanie tekstu

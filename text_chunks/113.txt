@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) 70 b – potrzebuje około 140 gb vram (fp16), 70 gb (fp8) lub 35 gb (int4)

@@ -1,0 +1,119 @@
+# rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.)
+
+## wprowadzenie
+
+llama (large language model meta ai) to rodzina dużych modeli językowych udostępnianych przez meta.  pierwsza generacja (llama 1) została wydana w 2023 r. jako eksperymentalny model badawczy, natomiast kolejne generacje stopniowo zwiększały liczbę parametrów, okno kontekstowe i możliwości multimodalne.  meta udostępnia wagi modeli na warunkach licencji llama community license – umożliwia ona niekomercyjne wykorzystanie i komercyjne wykorzystanie (z wyjątkami dla podmiotów przekraczających 700 mln aktywnych użytkowników miesięcznie), jednak nakłada obowiązek umieszczania wzmianki „built with llama” oraz zakazuje wykorzystywania modeli do trenowania konkurencyjnych llm‑ów  modele 3.2 i 4 wprowadzają dodatkowe ograniczenia dotyczące przetwarzania obrazu w unii europejskiej i są objęte akceptowalną polityką użycia (acceptable use policy).  
+
+w poniższym zestawieniu zebrano informacje o poszczególnych generacjach llama, w tym dostępne warianty modelu, minimalne wymagania pamięci ram/vram do uruchomienia, licencję, główne zastosowania oraz wybrane wyniki benchmarków.  dane te są przydatne do projektowania systemów retrieval‑augmented generation (rag) – można na ich podstawie dobrać model do konkretnego zadania, oszacować zasoby sprzętowe oraz uwzględnić ograniczenia licencyjne.
+
+## llama 1 (2023)
+
+llama 1 była pierwszą publicznie dostępną rodziną modeli mety.  obejmuje warianty 7 b, 13 b i 65 b parametrów.  modele te obsługują kontekst ok. 2 k tokenów i były udostępnione wyłącznie na zasadach badawczych.  
+
+ liczba parametrów i sprzęt – wariant 7 b w precyzji fp16 wymaga ok. 12–13 gb pamięci vram, natomiast wersje z kwantyzacją (np. 8‑bit lub 4‑bit) można uruchomić na kartach z 6 gb vram  model 13 b w pełnej precyzji wymaga ~24 gb vram, a kwantyzowany – około 10 gb  największy wariant 65 b potrzebuje ponad 130 gb vram i zwykle wymaga wielu kart gpu  
+
+ licencja i wykorzystanie – llama 1 była udostępniona w ramach licencji badawczej (research use license).  nie zezwalała ona na komercyjne zastosowania i ograniczała modyfikację i dystrybucję.  modele te były wykorzystywane głównie do badań nad fine‑tuningiem, adaptacją do zadań dziedzinowych i porównania z modelami openai.
+
+## llama 2 (lipiec 2023)
+
+llama 2 wprowadziła komercyjnie dostępne modele 7 b, 13 b i 70 b.  modele zostały wytrenowane na dużo większym zbiorze danych i są licencjonowane na zasadach llama community license.  licencja pozwala na komercyjne wykorzystanie, ale podmioty posiadające więcej niż 700 mln aktywnych użytkowników miesięcznie muszą uzyskać dodatkową zgodę mety  
+
+ wymagania sprzętowe – serwis hardware corner podaje, że 7‑miliardowy model w 4‑bitowej kwantyzacji (gptq) wymaga ok. 6 gb vram, a inference na cpu w formacie ggml/gguf potrzebuje 4 gb ram i 300 mb vram  wariant 13 b wymaga 10 gb vram lub 8 gb ram (ggml), natomiast model 70 b potrzebuje co najmniej 40 gb vram i 64 gb ram przy użyciu cpu  
+
+ zastosowania – llama 2 stała się bazą do generowania tekstu, tłumaczeń, asystentów głosowych i systemów rag.  dzięki licencji otwartych wag powstały liczne adaptacje, m.in. code llama (modele do generacji kodu) oraz narzędzia do fine‑tuningu na ograniczonych zasobach.
+
+### code llama (sierpień 2023)
+
+code llama to wariant llama 2 specjalizujący się w generacji kodu i obsłudze zadań programistycznych.  modele są dostępne w rozmiarach 7 b, 13 b oraz 30/33/34 b i działają z długim kontekstem (do 100 k tokenów).  
+
+ sprzęt – modele 7 b i 13 b w 4‑bitowej kwantyzacji wymagają odpowiednio ~6 gb i ~10 gb vram, natomiast warianty ~30 b/34 b potrzebują ok. 20 gb vram  pliki w formacie ggml (inferencja na cpu) potrzebują 4 gb ram dla 7 b i ok. 8 gb ram dla 13 b  
+
+ licencja – code llama dziedziczy licencję llama community license (podobne zasady jak llama 2).  modele są wykorzystywane w edytorach kodu, automatyzacji refaktoryzacji, weryfikacji poprawności programów i w agentach programistycznych.
+
+## llama 3 (kwiecień 2024)
+
+trzecia generacja przyniosła znaczące ulepszenia: zwiększone konteksty, wysoki poziom dokładności, odświeżony tokenizer i bardziej zróżnicowany zbiór danych (7 bln tokenów).  dostępne modele to 8 b i 70 b.  
+
+ architektura – wprowadzono grouped query attention (gqa) oraz nowy tokenizer, co poprawia przepływ kontekstu i obsługę dłuższych sekwencji.  
+
+ wymagania sprzętowe – artykuł firmy picovoice podaje, że model llama 3 70 b w pełnej precyzji potrzebuje ponad 140 gb vram, a specjalne techniki kwantyzacji (np. 4‑bit) pozwalają uruchomić go na pojedynczym gpu rtx 4090 (24 gb) kosztem wydajności  analiza parseur dla wariantu 8 b wskazuje, że do uruchomienia w chmurze potrzeba gpu z co najmniej 16 gb vram oraz 16 gb ram a model zajmuje ok. 15 gb na dysku  raport liquidmetal ai potwierdza, że 8‑miliardowy model można uruchomić na sprzęcie konsumenckim z 16 gb vram natomiast model 70 b wymaga co najmniej 48 gb vram w konfiguracji wielo‑gpu  
+
+ licencja – llama 3 dziedziczy llama community license z obowiązkiem oznaczania modeli i przestrzegania polityki akceptowalnego użycia.  
+
+ zastosowania – llama 3 jest wykorzystywana w asystentach konwersacyjnych, systemach generujących treści i narzędziach rag.  dzięki wysokiej wydajności w benchmarkach (np. mmlu, big‑bench hard) i efektywnej implementacji gqa, model 8 b jest popularny w aplikacjach on‑device.
+
+## llama 3.1 (lipiec 2024)
+
+wersja 3.1 wprowadziła modele 8 b, 70 b i 405 b, rozszerzając kontekst do 128 k tokenów i poprawiając stabilność.  model 405 b należy do największych otwartych modeli udostępnionych przez metę.  
+
+ wymagania vram – oficjalny artykuł z hugging face opisuje zapotrzebowanie na pamięć dla różnych precyzji: 
+
+   8 b – w precyzji fp16 wymaga ok. 16 gb vram, w fp8 8 gb, a w int4 4 gb 
+
+   70 b – potrzebuje około 140 gb vram (fp16), 70 gb (fp8) lub 35 gb (int4)  
+
+   405 b – wymaga 810 gb vram (fp16), 405 gb (fp8) lub 203 gb w int4  warto pamiętać, że okno 128 k tokenów powoduje dodatkowy narzut na pamięć – artykuł wskazuje, że przy 128 k tokenów model 70 b potrzebuje dodatkowych ~39 gb vram na cache kluczy i wartości  
+
+ zastosowania – llama 3.1 oferuje lepsze wnioskowanie i funkcje kodowania niż llama 3, ale kosztem dużo większych wymagań pamięciowych.  modele są używane głównie w infrastrukturze chmurowej lub przez firmy dysponujące wydajnymi gpu.
+
+## llama 3.2 (wrzesień 2024)
+
+ta aktualizacja rozszerzyła rodzinę o lekkie modele 1 b i 3 b (tekstowe) oraz warianty multimodalne llama 3.2‑vision 11 b i 90 b.  modele 1 b i 3 b nadal obsługują okna kontekstowe do 128 k tokenów i są trenowane na wielojęzycznym korpusie (angielski, niemiecki, francuski, włoski, portugalski, hindi, hiszpański, tajski)  
+
+ sprzęt – artykuł hugging face podaje, że model 3 b wymaga ok. 6,5 gb vram w bf16/fp16, 3,2 gb w fp8 i 1,75 gb w int4; model 1 b potrzebuje 2,5 gb (fp16), 1,25 gb (fp8) lub 0,75 gb (int4)  wersja vision 11 b przy 4‑bitowej kwantyzacji używa około 10 gb vram  
+
+ licencja – llama 3.2 jest objęta tą samą licencją co llama 3.1, z dodatkową klauzulą, że osoby lub firmy z siedzibą w ue nie mogą korzystać z wersji multimodalnych (vision); to ograniczenie nie dotyczy użytkowników końcowych korzystających z aplikacji zintegrowanych z modelami  
+
+ zastosowania – dzięki niewielkim rozmiarom modele 1 b i 3 b są przeznaczone do urządzeń mobilnych i wbudowanych.  modele vision obsługują tekst i obraz; potrafią rozpoznawać diagramy, tabele i proste elementy wizualne, generując tekstową odpowiedź.
+
+## llama 4 (kwiecień 2025)
+
+czwarta generacja wprowadza architekturę mixture of experts (moe) oraz natywne przetwarzanie multimodalne.  pierwsze modele to llama 4 scout i llama 4 maverick, a w zapowiedzi jest wersja llama 4 behemoth.  
+
+ architektura i kontekst – w modelach moe każdy token aktywuje jedynie 17 mld parametrów, mimo że całkowita liczba parametrów jest znacznie większa (scout ma 109 mld parametrów, 16 ekspertów; maverick – 400 mld parametrów, 128 ekspertów).  dzięki temu, przy tej samej liczbie aktywnych parametrów, llama 4 uzyskuje lepszą wydajność niż gęste modele.  okna kontekstowe są imponujące: 10 mln tokenów dla scouta i 1 mln tokenów dla mavericka  
+
+ wymagania sprzętowe (scout) – analiza portalu hardware corner wskazuje, że 4‑bitowa wersja llama 4 scout wymaga ok. 55–60 gb vram tylko na wagi (bez pamięci podręcznej) i może być uruchomiona na pojedynczym gpu nvidia h100 80 gb  wersja fp16 wymaga nawet 216 gb zintegrowanej pamięci na komputerach apple mac studio, a kwantyzacja 3‑bitowa zmniejsza wymagania do ~48 gb  
+
+ wymagania sprzętowe (maverick) – 4‑bitowa wersja modelu 400 b potrzebuje 245 gb vram oraz systemu z co najmniej 320 gb ram lub kilku kart gpu (np. 8×32 gb)  gradient flow podkreśla, że wariant maverick wymaga rozproszonego inferencja i jest praktycznie nieosiągalny dla użytkowników indywidualnych  
+
+ licencja – llama 4 jest udostępniona na tej samej licencji otwartych wag, lecz w artykule gradient flow wskazuje się, że jest ona nadal restrykcyjna: podmioty o >700 mln użytkowników potrzebują zgody meta, należy stosować markę „built with llama”, przestrzegać polityki akceptowalnego użycia i nie można wykorzystywać modelu do trenowania innych llm‑ów  ponadto z uwagi na przepisy ai act, wizja w llama 4 może być niedostępna w ue  
+
+ wyniki i zastosowania – meta podaje, że llama 4 scout przewyższa mistral 3.1 oraz gemma 3 w zadaniach multimodalnych i oferuje najlepszy stosunek cena–jakość w swojej klasie  llama 4 maverick ma dorównywać gpt‑4o w benchmarkach reasoningowych, ale wymaga dużej infrastruktury.  modele te są przeznaczone do tworzenia asystentów multimodalnych (tekst + obraz), zaawansowanych aplikacji rag z ogromnym kontekstem (kilka milionów tokenów) i systemów budujących agentów z długą pamięcią.
+
+## podsumowanie tabelaryczne
+
+ generacja / model  parametry (aktywnych / całkowitych)  maks. okno kontekstowe  minimalne wymagania pamięci (vram/ram – przy kwantyzacji)  licencja  przykładowe zastosowania 
+
+------------------
+
+ llama 1 (7/13/65 b)  7 b, 13 b, 65 b gęste  ok. 2 k tokenów  7 b: ~12–13 gb vram (fp16), 3–6 gb vram (4‑bit); 13 b: ~24 gb vram; 65 b: >130 gb vram  badawcza (niekomercyjna)  badania nad fine‑tuningiem, porównania z gpt  
+
+ llama 2 (7/13/70 b)  gęste  ok. 4 k tokenów  7 b: 6 gb vram (q4), 4 gb ram (cpu) 13 b: 10 gb vram; 70 b: 40 gb vram i 64 gb ram  llama community license (komercyjna z limitem 700 mln użytkowników)  generacja i podsumowanie tekstu, asystenci, rag, fine‑tuning  
+
+ code llama (7/13/30/34 b)  gęste  do 100 k tokenów  7 b: ~6 gb vram (q4); 13 b: 10 gb vram; 30/34 b: 20 gb vram; 7 b ggml: 4 gb ram  llama community license  generacja kodu, autouzupełnianie, refaktoryzacja  
+
+ llama 3 (8 b)  8 b gęste  128 k (gqa)  ~16 gb vram (fp16); ~8 gb (fp8); ~4 gb (int4); plik ~15 gb  llama community license  asystenci konwersacyjni, rag, on‑device inference  
+
+ llama 3 (70 b)  70 b gęste  128 k  ~140 gb vram (fp16); ~70 gb (fp8); ~35 gb (int4); uruchomienie wymaga konfiguracji multi‑gpu  jak wyżej  analiza i generacja tekstu, rag w chmurze  
+
+ llama 3.1 (8/70/405 b)  8 b, 70 b, 405 b gęste  128 k  8 b: 16 gb vram; 70 b: 140 gb; 405 b: 810 gb (fp16) dodatkowy narzut ~39 gb na cache dla 128 k tokenów  jak wyżej  zadania wymagające długiego kontekstu; fine‑tuning w infrastrukturze chmurowej  
+
+ llama 3.2 (1/3 b tekstowe)  1 b, 3 b gęste  128 k  3 b: 6,5 gb vram (fp16), 3,2 gb (fp8), 1,75 gb (int4); 1 b: 2,5 gb (fp16), 1,25 gb (fp8), 0,75 gb (int4)  jak wyżej (multimodalne ograniczone w ue)  aplikacje mobilne, wbudowane, rag na urządzeniach brzegowych  
+
+ llama 3.2‑vision (11 b/90 b)  11 b, 90 b multimodalne (tekst + obraz)  128 k  wersja 11 b (int4) wymaga ~10 gb vram dla 90 b brak publicznych danych, wymaga wielu gpu  jak wyżej, z wyłączeniem ue  odpowiadanie na pytania dotyczące obrazów, diagramy, tabele  
+
+ llama 4 scout (17 b aktywnych, 16 ekspertów)  17 b aktywnych / 109 b całkowitych (moe)  10 mln tokenów  ~55–60 gb vram (4‑bit) 61 gb unified memory (4‑bit) na mac studio fp16: 216 gb  licencja open‑weights z ograniczeniami (700 mln mau, znak „built with llama”, polityka aup)  multimodalni asystenci, długie konteksty, rag z milionami tokenów  
+
+ llama 4 maverick (17 b aktywnych, 128 ekspertów)  17 b aktywnych / 400 b całkowitych  1 mln tokenów  ~245 gb vram (4‑bit) i ≥320 gb ram wymaga rozproszonej inferencji  jak wyżej  zaawansowane zadania reasoningowe, multimodalne aplikacje klasy enterprise  
+
+## wnioski i rekomendacje
+
+1. wybór modelu a dostępne zasoby – mniejsze modele llama (1 b–8 b) można uruchomić na pojedynczej karcie graficznej z 16 gb vram lub nawet na cpu z odpowiednią ilością ram.  modele 70 b i większe wymagają środowisk z wieloma gpu i setkami gigabajtów pamięci.  dla zastosowań rag w małych firmach rekomendowane są modele 8 b (llama 3) lub 3 b (llama 3.2), które zapewniają dobrą jakość i niskie opóźnienia.
+
+2. licencja i obostrzenia – mimo otwartych wag llama nie jest w pełni open‑source.  użytkownicy muszą przestrzegać licencji, umieszczać oznaczenie „built with llama”, nie wykorzystywać modeli do trenowania innych llm‑ów i uzyskać zgodę przy liczbie użytkowników >700 mln  modele multimodalne 3.2 i 4 mają dodatkowe ograniczenia w ue  
+
+3. zastosowania rag – llama oferuje wydajność i długie konteksty potrzebne do systemów rag.  modele 3.1 i 4 mogą obsługiwać kontekst od 128 k do milionów tokenów, co pozwala na wbudowanie dużych baz wiedzy bez konieczności intensywnego indeksowania.  jednak ich wymagania sprzętowe i koszty eksploatacji są wysokie – w praktyce lepiej zastosować mniejsze warianty (8 b lub 24 b) i wspierać się mechanizmami przycinania kontekstu.
+
+4. trendy rozwojowe – meta zapowiedziała kolejne warianty llama 4 (m.in. behemoth z 288 b aktywnych parametrów) oraz modele reasoningowe i mniejszych rozmiarów (np. 24 b).  oczekuje się dalszego rozwoju architektur moe i wysokiej wydajności na układach z połączoną pamięcią (apple, amd).  
+
+niniejszy plik zestawia stan wiedzy na sierpień 2025 r. i może służyć jako baza wiedzy do systemów rag.  zaleca się śledzenie aktualizacji licencji i nowych wersji, ponieważ meta często wprowadza nowe modele lub zmienia warunki użycia.

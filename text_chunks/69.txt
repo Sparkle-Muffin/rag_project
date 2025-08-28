@@ -1,0 +1,1 @@
+pllum – polski model językowy zalety i wyróżniki 4. dostępność – modele są dostępne na platformie hugging face i można je integrować z biblioteką transformers; wersje open są objęte licencjami pozwalającymi na komercyjne wykorzystanie, a wersje „nc” dedykowane są badaniom i zastosowaniom niekomercyjnym

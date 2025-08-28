@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
 import os
 import hashlib
+from tqdm import tqdm
 
 # Global model instance to avoid loading it multiple times
 _model_instance = None
@@ -21,7 +22,7 @@ def generate_embeddings_and_metadata(input_dir):
     texts = []
     ids = []
     i = 0
-    for file in embedding_chunk_files:
+    for file in tqdm(embedding_chunk_files, desc="Generating embeddings and metadata"):
         with open(input_dir / file, 'r', encoding='utf-8') as f:
             text = f.read()
             texts.append(text)

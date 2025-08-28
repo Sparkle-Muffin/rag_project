@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) modele wycofane zgodnie z dokumentacją, starsze modele mistral (mistral 7b, mixtral 8×7b, mixtral 8×22b oraz wersje large 2407) zostały oznaczone jako przestarzałe i zostaną wycofane z platformy 30 marca 2025 r. lub 16 czerwca 2025 r. dla innych wersji użytkownicy powinni migrować do nowszych modeli.

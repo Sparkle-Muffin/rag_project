@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3 (kwiecień 2024) zastosowania – llama 3 jest wykorzystywana w asystentach konwersacyjnych, systemach generujących treści i narzędziach rag.  dzięki wysokiej wydajności w benchmarkach (np. mmlu, big‑bench hard) i efektywnej implementacji gqa, model 8 b jest popularny w aplikacjach on‑device.

@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 2 (lipiec 2023) code llama (sierpień 2023) sprzęt – modele 7 b i 13 b w 4‑bitowej kwantyzacji wymagają odpowiednio ~6 gb i ~10 gb vram, natomiast warianty ~30 b/34 b potrzebują ok. 20 gb vram  pliki w formacie ggml (inferencja na cpu) potrzebują 4 gb ram dla 7 b i ok. 8 gb ram dla 13 b

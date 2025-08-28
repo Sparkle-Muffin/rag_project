@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram pixtral large  124 b + 1 b vision encoder  128k tokens  250 gb  mistral research license  frontowy model multimodalny (wizja + tekst)

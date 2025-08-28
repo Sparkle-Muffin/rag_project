@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 1 (7/13/65 b)  7 b, 13 b, 65 b gęste  ok. 2 k tokenów  7 b: ~12–13 gb vram (fp16), 3–6 gb vram (4‑bit); 13 b: ~24 gb vram; 65 b: >130 gb vram  badawcza (niekomercyjna)  badania nad fine‑tuningiem, porównania z gpt

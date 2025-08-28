@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram ministral 8b  8 b  128k tokens (32k w vllm)  24 gb  mistral commercial/research license  niskolatencyjne asystenty on‑device

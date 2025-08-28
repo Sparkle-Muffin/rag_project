@@ -1,0 +1,1 @@
+pllum – polski model językowy zastosowania - systemy pytanie‑odpowiedź (qa) i chat – wersje „chat” i „instruct” są dostrojone do interakcji z użytkownikiem i generują bezpieczne, adekwatne odpowiedzi.

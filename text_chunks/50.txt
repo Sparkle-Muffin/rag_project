@@ -1,0 +1,1 @@
+pllum – polski model językowy zbiory danych i fine‑tuning - instrukcje „organiczne” – stworzono największy polski zestaw manualnie przygotowanych instrukcji (~40 000 par zapytanie‑odpowiedź), obejmujący około 3,5 tys. dialogów wieloetapowych

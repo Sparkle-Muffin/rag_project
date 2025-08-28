@@ -1,0 +1,1 @@
+pllum – polski model językowy zastosowania - generacja i analiza tekstu – podstawowe zadania generacji, streszczania, tłumaczenia i analizy sentymentu; modele 8b i 12b zapewniają szybkie odpowiedzi, a 70b oferuje najwyższą jakość i kontekst do długich dokumentów.

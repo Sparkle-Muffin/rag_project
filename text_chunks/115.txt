@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) zastosowania – llama 3.1 oferuje lepsze wnioskowanie i funkcje kodowania niż llama 3, ale kosztem dużo większych wymagań pamięciowych.  modele są używane głównie w infrastrukturze chmurowej lub przez firmy dysponujące wydajnymi gpu.

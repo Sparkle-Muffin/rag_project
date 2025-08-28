@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram mathstral 7b  7.3 b  32k tokens  16 gb  apache 2.0  rozwiązywanie zadań matematycznych, math/mmlu

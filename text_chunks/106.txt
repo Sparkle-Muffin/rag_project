@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3 (kwiecień 2024) architektura – wprowadzono grouped query attention (gqa) oraz nowy tokenizer, co poprawia przepływ kontekstu i obsługę dłuższych sekwencji.

@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.2 (wrzesień 2024) sprzęt – artykuł hugging face podaje, że model 3 b wymaga ok. 6,5 gb vram w bf16/fp16, 3,2 gb w fp8 i 1,75 gb w int4; model 1 b potrzebuje 2,5 gb (fp16), 1,25 gb (fp8) lub 0,75 gb (int4)  wersja vision 11 b przy 4‑bitowej kwantyzacji używa około 10 gb vram

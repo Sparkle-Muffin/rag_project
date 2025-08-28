@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram codestral 22b  22.2 b  32k tokens  60 gb  mistral ai non‑production license (mnpl)  generacja kodu, fill‑in‑the‑middle, testy jednostkowe

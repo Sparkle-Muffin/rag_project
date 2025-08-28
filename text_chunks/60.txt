@@ -1,0 +1,1 @@
+pllum – polski model językowy dostępne modele pllum \ wymagania vram zależą od długości kontekstu i ustawień, ale w tabeli podano minimalne wielkości pamięci potrzebnej do załadowania wag w danej precyzji.

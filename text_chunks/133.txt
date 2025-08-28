@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 3.1 (8/70/405 b)  8 b, 70 b, 405 b gęste  128 k  8 b: 16 gb vram; 70 b: 140 gb; 405 b: 810 gb (fp16) dodatkowy narzut ~39 gb na cache dla 128 k tokenów  jak wyżej  zadania wymagające długiego kontekstu; fine‑tuning w infrastrukturze chmurowej

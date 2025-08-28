@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 3 (8 b)  8 b gęste  128 k (gqa)  ~16 gb vram (fp16); ~8 gb (fp8); ~4 gb (int4); plik ~15 gb  llama community license  asystenci konwersacyjni, rag, on‑device inference

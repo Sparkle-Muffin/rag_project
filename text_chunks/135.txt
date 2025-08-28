@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 3.2‑vision (11 b/90 b)  11 b, 90 b multimodalne (tekst + obraz)  128 k  wersja 11 b (int4) wymaga ~10 gb vram dla 90 b brak publicznych danych, wymaga wielu gpu  jak wyżej, z wyłączeniem ue  odpowiadanie na pytania dotyczące obrazów, diagramy, tabele

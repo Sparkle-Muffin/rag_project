@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.2 (wrzesień 2024) zastosowania – dzięki niewielkim rozmiarom modele 1 b i 3 b są przeznaczone do urządzeń mobilnych i wbudowanych.  modele vision obsługują tekst i obraz; potrafią rozpoznawać diagramy, tabele i proste elementy wizualne, generując tekstową odpowiedź.

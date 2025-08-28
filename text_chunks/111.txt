@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) wymagania vram – oficjalny artykuł z hugging face opisuje zapotrzebowanie na pamięć dla różnych precyzji:

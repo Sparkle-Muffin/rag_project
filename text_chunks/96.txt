@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 1 (2023) llama 1 była pierwszą publicznie dostępną rodziną modeli mety.  obejmuje warianty 7 b, 13 b i 65 b parametrów.  modele te obsługują kontekst ok. 2 k tokenów i były udostępnione wyłącznie na zasadach badawczych.

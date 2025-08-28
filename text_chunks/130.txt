@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne code llama (7/13/30/34 b)  gęste  do 100 k tokenów  7 b: ~6 gb vram (q4); 13 b: 10 gb vram; 30/34 b: 20 gb vram; 7 b ggml: 4 gb ram  llama community license  generacja kodu, autouzupełnianie, refaktoryzacja

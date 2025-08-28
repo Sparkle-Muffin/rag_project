@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) podsumowanie tabelaryczne llama 3 (70 b)  70 b gęste  128 k  ~140 gb vram (fp16); ~70 gb (fp8); ~35 gb (int4); uruchomienie wymaga konfiguracji multi‑gpu  jak wyżej  analiza i generacja tekstu, rag w chmurze

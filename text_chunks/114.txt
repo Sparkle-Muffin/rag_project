@@ -1,0 +1,1 @@
+rodzina modeli llama – przegląd i wymagania sprzętowe (stan na sierpień 2025 r.) llama 3.1 (lipiec 2024) 405 b – wymaga 810 gb vram (fp16), 405 gb (fp8) lub 203 gb w int4  warto pamiętać, że okno 128 k tokenów powoduje dodatkowy narzut na pamięć – artykuł wskazuje, że przy 128 k tokenów model 70 b potrzebuje dodatkowych ~39 gb vram na cache kluczy i wartości

@@ -1,0 +1,1 @@
+pllum – polski model językowy zalety i wyróżniki 2. skalowalna rodzina modeli – użytkownicy mogą wybrać wariant od 8 mld do 70 mld parametrów, a także model mixture‑of‑experts 8×7b, dobierając balans między wydajnością a zapotrzebowaniem sprzętowym

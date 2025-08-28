@@ -1,0 +1,1 @@
+modele mistral – kompendium (stan na sierpień 2025) tabela 1 – skrócone parametry i wymagania vram mixtral 8×7b  46.7 b (12.9 b aktywne)  32k tokens  100 gb  apache 2.0  wydajna mieszanka ekspertów (moe) do długich odpowiedzi, rag

@@ -1,0 +1,1 @@
+modele gpt – szczegółowy przegląd dla rag (stan na sierpień 2025) 1. ewolucja serii gpt a (przybliżone do ład. inference)  licencja i dostępność  cechy i zastosowania

@@ -1,0 +1,1 @@
+pllum – polski model językowy zbiory danych i fine‑tuning - korpus treningowy – do budowy pllum zebrano wysokiej jakości dane tekstowe w języku polskim (~150 miliardów tokenów) oraz teksty w językach słowiańskich, bałtyckich i angielskim. ze względów prawnych modele open‑source są trenowane na ok. 28 miliardach tokenów dostępnych komercyjnie
