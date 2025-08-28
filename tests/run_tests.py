@@ -16,7 +16,7 @@ from common.bielik_api import call_model_non_stream
 
 
 def get_answer_from_model(question: str) -> str:
-    db_chunks_number = 50
+    db_chunks_number = 20
     model_context_chunks_number = 10
 
     with open("common/prompts/rag_system_prompt.txt", "r") as f:

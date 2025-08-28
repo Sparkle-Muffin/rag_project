@@ -17,15 +17,15 @@ with st.sidebar:
         "Liczba chunków pobieranych z bazy danych",
         min_value=1,
         max_value=100,
-        value=50,
+        value=20,
         step=1,
         help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)"
     )
     model_context_chunks_number = st.number_input(
         "Liczba chunków przekazywanych do modelu",
         min_value=1,
-        max_value=10,
-        value=5,
+        max_value=50,
+        value=10,
         step=1,
         help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
     )
