@@ -1,13 +1,11 @@
 {
     "question": "Kto stworzył PLLuM?",
     "required_keywords": [
-        "uniwersytet",
-        "warszawski",
-        "uw",
+        "politechnika/politechniki/politechnikę/politechnice",
+        "wrocławska/wrocławskiej/wrocławską",
         "pllum"
     ],
     "optional_keywords": [
-        "politechnika wrocławska",
         "nask pib",
         "instytut podstaw informatyki pan",
         "ośrodek przetwarzania informacji pib",
@@ -17,12 +15,12 @@
         "konsorcjum polskich uczelni",
         "instytutów"
     ],
-    "expected_answer": "Projekt został stworzony przez Uniwersytet Warszawski i partnerów akademickich.",
+    "expected_answer": "PLLuM został stworzony przez: Politechnikę Wrocławską (koordynator), NASK PIB, Instytut Podstaw Informatyki PAN, Ośrodek Przetwarzania Informacji PIB, Uniwersytet Łódzki, Instytut Slawistyki PAN.",
     "model_answer": "PLLuM został stworzony przez konsorcjum polskich uczelni i instytutów, koordynowane przez Politechnikę Wrocławską. Projekt jest wspierany m.in. przez NASK PIB, Instytut Podstaw Informatyki PAN, Ośrodek Przetwarzania Informacji PIB, Uniwersytet Łódzki oraz Instytut Slawistyki PAN. Model został zaprezentowany 24 lutego 2025 roku przez Ministerstwo Cyfryzacji.",
-    "required_keywords_score": 50.0,
-    "optional_keywords_score": 88.88888888888889,
-    "total_keywords_score": 76.92307692307693,
-    "descriptive_evaluation": "Odpowiedź modelu jest częściowo poprawna, ale zawiera dodatkowe informacje, które nie są wymienione w odpowiedzi wzorcowej. Wskazuje na konsorcjum polskich uczelni i instytutów oraz konkretne jednostki zaangażowane w projekt, a także datę prezentacji modelu. Brakuje jednak bezpośredniego odniesienia do Uniwersytetu Warszawskiego jako głównego twórcy.",
-    "evaluation_score": 8,
+    "required_keywords_score": 100.0,
+    "optional_keywords_score": 100.0,
+    "total_keywords_score": 100.0,
+    "evaluation_score": 9,
+    "descriptive_evaluation": "Odpowiedź modelu jest prawie w pełni poprawna. Zawiera kluczowe informacje o konsorcjum twórców PLLuM, wymieniając koordynatora (Politechnikę Wrocławską) oraz głównych partnerów projektu. Dodatkowo wspomina o dacie prezentacji modelu przez Ministerstwo Cyfryzacji, co jest istotnym szczegółem. Jednak brakuje w niej wyraźnego stwierdzenia, że PLLuM został stworzony przez te instytucje, a nie tylko wspierany lub koordynowany przez nie.",
     "answer_generation_time_s": 22
 }

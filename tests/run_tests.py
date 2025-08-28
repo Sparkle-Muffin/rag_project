@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import time
 from typing import List, Dict
+from tqdm import tqdm
+
 
 # Add the parent directory to Python path so we can import from common/
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -33,18 +35,19 @@ def get_answer_from_model(question: str) -> str:
 
 def run_keyword_coverage_test(answer: str, required: List[str], optional: List[str] = None) -> Dict[str, float]:
     """
-    Sprawdza pokrycie słów kluczowych w odpowiedzi.
-    Zwraca wyniki procentowe dla listy wymaganej i opcjonalnej.
+    Checks keyword coverage.
+    - Each keyword can have variants separated by "/" e.g. "politechnika/politechniki/politechnikę".
+    - Matching is case-insensitive.
     """
     ans = answer.casefold()
     optional = optional or []
 
-    def contains_word(text, kw):
-        # dopasowanie całych słów
-        return re.search(rf"\b{re.escape(kw.casefold())}\b", text) is not None
+    def contains_any_variant(text, kw_group: str) -> bool:
+        variants = [v.strip().casefold() for v in kw_group.split("/")]
+        return any(re.search(rf"\b{re.escape(v)}\b", text) for v in variants)
 
-    required_hits = sum(1 for kw in required if contains_word(ans, kw))
-    optional_hits = sum(1 for kw in optional if contains_word(ans, kw))
+    required_hits = sum(1 for kw in required if contains_any_variant(ans, kw))
+    optional_hits = sum(1 for kw in optional if contains_any_variant(ans, kw))
 
     return {
         "required_score": required_hits / len(required) * 100 if required else None,
@@ -54,6 +57,7 @@ def run_keyword_coverage_test(answer: str, required: List[str], optional: List[s
             if required or optional else None
         )
     }
+
 
 
 def run_LLM_as_a_judge_test(question: str, expected_answer: str, model_answer: str):
@@ -84,7 +88,7 @@ def run_tests():
     test_results_dir = Path("tests/test_results/")
     test_results_dir.mkdir(exist_ok=True)
 
-    for test_case in test_cases:
+    for test_case in tqdm(test_cases, desc="Running tests"):
         with open(test_cases_dir + "/" + test_case, "r") as f:
             test_case_content = json.load(f)
 
