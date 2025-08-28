@@ -10,8 +10,9 @@ import seaborn as sns
 
 
 RESULTS_DIR = "tests/test_results"
-SUMMARY_FILE_PATH = "tests/test_summary.md"
-PLOTS_FILE_PATH = "tests/test_results_plots.png"
+TEST_REPORT_PATH = "TEST_REPORT.md"
+PLOTS_DIR = "tests/plots/"
+PLOTS_FILE_PATH = PLOTS_DIR + "test_results_plots.png"
 
 LLM_MODEL = "Bielik-11B-v2.6-Instruct.Q4_K_M.gguf"
 EMBEDDING_MODEL = "mmlw-roberta-large"
@@ -34,6 +35,9 @@ def create_plots(df):
     If we have data from hundreds of tests, we can use this function to create histograms.
     For the demo purposes, we will use fake, mockup data.
     """
+
+    # Create plots directory
+    os.makedirs(PLOTS_DIR, exist_ok=True)
 
     # Prepare fake, mockup data
     LLM_as_a_judge_scores = np.array([1, 2, 4, 3, 2, 1, 4, 10, 15, 32, 42, 51, 57, 70, 85, 69, 53, 26, 12, 2])
@@ -172,11 +176,10 @@ def generate_analysis(df):
     return analysis
 
 
-
 def generate_summary(df):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(SUMMARY_FILE_PATH, "w", encoding="utf-8") as f:
+    with open(TEST_REPORT_PATH, "w", encoding="utf-8") as f:
         f.write(f"# Raport z testów RAG\n\n")
         f.write(f"**Data testu:** {now}\n\n")
         f.write(f"**Model LLM:** {LLM_MODEL}\n\n")
@@ -191,12 +194,12 @@ def generate_summary(df):
         f.write(f"<font color=\"red\">* W rzeczywistości przypadków testowych jest tylko 6, przez co nie byłoby możliwe stworzenie powyższych elementów raportu. Na potrzeby demonstracji, założono że jest 1000 przypadków testowych.</font>")
 
 
-def main():
+def generate_test_report():
     df = load_test_results()
     create_plots(df)
     generate_summary(df)
 
 
 if __name__ == "__main__":
-    main()
+    generate_test_report()
 
