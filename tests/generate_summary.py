@@ -21,7 +21,7 @@ TEST_METHODS = ["keywords", "LLM-as-a-judge"]
 
 def load_test_results():
     records = []
-    for file in tqdm(os.listdir(RESULTS_DIR), desc="Wczytywanie wyników"):
+    for file in tqdm(os.listdir(RESULTS_DIR), desc="Test results loading"):
         if file.endswith(".json"):
             with open(os.path.join(RESULTS_DIR, file), "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -73,7 +73,19 @@ def create_plots(df):
     plt.close()
     
     print(f"✅ Plots saved to: {PLOTS_FILE_PATH}")
-    
+
+
+def get_worst_answers(df, n=10):
+    """
+    If we have data from hundreds of tests, we can use this function to find the worst answers.
+    For the demo purposes, we will use fake, mockup data.
+    """
+    worst_answers = np.random.randint(1, 1000, n)
+    worst_answers = np.sort(worst_answers)
+    worst_answers = ", ".join(worst_answers.astype(str))
+
+    return worst_answers
+
 
 def generate_analysis(df):
     avg_score = df["evaluation_score"].mean()
@@ -89,6 +101,8 @@ def generate_analysis(df):
     avg_time = df["answer_generation_time_s"].mean()
     min_time = df["answer_generation_time_s"].min()
     max_time = df["answer_generation_time_s"].max()
+
+    worst_answers = get_worst_answers(df, n=10)
 
     # Model answer quality evaluation
     if avg_score >= 9:
@@ -135,6 +149,8 @@ def generate_analysis(df):
     analysis = f"""
 ## Analiza jakości systemu
 
+![Test results plots]({PLOTS_FILE_PATH})<font color=\"red\">*</font>\n\n
+
 - **Średnia ocena LLM-as-a-judge:** {avg_score:.2f}/10  
   • Zakres wyników: {min_score:.1f} – {max_score:.1f}, odchylenie: {std_score:.2f}  
   → Jakość oceniono jako **{quality}**.
@@ -145,6 +161,10 @@ def generate_analysis(df):
 
 - **Średni czas generacji odpowiedzi:** {avg_time:.1f} s (zakres: {min_time:.1f} – {max_time:.1f} s)  
   → Szybkość oceniono jako **{speed}**.
+
+- **10 najgorszych odpowiedzi:**<font color=\"red\">*</font>  
+  • Numery 10. pytań, dla których model uzyskał najgorsze wyniki:  
+  → {worst_answers}
 
 ### Rekomendacja
 {recommendation}
@@ -163,10 +183,12 @@ def generate_summary(df):
         f.write(f"**Model do embeddingu:** {EMBEDDING_MODEL}\n\n")
         f.write(f"**Rodzaj wyszukiwania:** {', '.join(HYBRID_SEARCH)}\n\n")
         f.write(f"**Metody testowe:** {', '.join(TEST_METHODS)}\n\n")
+        f.write(f"**Liczba przypadków testowych:** 1000<font color=\"red\">*</font>\n\n")
 
         f.write(generate_analysis(df))
 
-        f.write(f"![Test results plots]({PLOTS_FILE_PATH})\n\n")
+        f.write(f"\n\n")
+        f.write(f"<font color=\"red\">* W rzeczywistości przypadków testowych jest tylko 6, przez co nie byłoby możliwe stworzenie powyższych elementów raportu. Na potrzeby demonstracji, założono że jest 1000 przypadków testowych.</font>")
 
 
 def main():
