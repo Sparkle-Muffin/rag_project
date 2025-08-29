@@ -15,12 +15,31 @@ Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i 
 
 ## 🚀 Jak uruchomić projekt
 
-### 1. Przygotowanie środowiska
+### 🆕 Szybki start (zalecane)
+Użyj nowych narzędzi automatyzacji dla najszybszego uruchomienia:
+
+```bash
+# Pełna konfiguracja projektu (środowisko + Docker)
+./rag.sh setup
+
+# Aktywuj środowisko
+conda activate myenv
+
+# Przetwórz dokumenty
+./rag.sh pipeline
+
+# Uruchom aplikację
+./rag.sh app
+```
+
+### 📚 Szczegółowa konfiguracja
+
+#### 1. Przygotowanie środowiska
 Zainstaluj Minicondę i utwórz środowisko z pliku `.yml`:
 
 ```bash
 conda env create -f environment.yml
-conda activate rag_env
+conda activate myenv
 ```
 
 ### 2. Uruchomienie Ollama
@@ -63,6 +82,20 @@ docker run -d -p 6333:6333 qdrant/qdrant
 ```
 
 ### 5. Uruchomienie pipeline i aplikacji użytkownika
+
+#### 🆕 Używając narzędzi automatyzacji (zalecane):
+```bash
+# Przetwarzanie dokumentów i przygotowanie embeddingów
+./rag.sh pipeline
+
+# Testy systemu i generowanie raportu
+./rag.sh test
+
+# Aplikacja użytkownika (czat w Streamlit)
+./rag.sh app
+```
+
+#### 📚 Ręczne uruchomienie:
 - **Przetwarzanie dokumentów i przygotowanie embeddingów**:
   ```bash
   python rag_pipeline.py
@@ -124,6 +157,9 @@ docker run -d -p 6333:6333 qdrant/qdrant
 rag_pipeline.py                     # logika przetwarzania i przygotowania danych
 rag_run_tests.py                    # testy systemu i generowanie raportu
 rag_user_app.py                     # interfejs użytkownika (czat w Streamlit)
+Makefile                            # 🆕 automatyzacja zadań projektowych
+rag.sh                              # 🆕 przyjazny skrypt pomocniczy
+MAKEFILE_GUIDE.md                  # 🆕 szczegółowy przewodnik po narzędziach
 common/                             # biblioteki wspólne: obsługa plików, Qdrant, Bielik, embeddingi
 docs_zip/                           # folder z oryginalnymi spakowanymi plikami
 docs/                               # folder z rozpakowanymi plikami
@@ -149,3 +185,31 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 - **Ollama** – runtime do uruchamiania modelu Bielik,  
 - **Qdrant** – wektorowa baza danych do przechowywania embeddingów i metadanych.
+
+---
+
+## 🆕 Narzędzia automatyzacji
+
+Projekt zawiera zaawansowane narzędzia automatyzacji, które znacznie przyspieszają rozwój:
+
+### 🚀 Szybkie komendy
+```bash
+./rag.sh setup      # Pełna konfiguracja
+./rag.sh start      # Uruchom usługi
+./rag.sh status     # Sprawdź status
+./rag.sh pipeline   # Przetwórz dokumenty
+./rag.sh app        # Uruchom aplikację
+./rag.sh stop       # Zatrzymaj usługi
+```
+
+### 📚 Więcej informacji
+- **Przewodnik po Makefile**: `MAKEFILE_GUIDE.md`
+- **Pomoc Makefile**: `make help`
+- **Pomoc skryptu**: `./rag.sh help`
+
+### 🎯 Korzyści
+- ⚡ **Szybszy rozwój** - jedna komenda zamiast wielu kroków
+- 🔄 **Spójne procesy** - ustandaryzowane workflow dla zespołu
+- 🐳 **Łatwe zarządzanie Docker** - automatyzacja kontenerów
+- 🧪 **Automatyczne testy** - zintegrowane sprawdzanie jakości
+- 📊 **Monitoring** - szybkie sprawdzanie stanu projektu
