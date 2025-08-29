@@ -196,11 +196,14 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 ### Zbyt duży konteks powoduje, że model zaczyna halucynować
 
-![Odpowiedni kontekst](screenshots/right_context.png)  
-Dla kontekstu złożonego z 10. chunków model udziela prawidłowej odpowiedzi.
+#### Dla kontekstu złożonego z 10. chunków model udziela prawidłowej odpowiedzi:
 
-![Zbyt duży kontekst 1](screenshots/too_big_context_1.png)  
-Dla kontekstu złożonego z 25. chunków model halucynuje.
+![Odpowiedni kontekst](screenshots/right_context.png)
 
-![Zbyt duży kontekst 2](screenshots/too_big_context_2.png)  
-Dla kontekstu złożonego z 50. chunków model również halucynuje.
+#### Dla kontekstu złożonego z 25. chunków model halucynuje:
+
+![Zbyt duży kontekst 1](screenshots/too_big_context_1.png)
+
+#### Dla kontekstu złożonego z 50. chunków model również halucynuje:
+
+![Zbyt duży kontekst 2](screenshots/too_big_context_2.png)
