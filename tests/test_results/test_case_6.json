@@ -1,0 +1,18 @@
+{
+    "question": "Jaka najważniejsza cecha odróżnia modele PLLuM od Mistral, GPT i LLaMa?",
+    "required_keywords": [
+        "język polski"
+    ],
+    "optional_keywords": [
+        "trenowany/trenowane/zaprojektowany/zaprojektowane",
+        "wielojęzyczny/wielojęzyczne/wielojęzycznymi"
+    ],
+    "expected_answer": "Najważniejszą cechą modeli PLLuM jest to, że zostały stworzone i wytrenowane specjalnie z myślą o języku polskim, podczas gdy Mistral, GPT i LLaMa są modelami wielojęzycznymi, w których polski jest obsługiwany tylko jako jeden z wielu języków.",
+    "model_answer": "Najważniejszą cechą odróżniającą modele **PLLuM** od **Mistral**, **GPT** i **LLaMa** jest to, że PLLuM zostały specjalnie zaprojektowane i dostosowane do języka polskiego. Oznacza to, że:\n\n1. **Korpus treningowy**: PLLuM korzystają z ogromnego korpusu tekstów w języku polskim, co pozwala im lepiej rozumieć i generować odpowiedzi w tym języku.\n2. **Etyczne pozyskiwanie danych**: Projekt PLLuM kładzie duży nacisk na etyczne pozyskiwanie danych, co przekłada się na wysoką jakość generowanych odpowiedzi i możliwość adaptacji do zadań publicznych i komercyjnych.\n3. **Liczba instrukcji i danych preferencji**: PLLuM zawierają dużą liczbę instrukcji oraz danych preferencji, co poprawia ich wydajność w kontekście polskich zadań językowych.\n4. **Dostępność w różnych rozmiarach i licencjach**: PLLuM oferują modele w różnych wariantach (np. 8b, 12b, 70b), co umożliwia ich wykorzystanie w badaniach, biznesie i administracji.\n\nW przeciwieństwie do nich:\n- **Mistral**, **GPT** i **LLaMa** są modelami wielojęzycznymi lub skoncentrowanymi na innych językach (np. angielskim), co może wpływać na ich efektywność w kontekście polskim bez dodatkowego dostosowania.\n- **GPT** jest własnościowym modelem firmy OpenAI, dostępnym głównie przez API i wymagającym dużych zasobów obliczeniowych.\n- **LLaMa** i **Mistral** również oferują modele wielojęzyczne, ale PLLuM wyróżnia się specjalizacją w języku polskim.\n\nPodsumowując, kluczową cechą odróżniającą PLLuM jest ich **polskocentryczność** i dostosowanie do specyfiki języka polskiego, co czyni je bardziej odpowiednimi do zastosowań wymagających głębokiego zrozumienia tego języka.",
+    "required_keywords_score": 0.0,
+    "optional_keywords_score": 100.0,
+    "total_keywords_score": 66.66666666666666,
+    "evaluation_score": 10,
+    "descriptive_evaluation": "Odpowiedź modelu jest bardzo szczegółowa i zawiera wszystkie kluczowe informacje z odpowiedzi wzorcowej. Model dodatkowo rozszerza kontekst, podając przykłady korpusów treningowych, etycznego pozyskiwania danych oraz różnic w dostępności modeli. Odpowiedź jest spójna i logicznie uporządkowana.",
+    "answer_generation_time_s": 114
+}

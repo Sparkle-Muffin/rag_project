@@ -1,6 +1,6 @@
 # Raport z testów RAG
 
-**Data testu:** 2025-08-28 19:51:07
+**Data testu:** 2025-08-29 10:14:57
 
 **Model LLM:** Bielik-11B-v2.6-Instruct.Q4_K_M.gguf
 
@@ -19,20 +19,20 @@
 
 
 
-- **Średnia ocena LLM-as-a-judge:** 9.00/10  
-  • Zakres wyników: 7.0 – 10.0, odchylenie: 1.22  
+- **Średnia ocena LLM-as-a-judge:** 9.17/10  
+  • Zakres wyników: 7.0 – 10.0, odchylenie: 1.17  
   → Jakość oceniono jako **znakomita – model bardzo precyzyjnie odpowiada na pytania**.
 
-- **Skuteczność testów keywordowych:** 100.0%  
-  • Zakres wyników: 100.0 – 100.0, odchylenie: 0.00  
-  → Trafność oceniono jako **znakomita – prawie zawsze zawiera kluczowe informacje**.
+- **Skuteczność testów keywordowych:** 83.3%  
+  • Zakres wyników: 0.0 – 100.0, odchylenie: 40.82  
+  → Trafność oceniono jako **dobra – często zawiera najważniejsze informacje**.
 
-- **Średni czas generacji odpowiedzi:** 60.2 s (zakres: 11.0 – 114.0 s)  
+- **Średni czas generacji odpowiedzi:** 69.2 s (zakres: 11.0 – 114.0 s)  
   → Szybkość oceniono jako **przeciętnie**.
 
 - **10 najgorszych odpowiedzi:**<font color="red">*</font>  
   • Numery 10. pytań, dla których model uzyskał najgorsze wyniki:  
-  → 41, 141, 238, 281, 495, 535, 580, 795, 832, 921
+  → 39, 53, 153, 330, 331, 613, 713, 815, 918, 929
 
 ### Rekomendacja
 System działa stabilnie – można go rozwijać o dodatkowe funkcjonalności.

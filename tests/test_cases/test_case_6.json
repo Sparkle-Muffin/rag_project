@@ -1,0 +1,10 @@
+{
+    "question": "Jaka najważniejsza cecha odróżnia modele PLLuM od Mistral, GPT i LLaMa?",
+    "required_keywords": [
+        "język polski"
+    ],
+    "optional_keywords": [
+        "trenowany/trenowane/zaprojektowany/zaprojektowane", "wielojęzyczny/wielojęzyczne/wielojęzycznymi"
+    ],
+    "expected_answer": "Najważniejszą cechą modeli PLLuM jest to, że zostały stworzone i wytrenowane specjalnie z myślą o języku polskim, podczas gdy Mistral, GPT i LLaMa są modelami wielojęzycznymi, w których polski jest obsługiwany tylko jako jeden z wielu języków."
+}
