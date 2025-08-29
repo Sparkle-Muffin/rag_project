@@ -7,10 +7,10 @@ from tqdm import tqdm
 def generate_bm25_encodings(input_dir: Path, encodings_db_path: str) -> None:
     """
     Generate BM25 encodings for text documents and save them to disk.
-    
+
     Creates a BM25 model from text files in the input directory, tokenizes the corpus,
     and saves the model along with the corpus for later retrieval.
-    
+
     Args:
         input_dir: Directory containing text files to encode
         encodings_db_path: Path where to save the BM25 model and corpus
@@ -20,7 +20,7 @@ def generate_bm25_encodings(input_dir: Path, encodings_db_path: str) -> None:
     # Create your corpus here
     corpus = []
     for file in tqdm(os.listdir(input_dir), desc="Generating BM25 encodings"):
-        with open(input_dir / file, 'r', encoding='utf-8') as f:
+        with open(input_dir / file, "r", encoding="utf-8") as f:
             text = f.read()
             corpus.append(text)
 
@@ -38,18 +38,20 @@ def generate_bm25_encodings(input_dir: Path, encodings_db_path: str) -> None:
     retriever.save(encodings_db_path, corpus=corpus)
 
 
-def get_top_k_bm25_encoding_results(query: str, encodings_db_path: str, db_chunks_number: int) -> List[Dict[str, Any]]:
+def get_top_k_bm25_encoding_results(
+    query: str, encodings_db_path: str, db_chunks_number: int
+) -> List[Dict[str, Any]]:
     """
     Retrieve top-k results from BM25 model for a given query.
-    
+
     Loads a pre-trained BM25 model, tokenizes the query, and returns the most
     relevant documents ranked by BM25 scores.
-    
+
     Args:
         query: Search query string
         encodings_db_path: Path to the saved BM25 model and corpus
         db_chunks_number: Number of top results to return
-        
+
     Returns:
         List of dictionaries containing document id, score, and text for each result
     """
@@ -65,10 +67,6 @@ def get_top_k_bm25_encoding_results(query: str, encodings_db_path: str, db_chunk
 
     for i in range(results.shape[1]):
         doc, score = results[0, i], scores[0, i]
-        answers.append({
-            "id": doc["id"],
-            "score": score,
-            "text": doc["text"]
-        })
+        answers.append({"id": doc["id"], "score": score, "text": doc["text"]})
 
     return answers

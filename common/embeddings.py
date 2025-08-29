@@ -9,10 +9,11 @@ from tqdm import tqdm
 # Global model instance to avoid loading it multiple times
 _model_instance = None
 
+
 def get_model() -> SentenceTransformer:
     """
     Get or create the SentenceTransformer model instance (singleton pattern).
-    
+
     Returns:
         SentenceTransformer model instance for generating embeddings
     """
@@ -25,13 +26,13 @@ def get_model() -> SentenceTransformer:
 def generate_embeddings_and_metadata(input_dir: Path) -> List[Dict[str, Any]]:
     """
     Generate embeddings and metadata for text files in the input directory.
-    
+
     Reads text files, generates embeddings using the SentenceTransformer model,
     and returns a list of dictionaries containing text, id, and vector for each file.
-    
+
     Args:
         input_dir: Directory containing text files to embed
-        
+
     Returns:
         List of dictionaries with text, id, and vector for each document
     """
@@ -43,19 +44,20 @@ def generate_embeddings_and_metadata(input_dir: Path) -> List[Dict[str, Any]]:
     ids = []
     i = 0
     for file in tqdm(embedding_chunk_files, desc="Generating embeddings and metadata"):
-        with open(input_dir / file, 'r', encoding='utf-8') as f:
+        with open(input_dir / file, "r", encoding="utf-8") as f:
             text = f.read()
             texts.append(text)
             id = i
             i += 1
             ids.append(id)
-                    
+
     model = get_model()
     vectors = model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
 
-    embeddings_and_metadata = [{"text": text,
-                                "id": id,
-                                "vector": vector} for text, id, vector in zip(texts, ids, vectors)]
+    embeddings_and_metadata = [
+        {"text": text, "id": id, "vector": vector}
+        for text, id, vector in zip(texts, ids, vectors)
+    ]
 
     return embeddings_and_metadata
 
@@ -63,14 +65,14 @@ def generate_embeddings_and_metadata(input_dir: Path) -> List[Dict[str, Any]]:
 def generate_query_embedding(query: str) -> List[float]:
     """
     Generate embedding for a single query string.
-    
+
     Adds a prefix to the query and generates an embedding vector using the
     SentenceTransformer model. Converts the PyTorch tensor to a Python list
     for compatibility with Qdrant.
-    
+
     Args:
         query: Query string to embed
-        
+
     Returns:
         List of floats representing the query embedding vector
     """
