@@ -1,4 +1,4 @@
-name: /home/pervitin/Repositories/rag_project/env
+name: myenv
 channels:
   - conda-forge
   - nodefaults
@@ -440,4 +440,3 @@ dependencies:
   - zstd=1.5.7
   - pip:
       - sortedcontainers==2.4.0
-prefix: /home/pervitin/Repositories/rag_project/env
