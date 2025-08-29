@@ -8,26 +8,24 @@ with open("common/prompts/rag_system_prompt.txt", "r") as f:
     system_prompt = f.read()
 
 
-"""
-# RAG Project - Interactive Chat Interface
-
-This Streamlit application provides an interactive interface for the RAG (Retrieval-Augmented Generation) system.
-Users can ask questions and receive answers based on the knowledge base, with configurable retrieval parameters.
-
-## Features:
-- Interactive chat interface with streaming responses
-- Configurable database chunk retrieval (1-100 chunks)
-- Adjustable model context size (1-50 chunks)
-- Real-time streaming of model responses
-- Persistent chat history within the session
-
-## How it works:
-1. User inputs a question in the chat interface
-2. System retrieves relevant document chunks using hybrid search (vector + BM25)
-3. Retrieved context is combined with the system prompt
-4. Bielik model generates a response using the enhanced context
-5. Response is streamed back to the user in real-time
-"""
+# # RAG Project - Interactive Chat Interface
+# 
+# This Streamlit application provides an interactive interface for the RAG (Retrieval-Augmented Generation) system.
+# Users can ask questions and receive answers based on the knowledge base, with configurable retrieval parameters.
+# 
+# ## Features:
+# - Interactive chat interface with streaming responses
+# - Configurable database chunk retrieval (1-100 chunks)
+# - Adjustable model context size (1-50 chunks)
+# - Real-time streaming of model responses
+# - Persistent chat history within the session
+# 
+# ## How it works:
+# 1. User inputs a question in the chat interface
+# 2. System retrieves relevant document chunks using hybrid search (vector + BM25)
+# 3. Retrieved context is combined with the system prompt
+# 4. Bielik model generates a response using the enhanced context
+# 5. Response is streamed back to the user in real-time
 
 st.title("RAG Project")
 
