@@ -1,9 +1,21 @@
 import zipfile
 import os
 import re
+from pathlib import Path
+from typing import Callable, Any
 
 
-def unzip_docs(docs_zip_path, docs_dir):
+def unzip_docs(docs_zip_path: Path, docs_dir: Path) -> None:
+    """
+    Extract documents from a zip file to the specified directory.
+    
+    Unzips the contents of a zip file, removing any top-level directory prefix
+    and preserving the file structure of the remaining contents.
+    
+    Args:
+        docs_zip_path: Path to the zip file containing documents
+        docs_dir: Directory where documents should be extracted
+    """
     with zipfile.ZipFile(docs_zip_path, "r") as zf:
         for member in zf.namelist():
             # remove "Pliki_do_zadania_rekrutacyjnego/" prefix
@@ -15,10 +27,18 @@ def unzip_docs(docs_zip_path, docs_dir):
                     target.write(source.read())
 
 
-def clean_and_unify_text(text):
+def clean_and_unify_text(text: str) -> str:
     """
     Comprehensive text cleaning for optimal RAG embeddings.
+    
     Preserves logical structure and section divisions while cleaning formatting.
+    Removes URLs, markdown syntax, excessive punctuation, and normalizes text.
+    
+    Args:
+        text: Raw text to be cleaned
+        
+    Returns:
+        Cleaned and normalized text suitable for embedding generation
     """
     # Remove URLs and file references (enhanced pattern)
     url_pattern = r'https?://[^\s<>"{}|\\^`\[\]]+|ftp://[^\s<>"{}|\\^`\[\]]+|www\.[^\s<>"{}|\\^`\[\]]+|file:///.[^\s<>"{}|\\^`\[\]]+'
@@ -41,7 +61,20 @@ def clean_and_unify_text(text):
     return text
 
 
-def split_into_chunks(text):
+def split_into_chunks(text: str) -> str:
+    """
+    Split text into logical chunks based on header structure.
+    
+    Analyzes markdown headers to create context-aware chunks. Each chunk
+    includes the relevant header context to maintain semantic meaning.
+    
+    Args:
+        text: Text with markdown headers to be split
+        
+    Returns:
+        Text with chunks separated by double newlines, each chunk containing
+        relevant header context
+    """
     chunks = []
     headers_stack = []
 
@@ -71,7 +104,19 @@ def split_into_chunks(text):
     return text
 
 
-def preprocess_files(input_dir, output_dir, preprocess_func):
+def preprocess_files(input_dir: Path, output_dir: Path, preprocess_func: Callable[[str], str]) -> None:
+    """
+    Process multiple files using a specified preprocessing function.
+    
+    Reads all files from the input directory, applies the preprocessing function
+    to each file's content, and saves the processed results to the output directory.
+    Skips directories and handles errors gracefully.
+    
+    Args:
+        input_dir: Directory containing files to process
+        output_dir: Directory where processed files should be saved
+        preprocess_func: Function to apply to each file's content
+    """
     # List docs files
     docs_files = os.listdir(input_dir)
 
@@ -103,7 +148,18 @@ def preprocess_files(input_dir, output_dir, preprocess_func):
             print(f"  ✗ Error processing {file}: {e}")
 
 
-def create_embedding_chunk_files(input_dir, output_dir):
+def create_chunk_files(input_dir: Path, output_dir: Path) -> None:
+    """
+    Create individual text chunk files for embedding and BM25 encoding.
+    
+    Reads files from the input directory, splits each file into lines,
+    and creates separate text files for each non-empty line. Each chunk
+    file is numbered sequentially for easy identification.
+    
+    Args:
+        input_dir: Directory containing files to split into chunks
+        output_dir: Directory where chunk files should be saved
+    """
     # List docs files
     docs_files = os.listdir(input_dir)
 

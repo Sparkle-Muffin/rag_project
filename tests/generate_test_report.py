@@ -7,6 +7,7 @@ from datetime import datetime
 from tqdm import tqdm
 from scipy import stats
 import seaborn as sns
+from typing import List, Dict, Any
 
 
 RESULTS_DIR = "tests/test_results"
@@ -20,7 +21,17 @@ HYBRID_SEARCH = ["embedding", "BM25"]
 TEST_METHODS = ["keywords", "LLM-as-a-judge"]
 
 
-def load_test_results():
+def load_test_results() -> pd.DataFrame:
+    """
+    Load test results from JSON files into a pandas DataFrame.
+    
+    Reads all JSON files from the test_results directory and combines them
+    into a single DataFrame for analysis. Each JSON file represents one test case.
+    
+    Returns:
+        DataFrame containing all test results with columns for questions, answers,
+        scores, and timing information
+    """
     records = []
     for file in tqdm(os.listdir(RESULTS_DIR), desc="Test results loading"):
         if file.endswith(".json"):
@@ -30,12 +41,21 @@ def load_test_results():
     return pd.DataFrame(records)
 
 
-def create_plots(df):
+def create_plots(df: pd.DataFrame) -> None:
     """
-    If we have data from hundreds of tests, we can use this function to create histograms.
-    For the demo purposes, we will use fake, mockup data.
+    Create visualization plots for test results analysis.
+    
+    Generates three bar charts showing the distribution of:
+    1. LLM-as-a-judge evaluation scores (1-10 scale)
+    2. Keyword coverage test scores (0-100%)
+    3. Response generation times (in seconds)
+    
+    For demonstration purposes, uses mockup data to show what the plots would
+    look like with a larger dataset. Saves the plots to the plots directory.
+    
+    Args:
+        df: DataFrame containing test results (used for future real data implementation)
     """
-
     # Create plots directory
     os.makedirs(PLOTS_DIR, exist_ok=True)
 
@@ -79,10 +99,20 @@ def create_plots(df):
     print(f"✅ Plots saved to: {PLOTS_FILE_PATH}")
 
 
-def get_worst_answers(df, n=10):
+def get_worst_answers(df: pd.DataFrame, n: int = 10) -> str:
     """
-    If we have data from hundreds of tests, we can use this function to find the worst answers.
-    For the demo purposes, we will use fake, mockup data.
+    Identify the worst performing test cases based on evaluation scores.
+    
+    For demonstration purposes, generates random test case numbers to simulate
+    identifying the worst answers from a larger dataset. In a real implementation,
+    this would sort by evaluation scores and return the actual worst cases.
+    
+    Args:
+        df: DataFrame containing test results
+        n: Number of worst answers to identify (default: 10)
+        
+    Returns:
+        Comma-separated string of test case numbers representing the worst answers
     """
     worst_answers = np.random.randint(1, 1000, n)
     worst_answers = np.sort(worst_answers)
@@ -91,7 +121,22 @@ def get_worst_answers(df, n=10):
     return worst_answers
 
 
-def generate_analysis(df):
+def generate_analysis(df: pd.DataFrame) -> str:
+    """
+    Generate comprehensive analysis of test results.
+    
+    Analyzes the test results to provide insights on model performance, including:
+    - Quality assessment based on LLM-as-a-judge scores
+    - Keyword coverage effectiveness
+    - Response generation speed
+    - Overall recommendations for system improvement
+    
+    Args:
+        df: DataFrame containing test results
+        
+    Returns:
+        Formatted markdown string containing the complete analysis
+    """
     avg_score = df["evaluation_score"].mean()
     std_score = df["evaluation_score"].std()
     min_score = df["evaluation_score"].min()
@@ -176,7 +221,22 @@ def generate_analysis(df):
     return analysis
 
 
-def generate_summary(df):
+def generate_summary(df: pd.DataFrame) -> None:
+    """
+    Generate and save the complete test report.
+    
+    Creates a comprehensive markdown report including:
+    - Test metadata (date, models, search methods)
+    - Statistical analysis of results
+    - Performance evaluation and recommendations
+    - Visualizations (plots)
+    
+    The report is saved to TEST_REPORT.md and provides insights for system
+    evaluation and improvement planning.
+    
+    Args:
+        df: DataFrame containing test results
+    """
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(TEST_REPORT_PATH, "w", encoding="utf-8") as f:
@@ -194,7 +254,19 @@ def generate_summary(df):
         f.write(f"<font color=\"red\">* W rzeczywistości przypadków testowych jest tylko 6, przez co nie byłoby możliwe stworzenie powyższych elementów raportu. Na potrzeby demonstracji, założono że jest 1000 przypadków testowych.</font>")
 
 
-def generate_test_report():
+def generate_test_report() -> None:
+    """
+    Execute the complete test report generation pipeline.
+    
+    Orchestrates the entire process of:
+    1. Loading test results from JSON files
+    2. Creating visualization plots
+    3. Generating comprehensive analysis
+    4. Saving the final report to markdown
+    
+    This function serves as the main entry point for generating test reports
+    and should be called after running the test suite.
+    """
     df = load_test_results()
     create_plots(df)
     generate_summary(df)

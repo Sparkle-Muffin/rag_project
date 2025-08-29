@@ -2,19 +2,39 @@ from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
 import os
 import hashlib
+from pathlib import Path
+from typing import List, Dict, Any, Union
 from tqdm import tqdm
 
 # Global model instance to avoid loading it multiple times
 _model_instance = None
 
-def get_model():
-    """Get or create the SentenceTransformer model instance (singleton pattern)"""
+def get_model() -> SentenceTransformer:
+    """
+    Get or create the SentenceTransformer model instance (singleton pattern).
+    
+    Returns:
+        SentenceTransformer model instance for generating embeddings
+    """
     global _model_instance
     if _model_instance is None:
         _model_instance = SentenceTransformer("sdadas/mmlw-roberta-large")
     return _model_instance
 
-def generate_embeddings_and_metadata(input_dir):
+
+def generate_embeddings_and_metadata(input_dir: Path) -> List[Dict[str, Any]]:
+    """
+    Generate embeddings and metadata for text files in the input directory.
+    
+    Reads text files, generates embeddings using the SentenceTransformer model,
+    and returns a list of dictionaries containing text, id, and vector for each file.
+    
+    Args:
+        input_dir: Directory containing text files to embed
+        
+    Returns:
+        List of dictionaries with text, id, and vector for each document
+    """
     # List embedding chunk files
     embedding_chunk_files = os.listdir(input_dir)
 
@@ -40,7 +60,20 @@ def generate_embeddings_and_metadata(input_dir):
     return embeddings_and_metadata
 
 
-def generate_query_embedding(query):
+def generate_query_embedding(query: str) -> List[float]:
+    """
+    Generate embedding for a single query string.
+    
+    Adds a prefix to the query and generates an embedding vector using the
+    SentenceTransformer model. Converts the PyTorch tensor to a Python list
+    for compatibility with Qdrant.
+    
+    Args:
+        query: Query string to embed
+        
+    Returns:
+        List of floats representing the query embedding vector
+    """
     query_prefix = "zapytanie: "
     query = [query_prefix + query]
 

@@ -3,12 +3,19 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 import subprocess
 from pathlib import Path
+from typing import List, Dict, Any
 from tqdm import tqdm
 
 
-def ensure_qdrant_running():
+def ensure_qdrant_running() -> None:
+    """
+    Ensure Qdrant container is running, creating it if needed.
+    
+    Checks if a Docker container named 'qdrant_container' exists and is running.
+    If it exists but is stopped, starts it. If it doesn't exist, creates and runs
+    a new container with persistent storage.
+    """
     container_name = "qdrant_container"
-    """Ensure Qdrant container is running, creating it if needed."""
     # Check if container exists and get its status
     command = f"docker ps -a --filter name={container_name}"
     try:
@@ -44,9 +51,18 @@ def ensure_qdrant_running():
         print(f"Failed to manage Qdrant Docker container: {e}")
 
 
-def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
-    """Upload embeddings and metadata to Qdrant."""
-
+def upload_to_qdrant(collection_name: str, embeddings_and_metadata: List[Dict[str, Any]], vector_size: int) -> None:
+    """
+    Upload embeddings and metadata to Qdrant vector database.
+    
+    Ensures Qdrant is running, creates a new collection with the specified vector size,
+    and uploads all embeddings with their associated metadata as points.
+    
+    Args:
+        collection_name: Name of the collection to create/upload to
+        embeddings_and_metadata: List of dictionaries containing id, vector, and text
+        vector_size: Dimension of the embedding vectors
+    """
     ensure_qdrant_running()
 
     # Create client
@@ -71,8 +87,21 @@ def upload_to_qdrant(collection_name, embeddings_and_metadata, vector_size):
     )
 
 
-def search_answer_in_qdrant(collection_name, query_embedding, db_chunks_number):
-
+def search_answer_in_qdrant(collection_name: str, query_embedding: List[float], db_chunks_number: int) -> List[Dict[str, Any]]:
+    """
+    Search for similar vectors in Qdrant collection using cosine similarity.
+    
+    Performs a vector similarity search in the specified collection and returns
+    the top-k most similar documents with their scores and text content.
+    
+    Args:
+        collection_name: Name of the collection to search in
+        query_embedding: Query vector to search for
+        db_chunks_number: Number of top results to return
+        
+    Returns:
+        List of dictionaries containing document id, score, and text for each result
+    """
     ensure_qdrant_running()
 
     # Create client
