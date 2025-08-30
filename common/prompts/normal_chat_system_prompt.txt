@@ -1,0 +1,3 @@
+<twoja_rola>
+Jesteś pomocnym asystentem.
+</twoja_rola>
