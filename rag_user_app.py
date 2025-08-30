@@ -9,17 +9,17 @@ with open("common/prompts/rag_system_prompt.txt", "r") as f:
 
 
 # # RAG Project - Interactive Chat Interface
-#
+# 
 # This Streamlit application provides an interactive interface for the RAG (Retrieval-Augmented Generation) system.
 # Users can ask questions and receive answers based on the knowledge base, with configurable retrieval parameters.
-#
+# 
 # ## Features:
 # - Interactive chat interface with streaming responses
 # - Configurable database chunk retrieval (1-100 chunks)
 # - Adjustable model context size (1-50 chunks)
 # - Real-time streaming of model responses
 # - Persistent chat history within the session
-#
+# 
 # ## How it works:
 # 1. User inputs a question in the chat interface
 # 2. System retrieves relevant document chunks using hybrid search (vector + BM25)
@@ -38,7 +38,7 @@ with st.sidebar:
         max_value=100,
         value=20,
         step=1,
-        help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)",
+        help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)"
     )
     model_context_chunks_number = st.number_input(
         "Liczba chunków przekazywanych do modelu",
@@ -46,7 +46,7 @@ with st.sidebar:
         max_value=50,
         value=10,
         step=1,
-        help="Wybierz liczbę chunków przekazywanych do modelu (1-10)",
+        help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
     )
 
 
@@ -72,37 +72,35 @@ if input_prompt := st.chat_input("Zadaj pytanie:"):
         # Create a placeholder for streaming
         message_placeholder = st.empty()
         full_response = ""
-
+        
         # Show that we're waiting for the model
         message_placeholder.markdown("🤔 Myślę...")
-
+        
         try:
             # Stream the response using the RAG pipeline
-            system_prompt, user_prompt = create_prompt(
-                system_prompt=system_prompt,
-                user_prompt=input_prompt,
-                db_chunks_number=db_chunks_number,
-                model_context_chunks_number=model_context_chunks_number,
-            )
-
+            system_prompt, user_prompt = create_prompt(system_prompt=system_prompt, 
+                                                       user_prompt=input_prompt, 
+                                                       db_chunks_number=db_chunks_number, 
+                                                       model_context_chunks_number=model_context_chunks_number)
+            
             # Debug output (can be removed in production)
             print(system_prompt)
             print(user_prompt)
-
+            
             # Stream response chunks and display them in real-time
             for chunk in call_model_stream(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
                     message_placeholder.markdown(full_response + "▌")
-
+            
             # Show the final response without the cursor
             message_placeholder.markdown(full_response)
-
+                
         except Exception as e:
             error_msg = f"Error: {str(e)}"
             message_placeholder.markdown(error_msg)
             st.error(f"Exception occurred: {e}")
             full_response = error_msg
-
+        
     # Store the complete response in session state for chat history
     st.session_state.messages.append({"role": "assistant", "content": full_response})

@@ -7,7 +7,8 @@ from datetime import datetime
 from tqdm import tqdm
 from scipy import stats
 import seaborn as sns
-from typing import List, Dict, Any
+from typing import List
+from common.models import TestResult
 
 
 RESULTS_DIR = "tests/test_results"
@@ -24,10 +25,10 @@ TEST_METHODS = ["keywords", "LLM-as-a-judge"]
 def load_test_results() -> pd.DataFrame:
     """
     Load test results from JSON files into a pandas DataFrame.
-
+    
     Reads all JSON files from the test_results directory and combines them
     into a single DataFrame for analysis. Each JSON file represents one test case.
-
+    
     Returns:
         DataFrame containing all test results with columns for questions, answers,
         scores, and timing information
@@ -37,22 +38,24 @@ def load_test_results() -> pd.DataFrame:
         if file.endswith(".json"):
             with open(os.path.join(RESULTS_DIR, file), "r", encoding="utf-8") as f:
                 data = json.load(f)
-                records.append(data)
+                # Validate data using Pydantic model
+                test_result = TestResult(**data)
+                records.append(test_result.model_dump())
     return pd.DataFrame(records)
 
 
 def create_plots(df: pd.DataFrame) -> None:
     """
     Create visualization plots for test results analysis.
-
+    
     Generates three bar charts showing the distribution of:
     1. LLM-as-a-judge evaluation scores (1-10 scale)
     2. Keyword coverage test scores (0-100%)
     3. Response generation times (in seconds)
-
+    
     For demonstration purposes, uses mockup data to show what the plots would
     look like with a larger dataset. Saves the plots to the plots directory.
-
+    
     Args:
         df: DataFrame containing test results (used for future real data implementation)
     """
@@ -108,15 +111,15 @@ def create_plots(df: pd.DataFrame) -> None:
 def get_worst_answers(df: pd.DataFrame, n: int = 10) -> str:
     """
     Identify the worst performing test cases based on evaluation scores.
-
+    
     For demonstration purposes, generates random test case numbers to simulate
     identifying the worst answers from a larger dataset. In a real implementation,
     this would sort by evaluation scores and return the actual worst cases.
-
+    
     Args:
         df: DataFrame containing test results
         n: Number of worst answers to identify (default: 10)
-
+        
     Returns:
         Comma-separated string of test case numbers representing the worst answers
     """
@@ -130,16 +133,16 @@ def get_worst_answers(df: pd.DataFrame, n: int = 10) -> str:
 def generate_analysis(df: pd.DataFrame) -> str:
     """
     Generate comprehensive analysis of test results.
-
+    
     Analyzes the test results to provide insights on model performance, including:
     - Quality assessment based on LLM-as-a-judge scores
     - Keyword coverage effectiveness
     - Response generation speed
     - Overall recommendations for system improvement
-
+    
     Args:
         df: DataFrame containing test results
-
+        
     Returns:
         Formatted markdown string containing the complete analysis
     """
@@ -232,16 +235,16 @@ def generate_analysis(df: pd.DataFrame) -> str:
 def generate_summary(df: pd.DataFrame) -> None:
     """
     Generate and save the complete test report.
-
+    
     Creates a comprehensive markdown report including:
     - Test metadata (date, models, search methods)
     - Statistical analysis of results
     - Performance evaluation and recommendations
     - Visualizations (plots)
-
+    
     The report is saved to TEST_REPORT.md and provides insights for system
     evaluation and improvement planning.
-
+    
     Args:
         df: DataFrame containing test results
     """
@@ -267,13 +270,13 @@ def generate_summary(df: pd.DataFrame) -> None:
 def generate_test_report() -> None:
     """
     Execute the complete test report generation pipeline.
-
+    
     Orchestrates the entire process of:
     1. Loading test results from JSON files
     2. Creating visualization plots
     3. Generating comprehensive analysis
     4. Saving the final report to markdown
-
+    
     This function serves as the main entry point for generating test reports
     and should be called after running the test suite.
     """
