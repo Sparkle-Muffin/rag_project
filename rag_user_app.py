@@ -1,5 +1,5 @@
 import streamlit as st
-from common.bielik_api import call_model_stream
+from common.bielik_api import call_model_stream, call_model_non_stream
 from common.prompt_generation import create_prompt
 
 
@@ -9,6 +9,9 @@ with open("common/prompts/rag_system_prompt.txt", "r") as f:
 
 with open("common/prompts/normal_chat_system_prompt.txt", "r") as f:
     normal_chat_system_prompt = f.read()
+
+with open("common/prompts/expansion_system_prompt.txt", "r") as f:
+    expansion_system_prompt = f.read()
 
 
 # # RAG Project - Interactive Chat Interface
@@ -23,6 +26,7 @@ with open("common/prompts/normal_chat_system_prompt.txt", "r") as f:
 # - Real-time streaming of model responses
 # - Persistent chat history within the session
 # - Toggle between RAG mode and normal chat mode
+# - Query/Prompt Expansion for improved search results
 # 
 # ## How it works:
 # 1. User inputs a question in the chat interface
@@ -64,11 +68,23 @@ with st.sidebar:
             step=1,
             help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
         )
+        
+        # Query expansion switch
+        st.subheader("Rozszerzanie zapytań")
+        use_query_expansion = st.checkbox(
+            "Użyj rozszerzania zapytań",
+            value=False,
+            help="Rozszerza pytanie użytkownika przed wyszukiwaniem w bazie danych dla lepszych wyników"
+        )
+        
+        if use_query_expansion:
+            st.info("🔍 Zapytanie zostanie rozszerzone przed wyszukiwaniem w bazie")
     else:
         # Disable settings in normal chat mode
         st.info("Ustawienia są dostępne tylko w trybie RAG")
         db_chunks_number = 20  # Default values
         model_context_chunks_number = 10  # Default values
+        use_query_expansion = False  # Default value
 
 
 # Initialize chat session state
@@ -100,20 +116,48 @@ if input_prompt := st.chat_input("Zadaj pytanie:"):
         try:
             if chat_mode == "Tryb RAG":
                 # RAG mode: use context retrieval
+                if use_query_expansion:
+                    # Expand the query first
+                    message_placeholder.markdown("🔍 Rozszerzam zapytanie...")
+                    expanded_query = call_model_non_stream(
+                        system_prompt=expansion_system_prompt,
+                        user_prompt=input_prompt
+                    )
+                    
+                    # Check if expansion was successful
+                    if expanded_query == "IGNORE_QUERY":
+                        # Query is not about LLMs, use original query
+                        search_query = input_prompt
+                        message_placeholder.markdown("⚠️ Zapytanie nie dotyczy LLM - używam oryginalnego zapytania...")
+                    else:
+                        search_query = expanded_query
+                        message_placeholder.markdown(f"🔍 Rozszerzone zapytanie: {expanded_query}")
+                else:
+                    # Use original query without expansion
+                    search_query = input_prompt
+                
+                # Now search using the (potentially expanded) query
+                message_placeholder.markdown("📚 Wyszukuję w bazie danych...")
                 system_prompt, user_prompt = create_prompt(system_prompt=rag_system_prompt, 
-                                                           user_prompt=input_prompt, 
+                                                           user_prompt=search_query, 
                                                            db_chunks_number=db_chunks_number, 
                                                            model_context_chunks_number=model_context_chunks_number)
                 
                 # Debug output (can be removed in production)
-                print(system_prompt)
-                print(user_prompt)
+                print("----------------------------------------------------------------\n\n")
+                print(f"Search query\n\n{search_query}")
+                print("----------------------------------------------------------------\n\n")
+                print(f"System prompt\n\n{system_prompt}")
+                print("----------------------------------------------------------------\n\n")
+                print(f"User prompt\n\n{user_prompt}")
+                print("----------------------------------------------------------------\n\n")
             else:
                 # Normal chat mode: no context, use normal system prompt
                 system_prompt = normal_chat_system_prompt
                 user_prompt = input_prompt
             
             # Stream response chunks and display them in real-time
+            message_placeholder.markdown("🤖 Generuję odpowiedź...")
             for chunk in call_model_stream(system_prompt, user_prompt):
                 if chunk:
                     full_response += chunk
