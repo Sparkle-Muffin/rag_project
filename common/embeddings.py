@@ -8,21 +8,6 @@ from tqdm import tqdm
 from common.models import EmbeddingMetadata
 
 
-# Global model instance to avoid loading it multiple times
-_model_instance = None
-
-def get_model() -> SentenceTransformer:
-    """
-    Get or create the SentenceTransformer model instance (singleton pattern).
-    
-    Returns:
-        SentenceTransformer model instance for generating embeddings
-    """
-    global _model_instance
-    if _model_instance is None:
-        _model_instance = SentenceTransformer("sdadas/mmlw-roberta-large")
-    return _model_instance
-
 def generate_embeddings_and_metadata(input_dir: Path) -> List[EmbeddingMetadata]:
     """
     Generate embeddings and metadata for text files in the input directory.
@@ -51,7 +36,7 @@ def generate_embeddings_and_metadata(input_dir: Path) -> List[EmbeddingMetadata]
             i += 1
             ids.append(id)
                     
-    model = get_model()
+    model = SentenceTransformer("sdadas/mmlw-roberta-large")
     vectors = model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
 
     embeddings_and_metadata = [
@@ -82,7 +67,7 @@ def generate_query_embedding(query: str) -> List[float]:
     query_prefix = "zapytanie: "
     query = [query_prefix + query]
 
-    model = get_model()
+    model = SentenceTransformer("sdadas/mmlw-roberta-large", device="cpu")
     embeddings = model.encode(query, convert_to_tensor=True, show_progress_bar=False)
 
     embedding = embeddings[0]
