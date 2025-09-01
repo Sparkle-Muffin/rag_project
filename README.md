@@ -19,7 +19,16 @@ Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i 
 Zainstaluj Minicondę i utwórz środowisko z pliku `.yml`:
 
 ```bash
+# Pobierz Minicondę (Miniconda Installers na samym dole strony):
+#    https://www.anaconda.com/download/success
+
+# Zainstaluj Minicondę:
+bash <conda-installer-name>-latest-Linux-x86_64.sh
+
+# Utwórz środowisko z pliku `.yml`:
 conda env create -f environment.yml
+
+# Aktywuj środowisko:
 conda activate rag_env
 ```
 
@@ -27,13 +36,13 @@ conda activate rag_env
 Kontener Ollama służy jako runtime dla modelu Bielik:
 
 ```bash
-# Utwórz folder, w którym będą przechowywane wolumeny Ollama
+# Utwórz folder, w którym będą przechowywane wolumeny Ollama:
 mkdir ollama_volumes
 
-# Pobierz i uruchom kontener Ollama z obsługą GPU
+# Pobierz i uruchom kontener Ollama z obsługą GPU:
 docker run -d --gpus=all -v ${PWD}/ollama_volumes:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
-# Wznów kontener (przy kolejnych uruchomieniach)
+# Wznów kontener (przy kolejnych uruchomieniach):
 docker start ollama
 ```
 
@@ -62,7 +71,7 @@ docker exec -it ollama ollama run Bielik-11B-v2_6-Instruct_Q4_K_M
 # Pobierz najnowszy obraz Qdrant:
 docker pull qdrant/qdrant
 
-# Uruchom Qdrant na porcie domyślnym (6333)
+# Uruchom Qdrant na porcie domyślnym (6333):
 docker run -d -p 6333:6333 qdrant/qdrant
 ```
 
