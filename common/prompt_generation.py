@@ -55,4 +55,4 @@ def create_prompt(system_prompt: str, user_prompt: str, db_chunks_number: int, m
     context = "\n\n".join(hybrid_search_answers)
     enhanced_system_prompt = prompt_data.system_prompt + "\n\n" + context
     
-    return enhanced_system_prompt, prompt_data.user_prompt
+    return enhanced_system_prompt

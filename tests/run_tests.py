@@ -35,9 +35,11 @@ def get_answer_from_model(question: str) -> str:
     with open("common/prompts/rag_system_prompt.txt", "r") as f:
         system_prompt = f.read()
     
-    system_prompt, user_prompt = create_prompt(
+    user_prompt = question
+    
+    system_prompt = create_prompt(
         system_prompt=system_prompt,
-        user_prompt=question,
+        user_prompt=user_prompt,
         db_chunks_number=db_chunks_number,
         model_context_chunks_number=model_context_chunks_number,
     )
