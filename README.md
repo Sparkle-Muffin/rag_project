@@ -27,6 +27,9 @@ conda activate rag_env
 Kontener Ollama służy jako runtime dla modelu Bielik:
 
 ```bash
+# Utwórz folder, w którym będą przechowywane wolumeny Ollama
+mkdir ollama_volumes
+
 # Pobierz i uruchom kontener Ollama z obsługą GPU
 docker run -d --gpus=all -v ${PWD}/ollama_volumes:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
@@ -36,10 +39,11 @@ docker start ollama
 
 ### 3. Konfiguracja i uruchomienie Bielika
 ```bash
-# 1. Pobierz model z Hugging Face:
+# 1. Pobierz model z repozytorium Hugging Face:
 #    https://huggingface.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF/blob/main/Bielik-11B-v2.6-Instruct.Q4_K_M.gguf
 
-# 2. Pobierz plik Modelfile z repozytorium HF i zapisz jako "Modelfile"
+# 2. Pobierz plik Modelfile z HF i zapisz jako "Modelfile":
+#    https://huggingface.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF
 
 # 3. Skopiuj model i Modelfile do kontenera Ollama:
 docker cp . ollama:/root/.ollama/Bielik-11B-v2_6-Instruct_Q4_K_M
