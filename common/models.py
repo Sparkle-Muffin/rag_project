@@ -8,6 +8,7 @@ providing type safety, validation, and consistent data structures.
 from pydantic import BaseModel, Field
 from typing import List, Optional, Union, Dict, Any
 from pathlib import Path
+from enum import Enum
 
 
 class EmbeddingMetadata(BaseModel):
@@ -84,6 +85,14 @@ class PromptData(BaseModel):
     user_prompt: str = Field(..., description="User's question or input")
     db_chunks_number: int = Field(..., ge=1, le=100, description="Number of chunks to retrieve from database")
     model_context_chunks_number: int = Field(..., ge=1, le=50, description="Number of chunks to pass to model")
+
+
+class SearchType(Enum):
+    """Model for search type."""
+    
+    HYBRID = "hybrid"
+    VECTOR = "vector"
+    BM25 = "bm25"
 
 
 class SearchQuery(BaseModel):

@@ -2,6 +2,7 @@ import streamlit as st
 import json
 from common.bielik_api import call_model_stream, call_model_non_stream
 from common.prompt_generation import create_prompt
+from common.models import SearchType
 
 
 # Load the system prompts
@@ -77,6 +78,15 @@ with st.sidebar:
             help="Model najpierw oceni, czy pytanie jest wystarczające. Jeśli nie, poprosi o doprecyzowanie."
         )
 
+        # Search type selector
+        st.subheader("Rodzaj wyszukiwania")
+        search_type_option = st.radio(
+            "Wybierz typ wyszukiwania:",
+            ["Hybrydowe", "Wektorowe", "BM25"],
+            index=0,
+            help="Hybrydowe: łączy wyszukiwanie wektorowe i BM25\nWektorowe: tylko wyszukiwanie semantyczne\nBM25: tylko wyszukiwanie tekstowe"
+        )
+
         # Enable settings in RAG mode
         db_chunks_number = st.number_input(
             "Liczba chunków pobieranych z bazy danych",
@@ -101,6 +111,7 @@ with st.sidebar:
         model_context_chunks_number = 10  # Default values
         use_query_expansion = False  # Default value
         use_clarifying_questions = False  # Default value
+        search_type_option = "Hybrydowe"  # Default value
 
 
 # Initialize chat session state
@@ -208,6 +219,14 @@ if user_prompt := st.chat_input("Zadaj pytanie:"):
                     # Use original/combined query without expansion
                     search_query = final_prompt_for_model
 
+                # Convert search type option to SearchType enum
+                search_type_mapping = {
+                    "Hybrydowe": SearchType.HYBRID,
+                    "Wektorowe": SearchType.VECTOR,
+                    "BM25": SearchType.BM25
+                }
+                selected_search_type = search_type_mapping[search_type_option]
+
                 # Now search using the (potentially expanded) query
                 message_placeholder.markdown("📚 Wyszukuję w bazie danych...")
                 system_prompt = create_prompt(
@@ -215,6 +234,7 @@ if user_prompt := st.chat_input("Zadaj pytanie:"):
                     user_prompt=search_query,
                     db_chunks_number=db_chunks_number,
                     model_context_chunks_number=model_context_chunks_number,
+                    search_type=selected_search_type,
                 )
 
                 # Debug output (can be removed in production)
