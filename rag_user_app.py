@@ -58,24 +58,6 @@ with st.sidebar:
     st.header("Ustawienia")
     
     if chat_mode == "Tryb RAG":
-        # Enable settings in RAG mode
-        db_chunks_number = st.number_input(
-            "Liczba chunków pobieranych z bazy danych",
-            min_value=1,
-            max_value=100,
-            value=20,
-            step=1,
-            help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)"
-        )
-        model_context_chunks_number = st.number_input(
-            "Liczba chunków przekazywanych do modelu",
-            min_value=1,
-            max_value=50,
-            value=10,
-            step=1,
-            help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
-        )
-        
         # Query expansion switch
         st.subheader("Rozszerzanie zapytań")
         use_query_expansion = st.checkbox(
@@ -93,6 +75,24 @@ with st.sidebar:
             "Użyj pytań doprecyzowujących",
             value=False,
             help="Model najpierw oceni, czy pytanie jest wystarczające. Jeśli nie, poprosi o doprecyzowanie."
+        )
+
+        # Enable settings in RAG mode
+        db_chunks_number = st.number_input(
+            "Liczba chunków pobieranych z bazy danych",
+            min_value=1,
+            max_value=100,
+            value=20,
+            step=1,
+            help="Wybierz liczbę chunków pobieranych z bazy danych (1-100)"
+        )
+        model_context_chunks_number = st.number_input(
+            "Liczba chunków przekazywanych do modelu",
+            min_value=1,
+            max_value=50,
+            value=10,
+            step=1,
+            help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
         )
     else:
         # Disable settings in normal chat mode
@@ -143,7 +143,7 @@ if user_prompt := st.chat_input("Zadaj pytanie:"):
                 if st.session_state.clarification_pending:
                     st.session_state.accumulated_prompt = (
                         (st.session_state.accumulated_prompt or "")
-                        + "\nDoprecyzowanie: "
+                        + "\n"
                         + user_prompt
                     )
                     effective_user_prompt = st.session_state.accumulated_prompt
@@ -177,6 +177,11 @@ if user_prompt := st.chat_input("Zadaj pytanie:"):
                     )
                     full_response = missing_info_text or "Proszę doprecyzować pytanie."
                     st.session_state.clarification_pending = True
+
+                    # Debug output (can be removed in production)
+                    print("----------------------------------------------------------------")
+                    print(f"Clarification response:\n\n{full_response}")
+
                     # Do not proceed to retrieval/answer generation this turn
                     
                     # Show the final assistant message (the clarification request)

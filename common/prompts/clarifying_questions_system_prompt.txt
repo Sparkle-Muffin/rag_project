@@ -12,5 +12,5 @@ Jesteś pomocnym asystentem wyspecjalizowanym w dziedzinie LLM - dużych modeli 
 <twoja_odpowiedź>
 Jako odpowiedź zwracasz plik w formacie JSON, który ma jedno lub dwa pola:
 - is_query_sufficient - tutaj wpisujesz wartość True/False (to jest pole obowiązkowe),
-- what_is_missing - tutaj wpisujesz czego brakuje w pytaniu użytkownika, abyś mógł mu odpowiedzieć (to jest pole obowiązkowe tylko wtedy, kiedy is_query_sufficient==False).
+- what_is_missing - tutaj wpisujesz czego brakuje w pytaniu użytkownika, abyś mógł mu odpowiedzieć (to jest pole obowiązkowe tylko wtedy, kiedy is_query_sufficient==False). Wpisz: "Proszę doprecyzuj następujące kwestie: kwestia 1, kwestia 2, ..."
 </twoja_odpowiedź>
