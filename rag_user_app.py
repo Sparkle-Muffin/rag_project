@@ -99,10 +99,10 @@ with st.sidebar:
         model_context_chunks_number = st.number_input(
             "Liczba chunków przekazywanych do modelu",
             min_value=1,
-            max_value=50,
-            value=10,
+            max_value=min(50, db_chunks_number),
+            value=min(10, db_chunks_number),
             step=1,
-            help="Wybierz liczbę chunków przekazywanych do modelu (1-10)"
+            help=f"Wybierz liczbę chunków przekazywanych do modelu (1-{min(50, db_chunks_number)})"
         )
     else:
         # Disable settings in normal chat mode
