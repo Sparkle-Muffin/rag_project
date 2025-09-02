@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+      "is_query_sufficient": {
+        "type": "boolean"
+      },
+      "what_is_missing": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "is_query_sufficient"
+    ]
+  }
