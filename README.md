@@ -13,6 +13,18 @@ Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i 
 
 ---
 
+## ✨ Główne funkcjonalności
+
+- **RAG System**: Retrieval-Augmented Generation z hybrydowym wyszukiwaniem (wektorowe + BM25)
+- **Chat Interface**: Interaktywny interfejs czatu w Streamlit z strumieniowaniem odpowiedzi
+- **Chat Memory**: Zaawansowana pamięć czatu z możliwością zarządzania długością historii
+- **Context Management**: Automatyczne zarządzanie kontekstem i historią rozmowy
+- **Export/Import**: Eksport i import historii czatu w formacie JSON
+- **Query Expansion**: Opcjonalne rozszerzanie zapytań dla lepszych wyników wyszukiwania
+- **Configurable Parameters**: Dostosowywalne parametry wyszukiwania i kontekstu
+
+---
+
 ## 🚀 Jak uruchomić projekt
 
 ### 1. Przygotowanie środowiska
@@ -128,6 +140,9 @@ docker run -d -p 6333:6333 qdrant/qdrant
 - dokleja znalezione chunki jako kontekst do promptu,  
 - wysyła pytanie i kontekst do modelu **Bielik**,  
 - wyświetla odpowiedź w formie strumieniowanego czatu.
+- **Chat Memory**: system pamięta historię rozmowy i przekazuje ją do modelu dla lepszego kontekstu
+- **Memory Management**: użytkownik może kontrolować długość pamięci czatu (1-50 wiadomości)
+- **Export/Import**: możliwość eksportu i importu historii czatu w formacie JSON
 
 ---
 
@@ -155,6 +170,76 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 - **mmlw-roberta-large**  
   [Hugging Face link](https://huggingface.co/sdadas/mmlw-roberta-large)
+
+---
+
+## 💬 Chat Memory Functionality
+
+### Overview
+The RAG application now includes advanced chat memory functionality that allows the model to maintain context across multiple conversation turns, similar to ChatGPT and other modern LLM chat interfaces.
+
+### Key Features
+
+#### 1. **Conversation History**
+- The system automatically maintains a conversation history within the session
+- Previous user questions and model responses are stored and passed to the model
+- This enables more natural, contextual conversations
+
+#### 2. **Memory Management**
+- **Configurable Memory Length**: Users can set the maximum number of messages to keep in memory (1-50)
+- **Automatic Cleanup**: Oldest messages are automatically removed when the limit is exceeded
+- **Memory Status Display**: Real-time information about current memory usage
+
+#### 3. **Context-Aware Responses**
+- The model receives both the conversation history and retrieved context (in RAG mode)
+- Responses are more coherent and can reference previous parts of the conversation
+- The system prompt instructs the model to consider conversation history
+
+#### 4. **Export/Import Functionality**
+- **Export**: Save chat history as JSON file with metadata (timestamp, settings, messages)
+- **Import**: Load previously saved chat sessions
+- Useful for continuing conversations across sessions or sharing chat logs
+
+### How It Works
+
+1. **Memory Storage**: Each conversation turn is stored in `st.session_state.messages`
+2. **Prompt Construction**: The `create_prompt_with_history()` function combines:
+   - System prompt
+   - Conversation history (formatted as `<historia_rozmowy>`)
+   - Retrieved context (in RAG mode)
+   - Current user question
+3. **Context Integration**: The model receives the complete conversation context
+4. **Memory Management**: Automatic cleanup ensures optimal performance
+
+### Usage Examples
+
+#### Setting Memory Length
+```python
+# In the sidebar, adjust the "Maksymalna długość pamięci czatu" slider
+# Range: 1-50 messages
+# Default: 10 messages
+```
+
+#### Clearing Chat History
+```python
+# Click the "🗑️ Wyczyść historię czatu" button in the sidebar
+# This will reset the conversation and start fresh
+```
+
+#### Exporting Chat History
+```python
+# Click "💾 Eksportuj historię czatu" to save the current session
+# The exported file includes all messages, settings, and metadata
+```
+
+### Technical Implementation
+
+The chat memory system is implemented through:
+
+- **Enhanced Prompt Generation**: `create_prompt_with_history()` function in `common/prompt_generation.py`
+- **Session State Management**: Streamlit's session state for persistent storage
+- **Memory Cleanup**: Automatic removal of old messages when limits are exceeded
+- **Context Integration**: Seamless combination of conversation history with RAG context
 
 ---
 

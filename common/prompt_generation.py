@@ -3,11 +3,11 @@ from common.embeddings import generate_query_embedding
 from common.qdrant_api import search_answer_in_qdrant
 from common.bm25_encoding import get_top_k_bm25_encoding_results
 from common.reciprocal_rank_fusion import hybrid_search
-from typing import Tuple
+from typing import Tuple, List, Dict
 from common.models import PromptData
 
 
-def create_prompt(system_prompt: str, user_prompt: str, db_chunks_number: int, model_context_chunks_number: int) -> Tuple[str, str]:
+def create_prompt(system_prompt: str, user_prompt: str, db_chunks_number: int, model_context_chunks_number: int) -> str:
     """
     Create a complete prompt by combining system prompt with retrieved context.
     
@@ -22,8 +22,7 @@ def create_prompt(system_prompt: str, user_prompt: str, db_chunks_number: int, m
         model_context_chunks_number: Maximum number of chunks to include in the final context
         
     Returns:
-        Tuple of (enhanced_system_prompt, user_prompt) where the system prompt
-        contains the retrieved context
+        Enhanced system prompt containing the retrieved context
     """
     # Validate input parameters using Pydantic model
     prompt_data = PromptData(
@@ -56,3 +55,53 @@ def create_prompt(system_prompt: str, user_prompt: str, db_chunks_number: int, m
     enhanced_system_prompt = prompt_data.system_prompt + "\n\n" + context
     
     return enhanced_system_prompt
+
+
+def create_prompt_with_history(system_prompt: str, user_prompt: str, conversation_history: List[Dict[str, str]], 
+                             db_chunks_number: int = None, model_context_chunks_number: int = None) -> str:
+    """
+    Create a complete prompt that includes conversation history and optionally retrieved context.
+    
+    Args:
+        system_prompt: Base system prompt for the model
+        user_prompt: Current user's question or query
+        conversation_history: List of previous conversation turns as dicts with 'role' and 'content'
+        db_chunks_number: Number of chunks to retrieve from the database (optional for non-RAG mode)
+        model_context_chunks_number: Maximum number of chunks to include in the final context (optional for non-RAG mode)
+        
+    Returns:
+        Complete prompt string with system prompt, conversation history, context (if RAG), and current user prompt
+    """
+    # Start with the system prompt
+    full_prompt = system_prompt + "\n\n"
+    
+    # Add conversation history if available
+    if conversation_history:
+        full_prompt += "<historia_rozmowy>\n"
+        for message in conversation_history:
+            role = message["role"]
+            content = message["content"]
+            if role == "user":
+                full_prompt += f"Użytkownik: {content}\n\n"
+            elif role == "assistant":
+                full_prompt += f"Asystent: {content}\n\n"
+        full_prompt += "</historia_rozmowy>\n\n"
+    
+    # Add context if RAG mode is enabled
+    if db_chunks_number is not None and model_context_chunks_number is not None:
+        try:
+            context = create_prompt(system_prompt, user_prompt, db_chunks_number, model_context_chunks_number)
+            # Extract just the context part (remove the system prompt since we already have it)
+            context_start = context.find("Kontekst:")
+            if context_start != -1:
+                context_only = context[context_start:]
+                full_prompt += context_only + "\n\n"
+        except Exception as e:
+            # If context retrieval fails, continue without it
+            full_prompt += "Kontekst: Nie udało się pobrać kontekstu z bazy danych.\n\n"
+    
+    # Add the current user prompt
+    full_prompt += f"<aktualne_pytanie>\n{user_prompt}\n</aktualne_pytanie>\n\n"
+    full_prompt += "Odpowiedz na aktualne pytanie użytkownika, uwzględniając historię rozmowy i dostępny kontekst."
+    
+    return full_prompt
