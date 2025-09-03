@@ -64,7 +64,7 @@ with st.sidebar:
         use_query_expansion = st.checkbox(
             "Użyj rozszerzania zapytań",
             value=False,
-            help="Rozszerza pytanie użytkownika przed wyszukiwaniem w bazie danych dla lepszych wyników"
+            help="Rozszerza pytanie użytkownika przed wyszukiwaniem w bazie danych dla lepszych wyników (Prompt Expansion)."
         )
         
         if use_query_expansion:
@@ -75,7 +75,7 @@ with st.sidebar:
         use_clarifying_questions = st.checkbox(
             "Użyj pytań doprecyzowujących",
             value=False,
-            help="Model najpierw oceni, czy pytanie jest wystarczające. Jeśli nie, poprosi o doprecyzowanie."
+            help="Model najpierw oceni, czy pytanie jest wystarczające. Jeśli nie, poprosi o doprecyzowanie (Clarifying Questions)."
         )
 
         # Search type selector
