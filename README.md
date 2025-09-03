@@ -32,7 +32,7 @@ Ze względu na ograniczenia sprzętowe wybrałem [model skwantyzowany 4-bitowo z
 - Model powinien być trenowany na danych w języku polskim.
 - Model powinien lokować się wysoko na benchmarkach modeli do embeddingów.
 
-Mój wybór padł na mmlw-roberta-large, ponieważ ten model wypada bardzo dobrze w [tym rankingu](https://huggingface.co/spaces/mteb/leaderboard), a przy tym zajmuje niecałe 2 GB VRAM.
+Mój wybór padł na [mmlw-roberta-large](https://huggingface.co/sdadas/mmlw-roberta-large), ponieważ ten model wypada bardzo dobrze w [tym rankingu](https://huggingface.co/spaces/mteb/leaderboard), a przy tym zajmuje niecałe 2 GB VRAM.
 
 ### Podział danych wejściowych na chunki
 
