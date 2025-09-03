@@ -1,7 +1,7 @@
 # 📚 RAG Project
 
 ## 🎯 Cel projektu
-Celem projektu było stworzenie kompletnego systemu **RAG (Retrieval-Augmented Generation)**.
+Celem projektu jest stworzenie kompletnego systemu **RAG (Retrieval-Augmented Generation)**.
 System pozwala użytkownikowi zadawać pytania dotyczące treści dokumentów, które wcześniej zostały:
 
 - oczyszczone i ujednolicone,
