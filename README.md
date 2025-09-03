@@ -293,7 +293,7 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 ### 3) Metoda Clarifying Questions dobrze się sprawdza dla zbyt ogólnych, niejasnych promptów:
 
-![Clarifying Questions](Clarifying_Questions.png)
+![Clarifying Questions](screenshots/Clarifying_Questions.png)
 
 ### 4) Wpływ rodzaju wyszukiwania na jakość generowanej odpowiedzi
 
