@@ -22,7 +22,7 @@ Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i 
 - Model powinien być trenowany na danych w języku polskim.
 - Model powinien lokować się wysoko na benchmarkach LLM-ów.
 
-Moj wybór padł na najnowszego Bielika, ponieważ różne wersje tego modelu plasują się wysoko m. in. w [tym rankingu](https://huggingface.co/spaces/speakleash/open_pl_llm_leaderboard).
+Mój wybór padł na najnowszego Bielika, ponieważ różne wersje tego modelu plasują się wysoko m. in. w [tym rankingu](https://huggingface.co/spaces/speakleash/open_pl_llm_leaderboard).
 Ze względu na ograniczenia sprzętowe wybrałem [model skwantyzowany 4-bitowo zajmujący 6,72 GB VRAM](https://huggingface.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF).
 
 ### Wybór modelu do embeddingu
@@ -32,7 +32,7 @@ Ze względu na ograniczenia sprzętowe wybrałem [model skwantyzowany 4-bitowo z
 - Model powinien być trenowany na danych w języku polskim.
 - Model powinien lokować się wysoko na benchmarkach modeli do embeddingów.
 
-Moj wybór padł na MMLW-roberta-large, ponieważ ten model wypada bardzo dobrze w [tym rankingu](https://huggingface.co/spaces/mteb/leaderboard), a przy tym zajmuje niecałe 2 GB VRAM.
+Mój wybór padł na mmlw-roberta-large, ponieważ ten model wypada bardzo dobrze w [tym rankingu](https://huggingface.co/spaces/mteb/leaderboard), a przy tym zajmuje niecałe 2 GB VRAM.
 
 ### Podział danych wejściowych na chunki
 
@@ -141,7 +141,7 @@ docker run -d -p 6333:6333 qdrant/qdrant
 - dzieli je na chunki,  
 - generuje embeddingi modelem **mmlw-roberta-large**,  
 - zapisuje embeddingi i metadane w bazie **Qdrant**,
-- generuje encodingi z wykorzystaniem funkcji BM25,
+- generuje encodingi przy użyciu algorytmu BM25,
 - zapisuje encodingi w bazie danych BM25.
 
 ### `rag_run_tests.py`
@@ -313,7 +313,7 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 Dzieje się tak z następujących powodów:
 - Bielik został wytrenowany na danych w języku polskim,
-- MMLW-roberta-large również wyspecjalizowany jest do pracy z językiem polskim,
+- mmlw-roberta-large również wyspecjalizowany jest do pracy z językiem polskim,
 - baza danych zawiera dane w języku polskim.
 
 Aby móc dobrze obsługiwać prompty użytkownika w innych językach, należałoby najpierw tłumaczyć je na język polski.
