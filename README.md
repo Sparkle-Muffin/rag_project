@@ -286,6 +286,29 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 ![Zbyt duży kontekst 2](screenshots/too_big_context_2.png)
 
+### Metoda Prompt Expansion może być użyteczna, jeśli zależy nam na wygenerowaniu podłęgionej odpowiedzi
+
+#### Oto jak model rozszerzył pytanie *"Kto stworzył PLLuM?"*:  
+*Jakie są szczegóły dotyczące powstania modelu językowego PLLuM? Kto jest jego twórcą i jakie były motywacje do jego stworzenia? Czy istnieją inne podobne projekty lub wersje tego modelu?*
+
+### Metoda Clarifying Questions dobrze się sprawdza dla zbyt ogólnych, niejasnych promptów:
+
+![Clarifying Questions](Clarifying_Questions.png)
+
+### Wpływ rodzaju wyszukiwania na jakość generowanej odpowiedzi
+
+#### Wyszykiwanie hybrydowe - pełna, najlepsza odpowiedź
+
+![LLaMa hybrid](screenshots/LLaMa_hybrid.png)
+
+#### Wyszykiwanie wektorowe - niepełna, gorsza odpowiedź
+
+![LLaMa vector](screenshots/LLaMa_vector.png)
+
+#### Wyszykiwanie BM25 - niepełna, gorsza odpowiedź
+
+![LLaMa BM25](screenshots/LLaMa_BM25.png)
+
 ### System gorzej sobie radzi z promptami w innych językach.
 
 Dzieje się tak z następujących powodów:
