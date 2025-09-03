@@ -1,4 +1,4 @@
-# 📚 RAG QA Chat z Bielikiem i Qdrant
+# 📚 RAG Project
 
 ## 🎯 Cel projektu
 Celem projektu było stworzenie kompletnego systemu **RAG (Retrieval-Augmented Generation)**.
