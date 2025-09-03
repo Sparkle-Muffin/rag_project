@@ -13,6 +13,49 @@ Na tej podstawie system wyszukuje najbardziej adekwatne fragmenty dokumentów i 
 
 ---
 
+## 📄 Założenia projektowe
+
+### Wybór modelu LLM
+
+- Wybór musi uwzględniać moje ograniczenia sprzętowe - 8 GB VRAM.
+- Model musi być dostępny na licencji open-source.
+- Model powinien być trenowany na danych w języku polskim.
+- Model powinien lokować się wysoko na benchmarkach LLM-ów.
+
+Moj wybór padł na najnowszego Bielika, ponieważ różne wersje tego modelu plasują się wysoko m. in. w [tym rankingu](https://huggingface.co/spaces/speakleash/open_pl_llm_leaderboard).
+Ze względu na ograniczenia sprzętowe wybrałem [model skwantyzowany 4-bitowo zajmujący 6,72 GB VRAM](https://huggingface.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF).
+
+### Wybór modelu do embeddingu
+
+- Wybór musi uwzględniać moje ograniczenia sprzętowe - 8 GB VRAM.
+- Model musi być dostępny na licencji open-source.
+- Model powinien być trenowany na danych w języku polskim.
+- Model powinien lokować się wysoko na benchmarkach modeli do embeddingów.
+
+Moj wybór padł na MMLW-roberta-large, ponieważ ten model wypada bardzo dobrze w [tym rankingu](https://huggingface.co/spaces/mteb/leaderboard), a przy tym zajmuje niecałe 2 GB VRAM.
+
+### Podział danych wejściowych na chunki
+
+- Po zapoznaniu się z danymi, uznałem że najlepiej będzie podzielić je chunki w ten sposób, że każdy akapit stanie się chunkiem.
+- Następnie, aby nie utracić kontekstu i znaczenia każdego fragmentu w dokumencie, do każdego chunka dokleiłem header i subheadery do których on należy.
+
+### Wybór bazy danych
+
+- Postanowiłem stworzyć dwie bazy danych: wektorową i BM25.
+- Baza wektorowa dobrze radzi sobie z uchwyceniem znaczenia (semantyki) tekstu.
+- Baza BM25 dobrze radzi sobie z wyszukiwaniem konkretnych terminów.
+- Dodałem też wyszukiwanie hybrydowe łączące wyniki wyszukiwania wektorowego i BM25 przy użyciu Reciprocal Rank Fusion.
+- Dałem użytkownikowi możliwość wyboru rodzaju wyszukiwania.
+
+### Metodologia testów
+
+- Zbiór testowy jest bardzo mały i nie ma w nim odpowiedzi (Ground Truth Data).
+- Testy przygotowałem w ten sposób, że:
+	- z jednej strony sprawdzają łatwo weryfikowalne dane - słowa kluczowe, które powinny się znaleźć w odpowiedzi,
+	- z drugiej strony oceniają odpowiedź pod kątem zgodności z odpowiedzią wzorcową przy użyciu metody LLM-as-a-judge.
+
+---
+
 ## 🚀 Jak uruchomić projekt
 
 ### 1. Przygotowanie środowiska
@@ -122,12 +165,22 @@ docker run -d -p 6333:6333 qdrant/qdrant
 - na podstawie wyników testów przygotowywany jest raport TEST_REPORT.md
 
 ### `rag_user_app.py` (Streamlit)
-- udostępnia prosty interfejs czatu na `localhost`,  
-- pobiera pytanie użytkownika, zamienia je na embedding,  
-- wysyła zapytanie do **Qdrant**, aby odnaleźć najbardziej pasujące fragmenty,  
-- dokleja znalezione chunki jako kontekst do promptu,  
-- wysyła pytanie i kontekst do modelu **Bielik**,  
-- wyświetla odpowiedź w formie strumieniowanego czatu.
+
+#### Udostępnia prosty interfejs użytkownika na `localhost`
+
+Aplikacja działa w dwóch trybach pracy:
+- Tryb RAG.
+- Tryb zwykłego czatu.
+
+W trybie RAG daje dostęp do następujących ustawień:
+- Rozszerzanie zapytań - technika znana jako **Prompt Expansion**. Technika ta polega na tym, że model próbuje odgadnąć intencję użytkownika i rozbudowuje zapytanie o dodatkowe aspekty, a dopiero potem przeszukuje bazę danych.
+- Pytania doprecyzowujące - technika znana jako **Clarifying Questions**. Technika ta polega na tym, że model stwierdza, czy pytanie użytkownika jest wystarczająco jasne i jednoznaczne. Jeśli nie - zadaje dodatkowe pytania i dopiero kiedy uzna, że ma wszystkie potrzebne informacje, przeszukuje bazę danych
+- Rodzaj wyszukiwania:
+	- Hybrydowe,
+	- Wektorowe,
+	- BM25.
+- Liczba chunków pobieranych z bazy danych.
+- Liczba chunków przekazywanych do modelu.
 
 ---
 
@@ -162,6 +215,18 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 
 - **Ollama** – runtime do uruchamiania modelu Bielik,  
 - **Qdrant** – wektorowa baza danych do przechowywania embeddingów i metadanych.
+
+---
+
+## 🔧 Testy
+
+### Testy przeprowadzono przy następujących ustawieniach:
+
+- rozszerzanie zapytań (Prompt Expansion) wyłączone,
+- pytania doprecyzowujące (Clarifying Questions) wyłączone,
+- wysukiwanie hybrydowe,
+- Liczba chunków pobieranych z bazy danych = 20,
+- Liczba chunków przekazywanych do modelu = 10.
 
 ---
 
@@ -220,3 +285,12 @@ text_chunks/                        # każdy plik = chunk do embeddingu i encodi
 #### Dla kontekstu złożonego z 50. chunków model również halucynuje:
 
 ![Zbyt duży kontekst 2](screenshots/too_big_context_2.png)
+
+### System gorzej sobie radzi z promptami w innych językach.
+
+Dzieje się tak z następujących powodów:
+- Bielik został wytrenowany na danych w języku polskim,
+- MMLW-roberta-large również wyspecjalizowany jest do pracy z językiem polskim,
+- baza danych zawiera dane w języku polskim.
+
+Aby móc dobrze obsługiwać prompty użytkownika w innych językach, należałoby najpierw tłumaczyć je na język polski.
